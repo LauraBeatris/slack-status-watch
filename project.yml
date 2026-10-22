@@ -26,7 +26,7 @@ targets:
   Status:
     type: application
     platform: iOS
-    sources: [Apps/Phone]
+    sources: [Apps/Phone, Apps/Shared]
     dependencies:
       - package: SlackStatusKit
       - target: StatusWatch
@@ -43,7 +43,7 @@ targets:
   StatusWatch:
     type: application
     platform: watchOS
-    sources: [Apps/Watch]
+    sources: [Apps/Watch, Apps/Shared]
     dependencies:
       - package: SlackStatusKit
     info:

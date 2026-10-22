@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		0FA3B772FA35ABF5D658A181 /* PhoneSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C09414A6C71860F5E5882 /* PhoneSession.swift */; };
+		18A8FF6D355A10E77BC1F896 /* StatusIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D630C65D0C8EDD76171CDF8 /* StatusIntents.swift */; };
 		1DEE251447ED460B202E22D8 /* PresetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6301358E40C9A460117815 /* PresetListView.swift */; };
 		325A3D4358F256B4DBE6BE25 /* SlackStatusKit in Frameworks */ = {isa = PBXBuildFile; productRef = C999CA61A45AE7759A601E03 /* SlackStatusKit */; };
 		570539BAE1B0F1D449AEB5EA /* WatchSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F6C827F5B4352F9A0EB7F /* WatchSession.swift */; };
 		5BE5FD218CA769F5DCF5025E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672E20ABAB085FC4151C76F5 /* ContentView.swift */; };
 		72F29F473745080E785DD709 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2DA475642C020C68E2BB76 /* WatchModel.swift */; };
+		7FC79D185061D422A1D2CAC8 /* StatusIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D630C65D0C8EDD76171CDF8 /* StatusIntents.swift */; };
 		850FEF26EDFFB5C7F099B09E /* PhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA11466910F0A79EE958905 /* PhoneModel.swift */; };
 		9895A7C16DB1D1F291841F70 /* PresetEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */; };
 		9F1A06A7D5A2E6226B8EBFD6 /* SlackStatusKit in Frameworks */ = {isa = PBXBuildFile; productRef = EB2908A447467EE26D474B47 /* SlackStatusKit */; };
@@ -48,6 +50,7 @@
 /* Begin PBXFileReference section */
 		0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetEditorView.swift; sourceTree = "<group>"; };
 		0C2DA475642C020C68E2BB76 /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
+		0D630C65D0C8EDD76171CDF8 /* StatusIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusIntents.swift; sourceTree = "<group>"; };
 		1D9226291B4D236DD777D443 /* StatusWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2960A29300558035DA079278 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2A6DEF0DCA0C2280A6CA6290 /* StatusWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusWatchApp.swift; sourceTree = "<group>"; };
@@ -103,9 +106,18 @@
 			isa = PBXGroup;
 			children = (
 				BD5135330C04C126551B64C3 /* Phone */,
+				84FFA318BBB9B48EB9441BE3 /* Shared */,
 				E9E957E5B7BB1C74A80E924C /* Watch */,
 			);
 			path = Apps;
+			sourceTree = "<group>";
+		};
+		84FFA318BBB9B48EB9441BE3 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				0D630C65D0C8EDD76171CDF8 /* StatusIntents.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		BD5135330C04C126551B64C3 /* Phone */ = {
@@ -235,6 +247,7 @@
 				0FA3B772FA35ABF5D658A181 /* PhoneSession.swift in Sources */,
 				9895A7C16DB1D1F291841F70 /* PresetEditorView.swift in Sources */,
 				B85084B49D04F0FD2779CD2E /* StatusApp.swift in Sources */,
+				18A8FF6D355A10E77BC1F896 /* StatusIntents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DEE251447ED460B202E22D8 /* PresetListView.swift in Sources */,
+				7FC79D185061D422A1D2CAC8 /* StatusIntents.swift in Sources */,
 				C805B1889367420EBA82E852 /* StatusWatchApp.swift in Sources */,
 				72F29F473745080E785DD709 /* WatchModel.swift in Sources */,
 				570539BAE1B0F1D449AEB5EA /* WatchSession.swift in Sources */,
