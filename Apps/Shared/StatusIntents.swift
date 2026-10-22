@@ -66,7 +66,7 @@ struct StatusShortcuts: AppShortcutsProvider {
       intent: SetSlackStatusIntent(),
       phrases: [
         "Set \(.applicationName) to \(\.$preset)",
-        "Set my Slack status to \(\.$preset) in \(.applicationName)",
+        "\(.applicationName) \(\.$preset)",
       ],
       shortTitle: "Set Slack status",
       systemImageName: "bubble.left.fill"
@@ -75,7 +75,7 @@ struct StatusShortcuts: AppShortcutsProvider {
       intent: ClearSlackStatusIntent(),
       phrases: [
         "Clear \(.applicationName)",
-        "Clear my Slack status in \(.applicationName)",
+        "\(.applicationName) clear",
       ],
       shortTitle: "Clear Slack status",
       systemImageName: "xmark.circle"
@@ -94,6 +94,6 @@ private enum IntentError: Error, CustomLocalizedStringResourceConvertible {
   case notConnected
 
   var localizedStringResource: LocalizedStringResource {
-    "Status isn't connected to Slack yet. Open the Status app on your iPhone and paste your token."
+    "Slack Status isn't connected yet. Open it on your iPhone and paste your token."
   }
 }

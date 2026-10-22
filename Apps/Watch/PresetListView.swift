@@ -12,13 +12,13 @@ struct PresetListView: View {
           ContentUnavailableView(
             "Not connected",
             systemImage: "iphone.and.applewatch",
-            description: Text("Open Status on your iPhone and paste your Slack token.")
+            description: Text("Open Slack Status on your iPhone and paste your Slack token.")
           )
         } else {
           presetList
         }
       }
-      .navigationTitle("Status")
+      .navigationTitle("Slack Status")
     }
     .task(id: model.token) { await model.refresh() }
     .onChange(of: scenePhase) { _, phase in

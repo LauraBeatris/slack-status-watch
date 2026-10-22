@@ -33,7 +33,7 @@ targets:
     info:
       path: Apps/Phone/Info.plist
       properties:
-        CFBundleDisplayName: Status
+        CFBundleDisplayName: Slack Status
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
     settings:
@@ -49,7 +49,7 @@ targets:
     info:
       path: Apps/Watch/Info.plist
       properties:
-        CFBundleDisplayName: Status
+        CFBundleDisplayName: Slack Status
         WKApplication: true
         WKCompanionAppBundleIdentifier: com.laurabeatris.slackstatus
     settings:

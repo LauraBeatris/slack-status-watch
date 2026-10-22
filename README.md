@@ -1,4 +1,4 @@
-# Status
+# Slack Status
 
 Set your Slack status from an Apple Watch. Tap a preset, done.
 
