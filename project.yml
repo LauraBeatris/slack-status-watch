@@ -1,0 +1,56 @@
+name: Status
+options:
+  bundleIdPrefix: com.laurabeatris
+  deploymentTarget:
+    iOS: "27.0"
+    watchOS: "27.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+packages:
+  SlackStatusKit:
+    path: Packages/SlackStatusKit
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_STRICT_CONCURRENCY: complete
+    CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+
+targets:
+  Status:
+    type: application
+    platform: iOS
+    sources: [Apps/Phone]
+    dependencies:
+      - package: SlackStatusKit
+      - target: StatusWatch
+    info:
+      path: Apps/Phone/Info.plist
+      properties:
+        CFBundleDisplayName: Status
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.laurabeatris.slackstatus
+      TARGETED_DEVICE_FAMILY: "1"
+
+  StatusWatch:
+    type: application
+    platform: watchOS
+    sources: [Apps/Watch]
+    dependencies:
+      - package: SlackStatusKit
+    info:
+      path: Apps/Watch/Info.plist
+      properties:
+        CFBundleDisplayName: Status
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.laurabeatris.slackstatus
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.laurabeatris.slackstatus.watchkitapp

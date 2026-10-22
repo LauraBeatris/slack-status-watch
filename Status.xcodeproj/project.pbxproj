@@ -1,0 +1,499 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0FA3B772FA35ABF5D658A181 /* PhoneSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810C09414A6C71860F5E5882 /* PhoneSession.swift */; };
+		1DEE251447ED460B202E22D8 /* PresetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6301358E40C9A460117815 /* PresetListView.swift */; };
+		325A3D4358F256B4DBE6BE25 /* SlackStatusKit in Frameworks */ = {isa = PBXBuildFile; productRef = C999CA61A45AE7759A601E03 /* SlackStatusKit */; };
+		570539BAE1B0F1D449AEB5EA /* WatchSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F6C827F5B4352F9A0EB7F /* WatchSession.swift */; };
+		5BE5FD218CA769F5DCF5025E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672E20ABAB085FC4151C76F5 /* ContentView.swift */; };
+		72F29F473745080E785DD709 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2DA475642C020C68E2BB76 /* WatchModel.swift */; };
+		850FEF26EDFFB5C7F099B09E /* PhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA11466910F0A79EE958905 /* PhoneModel.swift */; };
+		9F1A06A7D5A2E6226B8EBFD6 /* SlackStatusKit in Frameworks */ = {isa = PBXBuildFile; productRef = EB2908A447467EE26D474B47 /* SlackStatusKit */; };
+		B85084B49D04F0FD2779CD2E /* StatusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364191281C399E29A749059C /* StatusApp.swift */; };
+		B9175355ECA611AA40ADE47B /* StatusWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1D9226291B4D236DD777D443 /* StatusWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C805B1889367420EBA82E852 /* StatusWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6DEF0DCA0C2280A6CA6290 /* StatusWatchApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		28316A059ED25990153228DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83E5A812D54C74D9D153A421 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 058E474E6F5DED270F8C8B62;
+			remoteInfo = StatusWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		72145C075DA11430082D6B83 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				B9175355ECA611AA40ADE47B /* StatusWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0C2DA475642C020C68E2BB76 /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
+		1D9226291B4D236DD777D443 /* StatusWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2960A29300558035DA079278 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2A6DEF0DCA0C2280A6CA6290 /* StatusWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusWatchApp.swift; sourceTree = "<group>"; };
+		364191281C399E29A749059C /* StatusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusApp.swift; sourceTree = "<group>"; };
+		4DA11466910F0A79EE958905 /* PhoneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModel.swift; sourceTree = "<group>"; };
+		641F6C827F5B4352F9A0EB7F /* WatchSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSession.swift; sourceTree = "<group>"; };
+		672E20ABAB085FC4151C76F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		810C09414A6C71860F5E5882 /* PhoneSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneSession.swift; sourceTree = "<group>"; };
+		CEB5B9A0B398B72643F3AF7D /* Status.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Status.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAED84C27E5411E0D5921333 /* SlackStatusKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SlackStatusKit; path = Packages/SlackStatusKit; sourceTree = SOURCE_ROOT; };
+		DE6301358E40C9A460117815 /* PresetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetListView.swift; sourceTree = "<group>"; };
+		EA4DA047C6E686CAF6E69354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4D749D897B7C92CF50987479 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F1A06A7D5A2E6226B8EBFD6 /* SlackStatusKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3960E390DDF8D82CCF5BC9B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				325A3D4358F256B4DBE6BE25 /* SlackStatusKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		032F2B03250E53B98D4AF5FC /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				DAED84C27E5411E0D5921333 /* SlackStatusKit */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		4967D76F694E5BA560FBF4AB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEB5B9A0B398B72643F3AF7D /* Status.app */,
+				1D9226291B4D236DD777D443 /* StatusWatch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5E75D2E3C243712352530837 /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				BD5135330C04C126551B64C3 /* Phone */,
+				E9E957E5B7BB1C74A80E924C /* Watch */,
+			);
+			path = Apps;
+			sourceTree = "<group>";
+		};
+		BD5135330C04C126551B64C3 /* Phone */ = {
+			isa = PBXGroup;
+			children = (
+				672E20ABAB085FC4151C76F5 /* ContentView.swift */,
+				EA4DA047C6E686CAF6E69354 /* Info.plist */,
+				4DA11466910F0A79EE958905 /* PhoneModel.swift */,
+				810C09414A6C71860F5E5882 /* PhoneSession.swift */,
+				364191281C399E29A749059C /* StatusApp.swift */,
+			);
+			path = Phone;
+			sourceTree = "<group>";
+		};
+		D7EBC663BD10E7E967AE0821 = {
+			isa = PBXGroup;
+			children = (
+				5E75D2E3C243712352530837 /* Apps */,
+				032F2B03250E53B98D4AF5FC /* Packages */,
+				4967D76F694E5BA560FBF4AB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E9E957E5B7BB1C74A80E924C /* Watch */ = {
+			isa = PBXGroup;
+			children = (
+				2960A29300558035DA079278 /* Info.plist */,
+				DE6301358E40C9A460117815 /* PresetListView.swift */,
+				2A6DEF0DCA0C2280A6CA6290 /* StatusWatchApp.swift */,
+				0C2DA475642C020C68E2BB76 /* WatchModel.swift */,
+				641F6C827F5B4352F9A0EB7F /* WatchSession.swift */,
+			);
+			path = Watch;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		058E474E6F5DED270F8C8B62 /* StatusWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7FB87D056731FC84B6258CBC /* Build configuration list for PBXNativeTarget "StatusWatch" */;
+			buildPhases = (
+				C9ED4B29E26E803ACCE053F7 /* Sources */,
+				4D749D897B7C92CF50987479 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StatusWatch;
+			packageProductDependencies = (
+				EB2908A447467EE26D474B47 /* SlackStatusKit */,
+			);
+			productName = StatusWatch;
+			productReference = 1D9226291B4D236DD777D443 /* StatusWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		457F00A3A50161FC7AB048F0 /* Status */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96A4EBEC1170770F5B535B38 /* Build configuration list for PBXNativeTarget "Status" */;
+			buildPhases = (
+				BDD204CEBA289892375172CC /* Sources */,
+				B3960E390DDF8D82CCF5BC9B /* Frameworks */,
+				72145C075DA11430082D6B83 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82E282DE5BFA8E5F43C40E8F /* PBXTargetDependency */,
+			);
+			name = Status;
+			packageProductDependencies = (
+				C999CA61A45AE7759A601E03 /* SlackStatusKit */,
+			);
+			productName = Status;
+			productReference = CEB5B9A0B398B72643F3AF7D /* Status.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		83E5A812D54C74D9D153A421 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					058E474E6F5DED270F8C8B62 = {
+						ProvisioningStyle = Automatic;
+					};
+					457F00A3A50161FC7AB048F0 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F93AA6B6E8A5CF1DEC5B56C8 /* Build configuration list for PBXProject "Status" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D7EBC663BD10E7E967AE0821;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				07C2AA9696E073C3E32BFEB4 /* XCLocalSwiftPackageReference "Packages/SlackStatusKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 4967D76F694E5BA560FBF4AB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				457F00A3A50161FC7AB048F0 /* Status */,
+				058E474E6F5DED270F8C8B62 /* StatusWatch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BDD204CEBA289892375172CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BE5FD218CA769F5DCF5025E /* ContentView.swift in Sources */,
+				850FEF26EDFFB5C7F099B09E /* PhoneModel.swift in Sources */,
+				0FA3B772FA35ABF5D658A181 /* PhoneSession.swift in Sources */,
+				B85084B49D04F0FD2779CD2E /* StatusApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9ED4B29E26E803ACCE053F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DEE251447ED460B202E22D8 /* PresetListView.swift in Sources */,
+				C805B1889367420EBA82E852 /* StatusWatchApp.swift in Sources */,
+				72F29F473745080E785DD709 /* WatchModel.swift in Sources */,
+				570539BAE1B0F1D449AEB5EA /* WatchSession.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		82E282DE5BFA8E5F43C40E8F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 058E474E6F5DED270F8C8B62 /* StatusWatch */;
+			targetProxy = 28316A059ED25990153228DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4DA51066603F77FFDE6BB837 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Apps/Phone/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.laurabeatris.slackstatus;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		4EB86FE2484C942EB2BC2772 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Apps/Phone/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.laurabeatris.slackstatus;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		7A0859DDB7507F12EBDED5C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Apps/Watch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.laurabeatris.slackstatus.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		8CD6DE242C1DDC2605463D08 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				WATCHOS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Release;
+		};
+		9477111AF09DF0C2CF5132BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				WATCHOS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Debug;
+		};
+		C0D9AADA53C29660F18D8EC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Apps/Watch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.laurabeatris.slackstatus.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7FB87D056731FC84B6258CBC /* Build configuration list for PBXNativeTarget "StatusWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A0859DDB7507F12EBDED5C9 /* Debug */,
+				C0D9AADA53C29660F18D8EC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		96A4EBEC1170770F5B535B38 /* Build configuration list for PBXNativeTarget "Status" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4EB86FE2484C942EB2BC2772 /* Debug */,
+				4DA51066603F77FFDE6BB837 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F93AA6B6E8A5CF1DEC5B56C8 /* Build configuration list for PBXProject "Status" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9477111AF09DF0C2CF5132BA /* Debug */,
+				8CD6DE242C1DDC2605463D08 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		07C2AA9696E073C3E32BFEB4 /* XCLocalSwiftPackageReference "Packages/SlackStatusKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SlackStatusKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C999CA61A45AE7759A601E03 /* SlackStatusKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SlackStatusKit;
+		};
+		EB2908A447467EE26D474B47 /* SlackStatusKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SlackStatusKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 83E5A812D54C74D9D153A421 /* Project object */;
+}
