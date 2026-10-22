@@ -3,6 +3,7 @@ import SwiftUI
 
 struct PresetListView: View {
   @Environment(WatchModel.self) private var model
+  @Environment(\.scenePhase) private var scenePhase
 
   var body: some View {
     NavigationStack {
@@ -19,10 +20,29 @@ struct PresetListView: View {
       }
       .navigationTitle("Status")
     }
+    .task(id: model.token) { await model.refresh() }
+    .onChange(of: scenePhase) { _, phase in
+      guard phase == .active else { return }
+      Task { await model.refresh() }
+    }
   }
 
   private var presetList: some View {
     List {
+      if let foreign = model.foreignStatus {
+        Section {
+          PresetRow(
+            emoji: SlackEmoji.display(foreign.emoji),
+            title: foreign.text,
+            subtitle: foreign.expiration.map { "Until " + $0.formatted(date: .omitted, time: .shortened) } ?? "Set elsewhere",
+            state: .active,
+            action: nil
+          )
+        } header: {
+          Text("Current")
+        }
+      }
+
       ForEach(model.presets) { preset in
         PresetRow(
           emoji: SlackEmoji.display(preset.emoji),
@@ -68,10 +88,17 @@ struct PresetRow: View {
   let title: String
   let subtitle: String?
   let state: State
-  let action: () -> Void
+  let action: (() -> Void)?
 
   var body: some View {
-    Button(action: action) {
+    if let action {
+      Button(action: action) { content }
+    } else {
+      content
+    }
+  }
+
+  private var content: some View {
       HStack(spacing: 8) {
         Text(emoji).font(.title3)
         VStack(alignment: .leading) {
@@ -90,6 +117,5 @@ struct PresetRow: View {
           Image(systemName: "checkmark").foregroundStyle(.green)
         }
       }
-    }
   }
 }

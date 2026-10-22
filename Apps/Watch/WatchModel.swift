@@ -16,6 +16,10 @@ final class WatchModel {
   private(set) var errorMessage: String?
   private(set) var activePresetID: UUID?
   private(set) var activeUntil: Date?
+  /*
+   A status set somewhere else that matches no preset
+   */
+  private(set) var foreignStatus: SlackStatus?
 
   private let keychain = KeychainStore()
   private let presetFile = PresetFile()
@@ -45,12 +49,10 @@ final class WatchModel {
       case .set(let preset):
         let status = preset.slackStatus()
         try await client.setStatus(status)
-        activePresetID = preset.id
-        activeUntil = status.expiration
+        reconcile(with: status)
       case .clear:
         try await client.clearStatus()
-        activePresetID = nil
-        activeUntil = nil
+        reconcile(with: .cleared)
       }
       WKInterfaceDevice.current().play(.success)
     } catch {
@@ -65,6 +67,28 @@ final class WatchModel {
     await perform(failed)
   }
 
+  /*
+   Pulls the status from Slack so the active marker reflects changes made elsewhere.
+   Failures are silent, the list still works for setting
+   */
+  func refresh() async {
+    guard let token, inFlight == nil else { return }
+    guard let status = try? await SlackClient(token: token).currentStatus() else { return }
+    reconcile(with: status)
+  }
+
+  private func reconcile(with status: SlackStatus) {
+    if let preset = presets.first(where: { $0.matches(status) }) {
+      activePresetID = preset.id
+      activeUntil = status.expiration
+      foreignStatus = nil
+      return
+    }
+    activePresetID = nil
+    activeUntil = nil
+    foreignStatus = status.isCleared ? nil : status
+  }
+
   func receivePresets(_ presets: [StatusPreset]) {
     self.presets = presets
     try? presetFile.save(presets)
@@ -74,8 +98,7 @@ final class WatchModel {
     if token.isEmpty {
       keychain.delete()
       self.token = nil
-      activePresetID = nil
-      activeUntil = nil
+      reconcile(with: .cleared)
     } else {
       try? keychain.write(token)
       self.token = token

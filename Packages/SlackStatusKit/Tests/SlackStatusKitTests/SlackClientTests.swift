@@ -64,7 +64,7 @@ struct SlackClientTests {
 /*
  Each stub registers under its own token so parallel tests never see each other's requests
  */
-private struct StubSlack {
+struct StubSlack {
   let token = "xoxp-" + UUID().uuidString
   let session: URLSession
 
@@ -133,4 +133,32 @@ private final class StubURLProtocol: URLProtocol {
   }
 
   override func stopLoading() {}
+}
+
+struct CurrentStatusTests {
+  @Test func `current status parses the profile and a zero expiration means none`() async throws {
+    let stub = StubSlack(response: #"{"ok":true,"profile":{"status_text":"Lunch","status_emoji":":hamburger:","status_expiration":0}}"#)
+    let client = SlackClient(token: stub.token, session: stub.session)
+
+    let status = try await client.currentStatus()
+
+    #expect(status == SlackStatus(text: "Lunch", emoji: ":hamburger:", expiration: nil))
+    #expect(try #require(stub.lastRequest()).url?.absoluteString == "https://slack.com/api/users.profile.get")
+  }
+
+  @Test func `current status keeps a real expiration`() async throws {
+    let stub = StubSlack(response: #"{"ok":true,"profile":{"status_text":"Away","status_emoji":":walking:","status_expiration":1800000000}}"#)
+    let client = SlackClient(token: stub.token, session: stub.session)
+
+    let status = try await client.currentStatus()
+
+    #expect(status.expiration == Date(timeIntervalSince1970: 1_800_000_000))
+  }
+
+  @Test func `a cleared profile is recognised`() async throws {
+    let stub = StubSlack(response: #"{"ok":true,"profile":{"status_text":"","status_emoji":"","status_expiration":0}}"#)
+    let client = SlackClient(token: stub.token, session: stub.session)
+
+    #expect(try await client.currentStatus().isCleared)
+  }
 }

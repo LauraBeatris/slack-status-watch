@@ -36,6 +36,13 @@ public struct SlackClient: Sendable {
     try await setStatus(.cleared)
   }
 
+  public func currentStatus() async throws -> SlackStatus {
+    let response = try await call("users.profile.get", body: Optional<EmptyBody>.none, as: GetProfileResponse.self)
+    let profile = response.profile
+    let expiration = profile.status_expiration.flatMap { $0 > 0 ? Date(timeIntervalSince1970: TimeInterval($0)) : nil }
+    return SlackStatus(text: profile.status_text ?? "", emoji: profile.status_emoji ?? "", expiration: expiration)
+  }
+
   private func call<Body: Encodable, Response: SlackResponse>(
     _ method: String, body: Body?, as _: Response.Type
   ) async throws -> Response {
@@ -72,6 +79,17 @@ private struct AuthTestResponse: SlackResponse {
   let error: String?
   let team: String?
   let user: String?
+}
+
+private struct GetProfileResponse: SlackResponse {
+  struct Profile: Decodable {
+    let status_text: String?
+    let status_emoji: String?
+    let status_expiration: Int?
+  }
+  let ok: Bool
+  let error: String?
+  let profile: Profile
 }
 
 private struct SetProfileBody: Encodable {

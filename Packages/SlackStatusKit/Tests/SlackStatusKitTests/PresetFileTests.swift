@@ -40,3 +40,21 @@ struct PresetFileTests {
     #expect(status == SlackStatus(text: "Lunch", emoji: ":hamburger:", expiration: now.addingTimeInterval(3600)))
   }
 }
+
+struct PresetMatchingTests {
+  let lunch = StatusPreset(emoji: "hamburger", text: "Lunch", expiry: .duration(minutes: 60))
+
+  @Test func `a preset matches the status it set regardless of expiry`() {
+    #expect(lunch.matches(SlackStatus(text: "Lunch", emoji: ":hamburger:", expiration: .now)))
+    #expect(lunch.matches(SlackStatus(text: "Lunch", emoji: ":hamburger:", expiration: nil)))
+  }
+
+  @Test func `a different text or emoji does not match`() {
+    #expect(!lunch.matches(SlackStatus(text: "Lunch", emoji: ":pizza:", expiration: nil)))
+    #expect(!lunch.matches(SlackStatus(text: "Lunch break", emoji: ":hamburger:", expiration: nil)))
+  }
+
+  @Test func `a cleared status matches nothing`() {
+    #expect(!lunch.matches(.cleared))
+  }
+}

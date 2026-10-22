@@ -21,6 +21,13 @@ public struct StatusPreset: Codable, Hashable, Identifiable, Sendable {
     )
   }
 
+  /*
+   A preset is active when Slack shows its emoji and text, whatever the expiry
+   */
+  public func matches(_ status: SlackStatus) -> Bool {
+    SlackEmoji.shortcode(emoji) == SlackEmoji.shortcode(status.emoji) && text == status.text
+  }
+
   public static let defaults: [StatusPreset] = [
     StatusPreset(id: fixedID("1"), emoji: "hamburger", text: "Lunch", expiry: .duration(minutes: 60)),
     StatusPreset(id: fixedID("2"), emoji: "calendar", text: "In a meeting", expiry: .duration(minutes: 60)),
@@ -46,4 +53,8 @@ public struct SlackStatus: Hashable, Sendable {
   }
 
   public static let cleared = SlackStatus(text: "", emoji: "", expiration: nil)
+
+  public var isCleared: Bool {
+    text.isEmpty && emoji.isEmpty
+  }
 }
