@@ -1,3 +1,4 @@
+import AuthenticationServices
 import Foundation
 import SlackStatusKit
 
@@ -19,6 +20,17 @@ final class PhoneModel {
     session.activate(presets: presets)
   }
 
+  func signIn(using signIn: SlackSignIn) async {
+    isConnecting = true
+    connectionError = nil
+    defer { isConnecting = false }
+    do {
+      try await store(token: try await signIn.run())
+    } catch {
+      connectionError = Self.describe(error)
+    }
+  }
+
   func connect(token: String) async {
     let token = token.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !token.isEmpty else { return }
@@ -26,15 +38,17 @@ final class PhoneModel {
     connectionError = nil
     defer { isConnecting = false }
     do {
-      identity = try await SlackClient(token: token).authTest()
-      try keychain.write(token)
-      isConnected = true
-      session.sendToken(token)
-    } catch let error as SlackClientError {
-      connectionError = Self.describe(error)
+      try await store(token: token)
     } catch {
-      connectionError = error.localizedDescription
+      connectionError = Self.describe(error)
     }
+  }
+
+  private func store(token: String) async throws {
+    identity = try await SlackClient(token: token).authTest()
+    try keychain.write(token)
+    isConnected = true
+    session.sendToken(token)
   }
 
   func disconnect() {
@@ -75,12 +89,22 @@ final class PhoneModel {
     identity = try? await SlackClient(token: token).authTest()
   }
 
-  private static func describe(_ error: SlackClientError) -> String {
+  private static func describe(_ error: Error) -> String {
     switch error {
-    case .slack(let code):
-      return "Slack rejected the token (\(code))"
-    case .invalidResponse:
-      return "Slack returned something unexpected"
+    case SlackClientError.slack(let code):
+      "Slack rejected the token (\(code))"
+    case SlackClientError.invalidResponse:
+      "Slack returned something unexpected"
+    case SlackOAuthError.denied(let code):
+      "Slack didn't authorize the app (\(code))"
+    case SlackOAuthError.stateMismatch, SlackOAuthError.missingToken:
+      "The sign-in response couldn't be verified. Try again."
+    case SlackSignInError.notConfigured:
+      "This build has no Slack client ID. Use a token instead."
+    case ASWebAuthenticationSessionError.canceledLogin:
+      "Sign-in was cancelled."
+    default:
+      error.localizedDescription
     }
   }
 }

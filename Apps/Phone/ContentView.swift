@@ -21,18 +21,25 @@ struct ContentView: View {
 
 private struct ConnectView: View {
   @Environment(PhoneModel.self) private var model
+  @Environment(\.webAuthenticationSession) private var webSession
   @State private var token = ""
+  @State private var showsTokenField = false
 
   var body: some View {
     Form {
       Section {
-        SecureField("xoxp-…", text: $token)
-          .textInputAutocapitalization(.never)
-          .autocorrectionDisabled()
-      } header: {
-        Text("Slack user token")
+        Button {
+          Task { await model.signIn(using: SlackSignIn(session: webSession)) }
+        } label: {
+          if model.isConnecting {
+            ProgressView()
+          } else {
+            Text("Sign in with Slack")
+          }
+        }
+        .disabled(model.isConnecting)
       } footer: {
-        Text("Create a Slack app from slack-app-manifest.json, install it to your workspace, then paste the User OAuth Token here. It only leaves this phone to reach your watch.")
+        Text("Slack asks you to allow Status for Slack to read and set your status. Your token stays on this phone and your watch.")
       }
 
       if let error = model.connectionError {
@@ -42,16 +49,19 @@ private struct ConnectView: View {
       }
 
       Section {
-        Button {
-          Task { await model.connect(token: token) }
-        } label: {
-          if model.isConnecting {
-            ProgressView()
-          } else {
-            Text("Connect")
+        DisclosureGroup("Use a token instead", isExpanded: $showsTokenField) {
+          SecureField("xoxp-…", text: $token)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled()
+          Button("Connect") {
+            Task { await model.connect(token: token) }
           }
+          .disabled(token.isEmpty || model.isConnecting)
         }
-        .disabled(token.isEmpty || model.isConnecting)
+      } footer: {
+        if showsTokenField {
+          Text("For your own Slack app: create it from slack-app-manifest.json, install it, and paste the User OAuth Token.")
+        }
       }
     }
   }

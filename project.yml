@@ -14,6 +14,8 @@ packages:
 settings:
   base:
     SWIFT_VERSION: "6.0"
+    SLACK_CLIENT_ID: ""
+    SLACK_OAUTH_REDIRECT_URL: https://status-for-slack.vercel.app/api/slack/callback
     SWIFT_APPROACHABLE_CONCURRENCY: YES
     SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
     SWIFT_STRICT_CONCURRENCY: complete
@@ -36,6 +38,11 @@ targets:
         CFBundleDisplayName: Status
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        CFBundleURLTypes:
+          - CFBundleURLName: com.laurabeatris.slackstatus
+            CFBundleURLSchemes: [statusforslack]
+        SlackClientID: $(SLACK_CLIENT_ID)
+        SlackOAuthRedirectURL: $(SLACK_OAUTH_REDIRECT_URL)
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.laurabeatris.slackstatus
       TARGETED_DEVICE_FAMILY: "1"

@@ -1,12 +1,18 @@
 {
   "display_information": {
-    "name": "Status Watch",
+    "name": "Status for Slack",
     "description": "Sets your Slack status from an Apple Watch"
   },
   "oauth_config": {
     "scopes": {
-      "user": ["users.profile:read", "users.profile:write"]
-    }
+      "user": [
+        "users.profile:read",
+        "users.profile:write"
+      ]
+    },
+    "redirect_urls": [
+      "https://status-for-slack.vercel.app/api/slack/callback"
+    ]
   },
   "settings": {
     "org_deploy_enabled": false,

@@ -23,6 +23,7 @@
 		B85084B49D04F0FD2779CD2E /* StatusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364191281C399E29A749059C /* StatusApp.swift */; };
 		B9175355ECA611AA40ADE47B /* StatusWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1D9226291B4D236DD777D443 /* StatusWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C805B1889367420EBA82E852 /* StatusWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6DEF0DCA0C2280A6CA6290 /* StatusWatchApp.swift */; };
+		E8BBBB851EA558681B7B94F8 /* SlackSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460B150DFF6B32CADC800232 /* SlackSignIn.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		2960A29300558035DA079278 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2A6DEF0DCA0C2280A6CA6290 /* StatusWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusWatchApp.swift; sourceTree = "<group>"; };
 		364191281C399E29A749059C /* StatusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusApp.swift; sourceTree = "<group>"; };
+		460B150DFF6B32CADC800232 /* SlackSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlackSignIn.swift; sourceTree = "<group>"; };
 		4DA11466910F0A79EE958905 /* PhoneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModel.swift; sourceTree = "<group>"; };
 		641F6C827F5B4352F9A0EB7F /* WatchSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSession.swift; sourceTree = "<group>"; };
 		672E20ABAB085FC4151C76F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				4DA11466910F0A79EE958905 /* PhoneModel.swift */,
 				810C09414A6C71860F5E5882 /* PhoneSession.swift */,
 				0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */,
+				460B150DFF6B32CADC800232 /* SlackSignIn.swift */,
 				364191281C399E29A749059C /* StatusApp.swift */,
 			);
 			path = Phone;
@@ -273,6 +276,7 @@
 				850FEF26EDFFB5C7F099B09E /* PhoneModel.swift in Sources */,
 				0FA3B772FA35ABF5D658A181 /* PhoneSession.swift in Sources */,
 				9895A7C16DB1D1F291841F70 /* PresetEditorView.swift in Sources */,
+				E8BBBB851EA558681B7B94F8 /* SlackSignIn.swift in Sources */,
 				B85084B49D04F0FD2779CD2E /* StatusApp.swift in Sources */,
 				18A8FF6D355A10E77BC1F896 /* StatusIntents.swift in Sources */,
 			);
@@ -398,6 +402,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SLACK_CLIENT_ID = "";
+				SLACK_OAUTH_REDIRECT_URL = "https://status-for-slack.vercel.app/api/slack/callback";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -468,6 +474,8 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SLACK_CLIENT_ID = "";
+				SLACK_OAUTH_REDIRECT_URL = "https://status-for-slack.vercel.app/api/slack/callback";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
