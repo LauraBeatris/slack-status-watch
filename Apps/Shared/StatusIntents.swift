@@ -94,6 +94,6 @@ private enum IntentError: Error, CustomLocalizedStringResourceConvertible {
   case notConnected
 
   var localizedStringResource: LocalizedStringResource {
-    "Slack Status isn't connected yet. Open it on your iPhone and paste your token."
+    "Status for Slack isn't connected yet. Open it on your iPhone and paste your token."
   }
 }

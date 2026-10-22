@@ -13,7 +13,7 @@ struct ContentView: View {
           ConnectView()
         }
       }
-      .navigationTitle("Slack Status")
+      .navigationTitle("Status")
     }
     .task { await model.refreshIdentity() }
   }

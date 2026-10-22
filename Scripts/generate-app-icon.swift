@@ -22,9 +22,8 @@ fillRounded(NSRect(x: 112, y: 382, width: 800, height: 260), radius: 130, .white
 fillRounded(NSRect(x: 380, y: 532, width: 400, height: 50), radius: 25, color(0xD9D4DA))
 fillRounded(NSRect(x: 380, y: 444, width: 260, height: 50), radius: 25, color(0xD9D4DA, alpha: 0.6))
 
-let emoji = NSAttributedString(string: "🍔", attributes: [.font: NSFont(name: "Apple Color Emoji", size: 170)!])
-let emojiSize = emoji.size()
-emoji.draw(at: NSPoint(x: 252 - emojiSize.width / 2, y: 512 - emojiSize.height / 2 - 7))
+let burger = NSImage(contentsOfFile: CommandLine.arguments[2])!
+burger.draw(in: NSRect(x: 152, y: 412, width: 200, height: 200))
 
 NSGraphicsContext.restoreGraphicsState()
 try! rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: CommandLine.arguments[1]))

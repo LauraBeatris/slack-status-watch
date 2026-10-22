@@ -1,4 +1,4 @@
-# Slack Status
+# Status for Slack
 
 Set your Slack status from an Apple Watch. Tap a preset, done.
 
@@ -28,4 +28,13 @@ Personal tool: one workspace, a user token you paste once on the iPhone, presets
 
 ```sh
 swift Scripts/generate-emoji-table.swift path/to/emoji.json > Packages/SlackStatusKit/Sources/SlackStatusKit/SlackEmojiTable.swift
+```
+
+## App icon
+
+`Scripts/generate-app-icon.swift` draws the icon. The burger is from [Noto Emoji](https://github.com/googlefonts/noto-emoji) (`Scripts/icon-assets/burger.png`, licensed as in `Scripts/icon-assets/LICENSE`). Regenerate with:
+
+```sh
+swift Scripts/generate-app-icon.swift Apps/Phone/Assets.xcassets/AppIcon.appiconset/icon.png Scripts/icon-assets/burger.png
+cp Apps/Phone/Assets.xcassets/AppIcon.appiconset/icon.png Apps/Watch/Assets.xcassets/AppIcon.appiconset/icon.png
 ```
