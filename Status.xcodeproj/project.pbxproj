@@ -11,11 +11,13 @@
 		18A8FF6D355A10E77BC1F896 /* StatusIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D630C65D0C8EDD76171CDF8 /* StatusIntents.swift */; };
 		1DEE251447ED460B202E22D8 /* PresetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6301358E40C9A460117815 /* PresetListView.swift */; };
 		325A3D4358F256B4DBE6BE25 /* SlackStatusKit in Frameworks */ = {isa = PBXBuildFile; productRef = C999CA61A45AE7759A601E03 /* SlackStatusKit */; };
+		396C3A8C7C10E48D223EFCE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5032C665F0BA0A2E6172DF1 /* Assets.xcassets */; };
 		570539BAE1B0F1D449AEB5EA /* WatchSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F6C827F5B4352F9A0EB7F /* WatchSession.swift */; };
 		5BE5FD218CA769F5DCF5025E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672E20ABAB085FC4151C76F5 /* ContentView.swift */; };
 		72F29F473745080E785DD709 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2DA475642C020C68E2BB76 /* WatchModel.swift */; };
 		7FC79D185061D422A1D2CAC8 /* StatusIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D630C65D0C8EDD76171CDF8 /* StatusIntents.swift */; };
 		850FEF26EDFFB5C7F099B09E /* PhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA11466910F0A79EE958905 /* PhoneModel.swift */; };
+		96C277ECCFAB93E133207971 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C5A3B976616F077D2CBB2 /* Assets.xcassets */; };
 		9895A7C16DB1D1F291841F70 /* PresetEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */; };
 		9F1A06A7D5A2E6226B8EBFD6 /* SlackStatusKit in Frameworks */ = {isa = PBXBuildFile; productRef = EB2908A447467EE26D474B47 /* SlackStatusKit */; };
 		B85084B49D04F0FD2779CD2E /* StatusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364191281C399E29A749059C /* StatusApp.swift */; };
@@ -59,10 +61,12 @@
 		641F6C827F5B4352F9A0EB7F /* WatchSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSession.swift; sourceTree = "<group>"; };
 		672E20ABAB085FC4151C76F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		810C09414A6C71860F5E5882 /* PhoneSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneSession.swift; sourceTree = "<group>"; };
+		884C5A3B976616F077D2CBB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEB5B9A0B398B72643F3AF7D /* Status.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Status.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAED84C27E5411E0D5921333 /* SlackStatusKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SlackStatusKit; path = Packages/SlackStatusKit; sourceTree = SOURCE_ROOT; };
 		DE6301358E40C9A460117815 /* PresetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetListView.swift; sourceTree = "<group>"; };
 		EA4DA047C6E686CAF6E69354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F5032C665F0BA0A2E6172DF1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +127,7 @@
 		BD5135330C04C126551B64C3 /* Phone */ = {
 			isa = PBXGroup;
 			children = (
+				F5032C665F0BA0A2E6172DF1 /* Assets.xcassets */,
 				672E20ABAB085FC4151C76F5 /* ContentView.swift */,
 				EA4DA047C6E686CAF6E69354 /* Info.plist */,
 				4DA11466910F0A79EE958905 /* PhoneModel.swift */,
@@ -145,6 +150,7 @@
 		E9E957E5B7BB1C74A80E924C /* Watch */ = {
 			isa = PBXGroup;
 			children = (
+				884C5A3B976616F077D2CBB2 /* Assets.xcassets */,
 				2960A29300558035DA079278 /* Info.plist */,
 				DE6301358E40C9A460117815 /* PresetListView.swift */,
 				2A6DEF0DCA0C2280A6CA6290 /* StatusWatchApp.swift */,
@@ -162,6 +168,7 @@
 			buildConfigurationList = 7FB87D056731FC84B6258CBC /* Build configuration list for PBXNativeTarget "StatusWatch" */;
 			buildPhases = (
 				C9ED4B29E26E803ACCE053F7 /* Sources */,
+				103BF6B47DCA839B64EF7FF2 /* Resources */,
 				4D749D897B7C92CF50987479 /* Frameworks */,
 			);
 			buildRules = (
@@ -181,6 +188,7 @@
 			buildConfigurationList = 96A4EBEC1170770F5B535B38 /* Build configuration list for PBXNativeTarget "Status" */;
 			buildPhases = (
 				BDD204CEBA289892375172CC /* Sources */,
+				3E081E28731130010A6A1C65 /* Resources */,
 				B3960E390DDF8D82CCF5BC9B /* Frameworks */,
 				72145C075DA11430082D6B83 /* Embed Watch Content */,
 			);
@@ -236,6 +244,25 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		103BF6B47DCA839B64EF7FF2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96C277ECCFAB93E133207971 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3E081E28731130010A6A1C65 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				396C3A8C7C10E48D223EFCE4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BDD204CEBA289892375172CC /* Sources */ = {
