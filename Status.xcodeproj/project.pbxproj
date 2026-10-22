@@ -14,6 +14,7 @@
 		5BE5FD218CA769F5DCF5025E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672E20ABAB085FC4151C76F5 /* ContentView.swift */; };
 		72F29F473745080E785DD709 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2DA475642C020C68E2BB76 /* WatchModel.swift */; };
 		850FEF26EDFFB5C7F099B09E /* PhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA11466910F0A79EE958905 /* PhoneModel.swift */; };
+		9895A7C16DB1D1F291841F70 /* PresetEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */; };
 		9F1A06A7D5A2E6226B8EBFD6 /* SlackStatusKit in Frameworks */ = {isa = PBXBuildFile; productRef = EB2908A447467EE26D474B47 /* SlackStatusKit */; };
 		B85084B49D04F0FD2779CD2E /* StatusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364191281C399E29A749059C /* StatusApp.swift */; };
 		B9175355ECA611AA40ADE47B /* StatusWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1D9226291B4D236DD777D443 /* StatusWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -45,6 +46,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetEditorView.swift; sourceTree = "<group>"; };
 		0C2DA475642C020C68E2BB76 /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
 		1D9226291B4D236DD777D443 /* StatusWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2960A29300558035DA079278 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				EA4DA047C6E686CAF6E69354 /* Info.plist */,
 				4DA11466910F0A79EE958905 /* PhoneModel.swift */,
 				810C09414A6C71860F5E5882 /* PhoneSession.swift */,
+				0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */,
 				364191281C399E29A749059C /* StatusApp.swift */,
 			);
 			path = Phone;
@@ -230,6 +233,7 @@
 				5BE5FD218CA769F5DCF5025E /* ContentView.swift in Sources */,
 				850FEF26EDFFB5C7F099B09E /* PhoneModel.swift in Sources */,
 				0FA3B772FA35ABF5D658A181 /* PhoneSession.swift in Sources */,
+				9895A7C16DB1D1F291841F70 /* PresetEditorView.swift in Sources */,
 				B85084B49D04F0FD2779CD2E /* StatusApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -76,14 +76,33 @@ private struct ConnectedView: View {
 
       Section("Presets") {
         ForEach(model.presets) { preset in
-          HStack {
-            Text(SlackEmoji.display(preset.emoji))
-            Text(preset.text)
-            Spacer()
-            Text(preset.expiry.label).foregroundStyle(.secondary)
+          NavigationLink(value: preset) {
+            HStack {
+              Text(SlackEmoji.display(preset.emoji))
+              Text(preset.text)
+              Spacer()
+              Text(preset.expiry.label).foregroundStyle(.secondary)
+            }
           }
+        }
+        .onMove { model.movePresets(from: $0, to: $1) }
+        .onDelete { model.deletePresets(at: $0) }
+
+        Button("Add preset", systemImage: "plus") {
+          isAdding = true
         }
       }
     }
+    .toolbar { EditButton() }
+    .navigationDestination(for: StatusPreset.self) { preset in
+      PresetEditorView(preset: preset) { model.update($0) }
+    }
+    .sheet(isPresented: $isAdding) {
+      NavigationStack {
+        PresetEditorView(preset: nil) { model.add($0) }
+      }
+    }
   }
+
+  @State private var isAdding = false
 }

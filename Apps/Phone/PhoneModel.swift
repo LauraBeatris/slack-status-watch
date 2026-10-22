@@ -44,6 +44,32 @@ final class PhoneModel {
     session.sendToken("")
   }
 
+  func add(_ preset: StatusPreset) {
+    presets.append(preset)
+    savePresets()
+  }
+
+  func update(_ preset: StatusPreset) {
+    guard let index = presets.firstIndex(where: { $0.id == preset.id }) else { return }
+    presets[index] = preset
+    savePresets()
+  }
+
+  func movePresets(from source: IndexSet, to destination: Int) {
+    presets.move(fromOffsets: source, toOffset: destination)
+    savePresets()
+  }
+
+  func deletePresets(at offsets: IndexSet) {
+    presets.remove(atOffsets: offsets)
+    savePresets()
+  }
+
+  private func savePresets() {
+    try? presetFile.save(presets)
+    session.sendPresets(presets)
+  }
+
   func refreshIdentity() async {
     guard identity == nil, let token = keychain.read() else { return }
     identity = try? await SlackClient(token: token).authTest()
