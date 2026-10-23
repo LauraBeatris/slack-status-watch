@@ -14,7 +14,7 @@ packages:
 settings:
   base:
     SWIFT_VERSION: "6.0"
-    SLACK_CLIENT_ID: ""
+    SLACK_CLIENT_ID: 3972288438658.12386965455574
     SLACK_OAUTH_REDIRECT_URL: https://status-for-slack.vercel.app/api/slack/callback
     SWIFT_APPROACHABLE_CONCURRENCY: YES
     SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
