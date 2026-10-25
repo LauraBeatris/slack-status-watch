@@ -22,6 +22,7 @@ struct PresetEditorView: View {
             .autocorrectionDisabled()
           Text(SlackEmoji.display(draft.emoji))
         }
+        .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
         TextField("Text", text: $draft.text)
       }
 
