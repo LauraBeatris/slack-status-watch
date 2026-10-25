@@ -3,6 +3,11 @@ import Foundation
 public struct SlackIdentity: Hashable, Sendable {
   public var team: String
   public var user: String
+
+  public init(team: String, user: String) {
+    self.team = team
+    self.user = user
+  }
 }
 
 public enum SlackClientError: Error, Equatable, Sendable {

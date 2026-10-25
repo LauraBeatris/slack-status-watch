@@ -24,8 +24,19 @@ final class WatchModel {
   private let keychain = KeychainStore()
   private let presetFile = PresetFile()
   private let session = WatchSession()
+  private let isScreenshotMode: Bool
 
   init() {
+    #if DEBUG
+    if ProcessInfo.processInfo.arguments.contains("-screenshots") {
+      presets = StatusPreset.defaults
+      token = "screenshots"
+      activePresetID = StatusPreset.defaults.first?.id
+      isScreenshotMode = true
+      return
+    }
+    #endif
+    isScreenshotMode = false
     presets = presetFile.load()
     token = keychain.read()
     session.activate(model: self)
@@ -72,7 +83,7 @@ final class WatchModel {
    Failures are silent, the list still works for setting
    */
   func refresh() async {
-    guard let token, inFlight == nil else { return }
+    guard let token, inFlight == nil, !isScreenshotMode else { return }
     guard let status = try? await SlackClient(token: token).currentStatus() else { return }
     reconcile(with: status)
   }

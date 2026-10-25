@@ -48,6 +48,7 @@ private struct ConnectView: View {
         }
       }
 
+      #if DEBUG
       Section {
         DisclosureGroup("Use a token instead", isExpanded: $showsTokenField) {
           SecureField("xoxp-…", text: $token)
@@ -63,6 +64,7 @@ private struct ConnectView: View {
           Text("For your own Slack app: create it from slack-app-manifest.json, install it, and paste the User OAuth Token.")
         }
       }
+      #endif
     }
   }
 }

@@ -15,6 +15,14 @@ final class PhoneModel {
   private let session = PhoneSession()
 
   init() {
+    #if DEBUG
+    if ProcessInfo.processInfo.arguments.contains("-screenshots") {
+      presets = StatusPreset.defaults
+      identity = SlackIdentity(team: "Acme", user: "laura")
+      isConnected = true
+      return
+    }
+    #endif
     presets = presetFile.load()
     isConnected = keychain.read() != nil
     session.activate(presets: presets)
@@ -100,7 +108,7 @@ final class PhoneModel {
     case SlackOAuthError.stateMismatch, SlackOAuthError.missingToken:
       "The sign-in response couldn't be verified. Try again."
     case SlackSignInError.notConfigured:
-      "This build has no Slack client ID. Use a token instead."
+      "This build has no Slack client ID."
     case ASWebAuthenticationSessionError.canceledLogin:
       "Sign-in was cancelled."
     default:
