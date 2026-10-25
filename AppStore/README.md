@@ -2,6 +2,7 @@
 
 - `iphone-6.9/`: the five branded iPhone screenshots at 1320 x 2868, upload as the 6.9" set. App Store Connect scales them down for smaller iPhones.
 - `watch/`: plain Apple Watch captures at 416 x 496, upload as the watch set.
+- `header/`: the product page header at 3840 x 1646, from `design/header.html`. Render it with `--window-size=3840,1646`.
 - `raw/`: the simulator captures the slides are built from.
 - `design/`: one HTML file per slide plus `style.css`.
 
