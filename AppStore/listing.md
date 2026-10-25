@@ -74,9 +74,9 @@ The sign-in callback exchanges a one-time code and keeps nothing, so it isn't co
 Status for Slack sets the user's own Slack status. To test:
 
 1. Open Status on the iPhone and tap "Sign in with Slack".
-2. Enter the demo workspace URL: <your-demo-workspace>.slack.com
+2. Enter the demo workspace URL: statusforslackreview.slack.com
 3. Sign in with the email and password above, then tap Allow.
-4. Open Status on the paired Apple Watch and tap a preset such as Lunch. The status changes in the Slack workspace, which you can confirm at https://<your-demo-workspace>.slack.com.
+4. Open Status on the paired Apple Watch and tap a preset such as Lunch. The status changes in the Slack workspace, which you can confirm at https://statusforslackreview.slack.com.
 5. Siri: say "Set Status to Lunch" or "Clear Status".
 
 The app only requests the users.profile:read and users.profile:write scopes. It stores the Slack token in the Keychain and has no backend accounts.
