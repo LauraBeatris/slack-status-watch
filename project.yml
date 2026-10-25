@@ -21,7 +21,7 @@ settings:
     SWIFT_STRICT_CONCURRENCY: complete
     CODE_SIGN_STYLE: Automatic
     CURRENT_PROJECT_VERSION: 1
-    MARKETING_VERSION: 0.1.0
+    MARKETING_VERSION: 1.0.0
     ENABLE_USER_SCRIPT_SANDBOXING: YES
 
 targets:
@@ -36,6 +36,7 @@ targets:
       path: Apps/Phone/Info.plist
       properties:
         CFBundleDisplayName: Status
+        ITSAppUsesNonExemptEncryption: false
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         CFBundleURLTypes:
@@ -58,6 +59,7 @@ targets:
       path: Apps/Watch/Info.plist
       properties:
         CFBundleDisplayName: Status
+        ITSAppUsesNonExemptEncryption: false
         WKApplication: true
         WKCompanionAppBundleIdentifier: com.laurabeatris.slackstatus
     settings:

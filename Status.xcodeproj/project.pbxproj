@@ -14,8 +14,10 @@
 		396C3A8C7C10E48D223EFCE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F5032C665F0BA0A2E6172DF1 /* Assets.xcassets */; };
 		570539BAE1B0F1D449AEB5EA /* WatchSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641F6C827F5B4352F9A0EB7F /* WatchSession.swift */; };
 		5BE5FD218CA769F5DCF5025E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672E20ABAB085FC4151C76F5 /* ContentView.swift */; };
+		6617386ED0B5AF10F55AA4E8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0770198A84E387257AC5B6DA /* PrivacyInfo.xcprivacy */; };
 		72F29F473745080E785DD709 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2DA475642C020C68E2BB76 /* WatchModel.swift */; };
 		7FC79D185061D422A1D2CAC8 /* StatusIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D630C65D0C8EDD76171CDF8 /* StatusIntents.swift */; };
+		846B4848D51F8BD1682B0326 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 4A49603236BE790FDEA10E37 /* PrivacyInfo.xcprivacy */; };
 		850FEF26EDFFB5C7F099B09E /* PhoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA11466910F0A79EE958905 /* PhoneModel.swift */; };
 		96C277ECCFAB93E133207971 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884C5A3B976616F077D2CBB2 /* Assets.xcassets */; };
 		9895A7C16DB1D1F291841F70 /* PresetEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */; };
@@ -51,6 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0770198A84E387257AC5B6DA /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetEditorView.swift; sourceTree = "<group>"; };
 		0C2DA475642C020C68E2BB76 /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
 		0D630C65D0C8EDD76171CDF8 /* StatusIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusIntents.swift; sourceTree = "<group>"; };
@@ -59,6 +62,7 @@
 		2A6DEF0DCA0C2280A6CA6290 /* StatusWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusWatchApp.swift; sourceTree = "<group>"; };
 		364191281C399E29A749059C /* StatusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusApp.swift; sourceTree = "<group>"; };
 		460B150DFF6B32CADC800232 /* SlackSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlackSignIn.swift; sourceTree = "<group>"; };
+		4A49603236BE790FDEA10E37 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		4DA11466910F0A79EE958905 /* PhoneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneModel.swift; sourceTree = "<group>"; };
 		641F6C827F5B4352F9A0EB7F /* WatchSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSession.swift; sourceTree = "<group>"; };
 		672E20ABAB085FC4151C76F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 				4DA11466910F0A79EE958905 /* PhoneModel.swift */,
 				810C09414A6C71860F5E5882 /* PhoneSession.swift */,
 				0BF4A773AF9E884EF82FE6D4 /* PresetEditorView.swift */,
+				4A49603236BE790FDEA10E37 /* PrivacyInfo.xcprivacy */,
 				460B150DFF6B32CADC800232 /* SlackSignIn.swift */,
 				364191281C399E29A749059C /* StatusApp.swift */,
 			);
@@ -156,6 +161,7 @@
 				884C5A3B976616F077D2CBB2 /* Assets.xcassets */,
 				2960A29300558035DA079278 /* Info.plist */,
 				DE6301358E40C9A460117815 /* PresetListView.swift */,
+				0770198A84E387257AC5B6DA /* PrivacyInfo.xcprivacy */,
 				2A6DEF0DCA0C2280A6CA6290 /* StatusWatchApp.swift */,
 				0C2DA475642C020C68E2BB76 /* WatchModel.swift */,
 				641F6C827F5B4352F9A0EB7F /* WatchSession.swift */,
@@ -254,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96C277ECCFAB93E133207971 /* Assets.xcassets in Resources */,
+				6617386ED0B5AF10F55AA4E8 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				396C3A8C7C10E48D223EFCE4 /* Assets.xcassets in Resources */,
+				846B4848D51F8BD1682B0326 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +406,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -469,7 +477,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
