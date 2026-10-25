@@ -50,45 +50,4 @@ Requires iOS 27, watchOS 26 and Xcode 27.
 
 Debug builds also offer "Use a token instead" for a pasted `xoxp-` User OAuth Token. Release builds leave it out.
 
-## Screenshots
-
-Both apps accept a debug-only `-screenshots` launch argument. It loads the default presets, marks Lunch active and skips the network, so captures never touch a real Slack account:
-
-```sh
-xcrun simctl launch <device> com.laurabeatris.slackstatus -screenshots
-xcrun simctl launch <watch-device> com.laurabeatris.slackstatus.watchkitapp -screenshots
-```
-
-The branded slides are HTML in `AppStore/design`, rendered with headless Chrome. [AppStore/README.md](AppStore/README.md) has the command.
-
-## Releasing
-
-1. Bump `CURRENT_PROJECT_VERSION` in `project.yml`, and `MARKETING_VERSION` for a new App Store version. Run `xcodegen`.
-2. Archive and upload. Automatic signing creates the distribution profiles:
-
-   ```sh
-   xcodebuild -project Status.xcodeproj -scheme Status -destination 'generic/platform=iOS' -archivePath build/Status.xcarchive -allowProvisioningUpdates archive
-   xcodebuild -exportArchive -archivePath build/Status.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build/export -allowProvisioningUpdates
-   ```
-
-   `ExportOptions.plist` uses `method` `app-store-connect` and `destination` `upload`.
-3. The build shows up in TestFlight after processing. The watch app ships inside the iPhone app.
-
-## Emoji table
-
-`SlackEmojiTable.swift` is generated from [emoji-data](https://github.com/iamcal/emoji-data) (MIT):
-
-```sh
-swift Scripts/generate-emoji-table.swift path/to/emoji.json > Packages/SlackStatusKit/Sources/SlackStatusKit/SlackEmojiTable.swift
-```
-
-## App icon
-
-`Scripts/generate-app-icon.swift` draws the icon. The burger is from [Noto Emoji](https://github.com/googlefonts/noto-emoji). The image is `Scripts/icon-assets/burger.png` and its license is in `Scripts/icon-assets/LICENSE`. Regenerate with:
-
-```sh
-swift Scripts/generate-app-icon.swift Apps/Phone/Assets.xcassets/AppIcon.appiconset/icon.png Scripts/icon-assets/burger.png
-cp Apps/Phone/Assets.xcassets/AppIcon.appiconset/icon.png Apps/Watch/Assets.xcassets/AppIcon.appiconset/icon.png
-```
-
 Status for Slack is an independent app and is not made by or affiliated with Slack Technologies.
