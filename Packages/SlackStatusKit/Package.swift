@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
   name: "SlackStatusKit",
-  platforms: [.iOS("27.0"), .watchOS("27.0"), .macOS("26.0")],
+  platforms: [.iOS("27.0"), .watchOS("26.0"), .macOS("26.0")],
   products: [
     .library(name: "SlackStatusKit", targets: ["SlackStatusKit"])
   ],
