@@ -1,8 +1,490 @@
 <!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Status for Slack</title>
-<style>body{font-family:-apple-system,system-ui,sans-serif;max-width:32rem;margin:4rem auto;padding:0 1rem;line-height:1.5}</style>
-<h1>Status for Slack</h1>
-<p>This site only handles the Slack sign-in callback for the Status for Slack app on iPhone and Apple Watch. There is nothing to see here.</p>
-<p><a href="/privacy">Privacy policy</a></p>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Status for Slack: Set Your Slack Status from Apple Watch</title>
+<meta name="description" content="Set your Slack status from your Apple Watch with one tap. Presets for lunch, meetings and focus time that clear themselves. Free for iPhone and Apple Watch.">
+<link rel="canonical" href="https://status-for-slack.vercel.app/">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#521755">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Status for Slack">
+<meta property="og:title" content="Status for Slack: your Slack status, on your wrist">
+<meta property="og:description" content="One tap on your Apple Watch sets your Slack status. It clears itself when you're done.">
+<meta property="og:url" content="https://status-for-slack.vercel.app/">
+<meta property="og:image" content="https://status-for-slack.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An Apple Watch showing Slack status presets, with Lunch selected">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "Status for Slack",
+  "description": "Set your Slack status from your Apple Watch with one tap. Presets clear themselves after a set time, and Siri and Shortcuts work on both devices.",
+  "url": "https://status-for-slack.vercel.app/",
+  "image": "https://status-for-slack.vercel.app/og.png",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "iOS, watchOS",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<script>if ('IntersectionObserver' in window) document.documentElement.classList.add('js');</script>
+<style>
+  :root {
+    --bg: #1c061e;
+    --accent: #ffc94a;
+    --text: #fff;
+    --muted: rgba(255, 255, 255, .72);
+    --faint: rgba(255, 255, 255, .5);
+    --line: rgba(255, 255, 255, .14);
+    --glass: rgba(255, 255, 255, .09);
+    --rounded: ui-rounded, -apple-system, system-ui, "Segoe UI", sans-serif;
+    --gutter: clamp(20px, 5vw, 48px);
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    color: var(--text);
+    background:
+      radial-gradient(900px 620px at 88% 0, rgba(255, 201, 74, .14), transparent 60%),
+      radial-gradient(900px 900px at 0 760px, rgba(150, 60, 160, .34), transparent 65%),
+      linear-gradient(172deg, #5b1a5d 0, #3a0f3c 560px, var(--bg) 1180px);
+    background-color: var(--bg);
+    background-repeat: no-repeat;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1, h2, p, ul { margin: 0; }
+  ul { padding: 0; list-style: none; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  .wrap { max-width: 1120px; margin-inline: auto; padding-inline: var(--gutter); }
+
+  /* Header */
+  .site-header { display: flex; align-items: center; justify-content: space-between; padding-block: 22px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; text-decoration: none; }
+  .brand img { border-radius: 22.5%; }
+  .site-header nav a { color: var(--muted); text-decoration: none; font-weight: 500; padding: 8px 0; transition: color 150ms ease; }
+
+  /* Hero */
+  .hero {
+    display: grid; align-items: center; gap: 56px;
+    padding-block: clamp(32px, 7vw, 88px) clamp(72px, 10vw, 128px);
+  }
+  h1 {
+    font-family: var(--rounded);
+    font-size: clamp(2.75rem, 6.4vw, 4.75rem);
+    line-height: 1.02; font-weight: 800; letter-spacing: -.03em;
+    text-wrap: balance;
+  }
+  h1 em { display: block; font-style: normal; color: var(--accent); }
+  .lede {
+    margin-top: 22px; max-width: 30em;
+    font-size: clamp(1.125rem, 1.7vw, 1.3125rem); line-height: 1.4;
+    color: var(--muted); font-weight: 500; text-wrap: pretty;
+  }
+  .cta { margin-top: 34px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+  .button {
+    display: inline-flex; align-items: center; height: 52px; padding-inline: 28px;
+    border-radius: 999px; background: #fff; color: #1d1d1f;
+    font-size: 1.0625rem; font-weight: 600; text-decoration: none; white-space: nowrap;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .3);
+    transition: transform 160ms var(--ease-out), background-color 150ms ease;
+  }
+  .button:active { transform: scale(.97); }
+  .note { color: var(--faint); font-size: .9375rem; font-weight: 500; }
+
+  /* Demo: the pill is the Slack side, the watch is the wrist */
+  .demo { display: grid; justify-items: center; }
+  .stage { position: relative; width: clamp(232px, 62vw, 300px); margin-block: 13% 4%; }
+
+  .pill {
+    position: absolute; z-index: 1; top: -11%; left: 50%; translate: -50% 0;
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px 10px 12px; border-radius: 999px;
+    background: #fff; color: #1d1d1f; white-space: nowrap;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, .42);
+  }
+  .pill-states { display: grid; }
+  /* All states share one grid cell, so the pill keeps its size and a swap is a crossfade.
+     Leaving is quick and stays put, arriving rises in after it. The blur bridges the overlap. */
+  .pill-state {
+    grid-area: 1 / 1; display: flex; align-items: center; gap: 10px;
+    opacity: 0; transform: translateY(6px); filter: blur(2px);
+    transition: opacity 120ms ease, filter 120ms ease, transform 0s 120ms;
+  }
+  .pill-state[data-active] {
+    opacity: 1; transform: none; filter: none;
+    transition: opacity 240ms var(--ease-out) 80ms, filter 240ms var(--ease-out) 80ms, transform 240ms var(--ease-out) 80ms;
+  }
+  .pill-emoji { font-size: 1.75rem; line-height: 1; }
+  .pill-text { font-weight: 600; line-height: 1.2; }
+  .pill-text small { display: block; font-size: .8125rem; font-weight: 500; color: #86868b; }
+  .pill-check { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #34c759; }
+  .pill-check svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+
+  .watch { position: relative; aspect-ratio: 820 / 1085; }
+  .band {
+    position: absolute; left: 50%; translate: -50% 0; width: 62%; height: 40%;
+    background: linear-gradient(90deg, #2a0c2c, #45164a 50%, #2a0c2c);
+  }
+  .band.top { top: -34%; -webkit-mask-image: linear-gradient(to top, #000 35%, transparent); mask-image: linear-gradient(to top, #000 35%, transparent); }
+  .band.bottom { bottom: -24%; height: 30%; -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent); mask-image: linear-gradient(to bottom, #000 35%, transparent); }
+  .case {
+    position: relative; width: 100%; height: 100%; padding: 5.5%;
+    border-radius: 27% / 23%;
+    background: linear-gradient(150deg, #5a5a60, #1a1a1d 45%, #3a3a3f);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(255, 255, 255, .1);
+  }
+  .crown { position: absolute; right: -3.6%; top: 24%; width: 5%; height: 15%; border-radius: 4px; background: linear-gradient(90deg, #6a6a70, #2a2a2e); }
+  .side-button { position: absolute; right: -2%; top: 50%; width: 2.6%; height: 20%; border-radius: 3px; background: #2a2a2e; }
+
+  /* Everything inside the screen is sized in cqw so the watch scales as one piece */
+  .screen {
+    position: relative; width: 100%; height: 100%; overflow: hidden;
+    border-radius: 22% / 18.5%; background: #000;
+    container-type: inline-size;
+    font-family: var(--rounded);
+  }
+  .watch-time { position: absolute; top: 7cqw; right: 7.5cqw; font-size: 7.7cqw; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+  .watch-title { position: absolute; top: 15cqw; left: 7.5cqw; font-size: 11cqw; font-weight: 500; line-height: 1; color: #77777c; }
+  .rows { display: grid; gap: 1.9cqw; padding: 29.8cqw 1.4cqw 0; }
+  .row {
+    display: flex; align-items: center; gap: 4.5cqw; width: 100%; height: 26.9cqw;
+    padding: 0 9cqw 0 7cqw; border: 0; border-radius: 6.8cqw;
+    background: #1f1f21; color: #fff; font: inherit; text-align: left;
+    cursor: pointer; touch-action: manipulation; -webkit-user-select: none; user-select: none;
+    transition: transform 160ms var(--ease-out), background-color 160ms ease;
+  }
+  /* data-pressing is the demo tapping itself */
+  .row:active, .row[data-pressing] { transform: scale(.97); background: #2c2c2f; }
+  .row:focus-visible { outline-offset: -2px; border-radius: 6.8cqw; }
+  .row-emoji { width: 10cqw; font-size: 8.4cqw; line-height: 1; text-align: center; }
+  .row-text { flex: 1; display: grid; gap: .6cqw; line-height: 1.1; }
+  .row-title { font-size: 7.7cqw; font-weight: 500; }
+  .row-sub { font-size: 6.3cqw; color: #98989f; }
+  .row-check { width: 8cqw; height: 8cqw; fill: none; stroke: #30d158; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+    /* Unchecking fades fast, then the clip resets out of sight */
+    opacity: 0; clip-path: inset(0 100% 0 0);
+    transition: opacity 100ms ease, clip-path 0s 100ms;
+  }
+  /* Checking draws the tick left to right, the way a pen would */
+  .row[aria-pressed="true"] .row-check {
+    opacity: 1; clip-path: inset(0);
+    transition: opacity 0s, clip-path 280ms var(--ease-out) 60ms;
+  }
+
+  .hint { margin-top: clamp(64px, 9vw, 92px); color: var(--faint); font-size: .9375rem; font-weight: 500; }
+
+  /* Features */
+  .features {
+    display: grid; gap: 48px;
+    padding-block: clamp(56px, 8vw, 96px);
+    border-top: 1px solid var(--line);
+  }
+  .specimen {
+    display: inline-flex; align-items: center; gap: 8px; height: 40px; padding-inline: 16px;
+    border-radius: 999px; background: var(--glass); border: 1px solid var(--line);
+    font-size: .9375rem; font-weight: 600; white-space: nowrap;
+  }
+  .specimen .emoji { font-size: 1.125rem; }
+  .specimen .dim { color: var(--muted); font-weight: 500; }
+  .feature h2 { margin-top: 20px; font-family: var(--rounded); font-size: 1.5rem; line-height: 1.2; font-weight: 700; letter-spacing: -.01em; }
+  .feature p { margin-top: 8px; max-width: 26em; color: var(--muted); text-wrap: pretty; }
+  .feature p a { text-underline-offset: 3px; }
+
+  /* Closing */
+  .closing { display: grid; justify-items: center; text-align: center; padding-block: clamp(56px, 8vw, 96px); border-top: 1px solid var(--line); }
+  .closing img { border-radius: 22.5%; box-shadow: 0 18px 44px rgba(0, 0, 0, .4); }
+  .closing h2 { margin-top: 28px; font-family: var(--rounded); font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.1; font-weight: 800; letter-spacing: -.02em; text-wrap: balance; }
+  .closing p { margin-top: 12px; max-width: 28em; color: var(--muted); text-wrap: pretty; }
+  .closing .button { margin-top: 30px; }
+
+  /* Footer */
+  .site-footer {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px;
+    align-items: center; padding-block: 20px calc(20px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line); color: var(--faint); font-size: .875rem;
+  }
+  .site-footer ul { display: flex; gap: 24px; }
+  .site-footer a { display: inline-block; padding-block: 8px; text-decoration: none; transition: color 150ms ease; }
+
+  /* Page load. The headline is left alone: it is the largest paint and the line people came to read. */
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+  @keyframes pill-in { from { opacity: 0; transform: translateY(10px) scale(.96); } }
+  @keyframes fade { from { opacity: 0; } }
+  .lede, .cta, .watch, .hint { animation: rise 600ms var(--ease-out) backwards; }
+  .lede { animation-delay: 60ms; }
+  .cta { animation-delay: 120ms; }
+  .watch { animation-delay: 180ms; }
+  .pill { transform-origin: 30% 100%; animation: pill-in 500ms var(--ease-out) 480ms backwards; }
+  .hint { animation-delay: 620ms; }
+
+  /* Scroll reveal, once. Only hidden when the script that reveals it is there. */
+  .js .reveal { opacity: 0; transform: translateY(12px); transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); }
+  .js .reveal[data-visible] { opacity: 1; transform: none; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover { background: #f3eef4; }
+    .site-header nav a:hover, .site-footer a:hover { color: #fff; }
+    .row:hover { background: #262629; }
+    .row:active { background: #2c2c2f; }
+  }
+
+  /* Reduced motion keeps the fades that explain a change and drops the travel */
+  @media (prefers-reduced-motion: reduce) {
+    .lede, .cta, .watch, .hint, .pill { animation-name: fade; animation-duration: 300ms; }
+    .pill-state, .js .reveal { transform: none; }
+    .row-check { clip-path: none; }
+    .button:active, .row:active { transform: none; }
+  }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  @media (min-width: 640px) {
+    .features { grid-template-columns: 1fr 1fr; gap: 64px 56px; }
+    .js .feature:nth-child(even) { transition-delay: 70ms; }
+  }
+  @media (min-width: 900px) {
+    .hero { grid-template-columns: 1.15fr 1fr; gap: 40px; }
+    .stage { width: clamp(260px, 25vw, 300px); margin-block: 10% 0; }
+    .pill { left: 46%; translate: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap site-header">
+  <a class="brand" href="/">
+    <img src="/apple-touch-icon.png" width="30" height="30" alt="">
+    Status for Slack
+  </a>
+  <nav aria-label="Site"><a href="/support">Support</a></nav>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Your Slack status, <em>on your wrist.</em></h1>
+      <p class="lede">Tap a preset on your Apple Watch. Your status is set before your arm is back down.</p>
+      <div class="cta">
+        <!-- TODO: replace with the real App Store URL once the app has an ID -->
+        <a class="button" href="https://apps.apple.com/app/id0000000000">Download on the App Store</a>
+        <p class="note">Free for iPhone and Apple Watch</p>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="stage">
+        <div class="pill" aria-hidden="true">
+          <div class="pill-states">
+            <div class="pill-state" data-status="lunch" data-active>
+              <span class="pill-emoji">🍔</span>
+              <span class="pill-text">Lunch<small>Clears in 1 hour</small></span>
+            </div>
+            <div class="pill-state" data-status="meeting">
+              <span class="pill-emoji">📅</span>
+              <span class="pill-text">In a meeting<small>Clears in 1 hour</small></span>
+            </div>
+            <div class="pill-state" data-status="focus">
+              <span class="pill-emoji">🎧</span>
+              <span class="pill-text">Focusing<small>Clears in 2 hours</small></span>
+            </div>
+            <div class="pill-state" data-status="away">
+              <span class="pill-emoji">🚶</span>
+              <span class="pill-text">Away<small>Clears at 18:00</small></span>
+            </div>
+          </div>
+          <span class="pill-check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        </div>
+
+        <div class="watch">
+          <div class="band top"></div><div class="band bottom"></div>
+          <div class="case">
+            <div class="screen">
+              <span class="watch-time" aria-hidden="true">10:09</span>
+              <span class="watch-title" aria-hidden="true">Status</span>
+              <div class="rows" role="group" aria-label="Status presets, a demo of the watch app">
+                <button class="row" type="button" data-status="lunch" aria-pressed="true" aria-label="Lunch, clears in 1 hour">
+                  <span class="row-emoji" aria-hidden="true">🍔</span>
+                  <span class="row-text"><span class="row-title">Lunch</span><span class="row-sub">1h</span></span>
+                  <svg class="row-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5.5 6L20 5" pathLength="1"/></svg>
+                </button>
+                <button class="row" type="button" data-status="meeting" aria-pressed="false" aria-label="In a meeting, clears in 1 hour">
+                  <span class="row-emoji" aria-hidden="true">📅</span>
+                  <span class="row-text"><span class="row-title">In a meeting</span><span class="row-sub">1h</span></span>
+                  <svg class="row-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5.5 6L20 5" pathLength="1"/></svg>
+                </button>
+                <button class="row" type="button" data-status="focus" aria-pressed="false" aria-label="Focusing, clears in 2 hours">
+                  <span class="row-emoji" aria-hidden="true">🎧</span>
+                  <span class="row-text"><span class="row-title">Focusing</span><span class="row-sub">2h</span></span>
+                  <svg class="row-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5.5 6L20 5" pathLength="1"/></svg>
+                </button>
+                <button class="row" type="button" data-status="away" aria-pressed="false" aria-label="Away, clears at 18:00">
+                  <span class="row-emoji" aria-hidden="true">🚶</span>
+                  <span class="row-text"><span class="row-title">Away</span><span class="row-sub">Until 18:00</span></span>
+                  <svg class="row-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5.5 6L20 5" pathLength="1"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="crown"></div><div class="side-button"></div>
+        </div>
+      </div>
+      <p class="hint">Try it. Tap a preset.</p>
+      <p class="sr-only" role="status" id="announcer"></p>
+    </div>
+  </section>
+
+  <section class="features" aria-label="Features">
+    <article class="feature reveal">
+      <div class="specimen" aria-hidden="true"><span class="emoji">🍔</span><span class="emoji">📅</span><span class="emoji">🎧</span><span class="emoji">🚶</span><span class="emoji">🌴</span></div>
+      <h2>Presets for every part of your day</h2>
+      <p>Start with Lunch, In a meeting and Focusing, or make your own on your iPhone with any Slack emoji.</p>
+    </article>
+    <article class="feature reveal">
+      <div class="specimen" aria-hidden="true"><span class="emoji">🚶</span>Away <span class="dim">until 18:00</span></div>
+      <h2>Clears itself, right on time</h2>
+      <p>Each preset expires after 15 minutes to 4 hours, or at a time of day. No more &ldquo;In a meeting&rdquo; at midnight.</p>
+    </article>
+    <article class="feature reveal">
+      <div class="specimen" aria-hidden="true">&ldquo;Set Status to Lunch&rdquo;</div>
+      <h2>Or just ask Siri</h2>
+      <p>Say it to your watch or iPhone, or add the actions to any Shortcuts automation.</p>
+    </article>
+    <article class="feature reveal">
+      <div class="specimen" aria-hidden="true"><span class="emoji">🔒</span>Stored in Keychain</div>
+      <h2>Private by design</h2>
+      <p>Your Slack sign-in stays on your iPhone and Apple Watch. No accounts, no analytics, no tracking. <a href="/privacy">Privacy policy</a></p>
+    </article>
+  </section>
+
+  <section class="closing reveal">
+    <img src="/apple-touch-icon.png" width="88" height="88" alt="Status for Slack app icon" loading="lazy">
+    <h2>Free for iPhone and Apple Watch</h2>
+    <p>You'll need a Slack workspace. Some workspaces ask an admin to approve new apps.</p>
+    <!-- TODO: replace with the real App Store URL once the app has an ID -->
+    <a class="button" href="https://apps.apple.com/app/id0000000000">Download on the App Store</a>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="site-footer">
+    <p>&copy; 2026 Laura Serafim. Status for Slack is an independent app and is not made by or affiliated with Slack Technologies.</p>
+    <ul>
+      <li><a href="/support">Support</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  (() => {
+    /* Reveal first, so nothing can leave the page hidden if the demo code below fails */
+    if ('IntersectionObserver' in window) {
+      const reveal = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.toggleAttribute('data-visible', true);
+          reveal.unobserve(entry.target);
+        }
+      }, { rootMargin: '0px 0px -12% 0px' });
+      for (const el of document.querySelectorAll('.reveal')) reveal.observe(el);
+    }
+
+    const stage = document.querySelector('.stage');
+    const rows = [...stage.querySelectorAll('.row')];
+    const states = [...stage.querySelectorAll('.pill-state')];
+    const announcer = document.getElementById('announcer');
+
+    function select(row, byUser) {
+      for (const r of rows) r.setAttribute('aria-pressed', String(r === row));
+      for (const s of states) s.toggleAttribute('data-active', s.dataset.status === row.dataset.status);
+      if (byUser) announcer.textContent = `Slack status set to ${row.getAttribute('aria-label')}.`;
+    }
+
+    for (const row of rows) row.addEventListener('click', () => select(row, true));
+
+    /*
+     Until the visitor touches the watch, it taps through the presets by itself,
+     so the page explains the app without asking for anything. It only runs
+     while it is on screen, and never for people who asked for less motion.
+     */
+    const PRESS_MS = 180;
+    const EVERY_MS = 2600;
+    const autoRows = rows.slice(0, 3);
+    let auto = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let onScreen = false;
+    let hovering = false;
+    let timer;
+
+    function tapNext() {
+      const current = autoRows.findIndex((r) => r.getAttribute('aria-pressed') === 'true');
+      const next = autoRows[(current + 1) % autoRows.length];
+      next.toggleAttribute('data-pressing', true);
+      setTimeout(() => {
+        next.removeAttribute('data-pressing');
+        if (auto) select(next, false);
+      }, PRESS_MS);
+    }
+
+    function schedule() {
+      clearInterval(timer);
+      if (auto && onScreen && !hovering && !document.hidden) timer = setInterval(tapNext, EVERY_MS);
+    }
+
+    function stop() {
+      auto = false;
+      clearInterval(timer);
+    }
+
+    if (auto) {
+      stage.addEventListener('pointerdown', stop, { once: true });
+      stage.addEventListener('keydown', stop, { once: true });
+      stage.addEventListener('pointerenter', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        hovering = true;
+        schedule();
+      });
+      stage.addEventListener('pointerleave', () => {
+        hovering = false;
+        schedule();
+      });
+      document.addEventListener('visibilitychange', schedule);
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([entry]) => {
+          onScreen = entry.isIntersecting;
+          schedule();
+        }, { threshold: .6 }).observe(stage);
+      } else {
+        onScreen = true;
+        schedule();
+      }
+    }
+
+    /* The watch shows the visitor's own time, like a real one would */
+    const time = document.querySelector('.watch-time');
+    const tick = () => {
+      const now = new Date();
+      time.textContent = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+      setTimeout(tick, (60 - now.getSeconds()) * 1000);
+    };
+    tick();
+  })();
+</script>
+</body>
+</html>

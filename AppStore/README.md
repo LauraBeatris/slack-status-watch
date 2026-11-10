@@ -14,3 +14,9 @@ To regenerate a slide after editing its HTML:
 cd AppStore/design
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1320,2868 --screenshot=../iphone-6.9/01-hero.png "file://$PWD/01-hero.html"
 ```
+
+The landing page's share image, `web/public/og.png`, comes from `design/og.html`. Render it at `--window-size=3840,2016`, then scale it down:
+
+```sh
+sips -z 630 1200 og-full.png --out ../../web/public/og.png
+```
