@@ -71,13 +71,21 @@ The sign-in callback exchanges a one-time code and keeps nothing, so it isn't co
 
 **Notes**
 
-Status for Slack sets the user's own Slack status. To test:
+Status for Slack sets the user's own Slack status.
 
-1. Open Status on the iPhone and tap "Sign in with Slack".
-2. Enter the demo workspace URL: statusforslackreview.slack.com
-3. Sign in with the email and password above, then tap Allow.
-4. Open Status on the paired Apple Watch and tap a preset such as Lunch. The status changes in the Slack workspace, which you can confirm at https://statusforslackreview.slack.com.
-5. Siri: say "Set Status to Lunch" or "Clear Status".
+Slack's sign-in page asks for a confirmation code that Slack emails to the account. That step belongs to Slack and the app can't skip it, so build 4 adds a demonstration mode that needs no account, password or code.
+
+To review with the demonstration mode:
+
+1. Open Status on the iPhone and tap "Try the demo". The app connects to a sample workspace and shows the presets. Add, edit, reorder or delete presets here.
+2. Open Status on the paired Apple Watch. It lists the presets. If it says "Not connected", tap "Try the demo" on the watch.
+3. Tap a preset such as Lunch. A haptic confirms it and a checkmark marks it as the active status. Scroll down and tap "Clear status" to clear it.
+4. Siri: say "Set Status to Lunch" or "Clear Status".
+5. "Exit demo" on either device returns to the sign-in screen.
+
+The demonstration mode runs the same screens and the same code as a real workspace. The only difference is that the status is kept on the device and is not sent to Slack.
+
+Signing in for real still works: tap "Sign in with Slack", enter the workspace URL statusforslackreview.slack.com and the email and password above. Slack then emails its confirmation code to that address.
 
 The app only requests the users.profile:read and users.profile:write scopes. It stores the Slack token in the Keychain and has no backend accounts.
 

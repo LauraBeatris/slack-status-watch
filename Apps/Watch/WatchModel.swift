@@ -42,6 +42,18 @@ final class WatchModel {
     session.activate(model: self)
   }
 
+  var isDemo: Bool {
+    token == DemoWorkspace.token
+  }
+
+  func startDemo() {
+    receiveToken(DemoWorkspace.token)
+  }
+
+  func exitDemo() {
+    receiveToken("")
+  }
+
   func isActive(_ preset: StatusPreset, at now: Date = .now) -> Bool {
     guard preset.id == activePresetID else { return false }
     guard let activeUntil else { return true }
@@ -107,6 +119,7 @@ final class WatchModel {
 
   func receiveToken(_ token: String) {
     if token.isEmpty {
+      if isDemo { DemoWorkspace.reset() }
       keychain.delete()
       self.token = nil
       reconcile(with: .cleared)

@@ -18,18 +18,32 @@ public enum SlackClientError: Error, Equatable, Sendable {
 public struct SlackClient: Sendable {
   private let token: String
   private let session: URLSession
+  /*
+   Set when the token is the demo one. Every call is then answered from this store
+   */
+  private let demo: DemoStatusStore?
 
   public init(token: String, session: URLSession = .shared) {
+    self.init(token: token, session: session, demoStore: DemoStatusStore())
+  }
+
+  init(token: String, session: URLSession = .shared, demoStore: DemoStatusStore) {
     self.token = token
     self.session = session
+    demo = token == DemoWorkspace.token ? demoStore : nil
   }
 
   public func authTest() async throws -> SlackIdentity {
+    if demo != nil { return DemoWorkspace.identity }
     let response = try await call("auth.test", body: Optional<EmptyBody>.none, as: AuthTestResponse.self)
     return SlackIdentity(team: response.team ?? "", user: response.user ?? "")
   }
 
   public func setStatus(_ status: SlackStatus) async throws {
+    if let demo {
+      demo.write(status)
+      return
+    }
     let expiration = status.expiration.map { Int($0.timeIntervalSince1970) } ?? 0
     let body = SetProfileBody(
       profile: .init(status_text: status.text, status_emoji: status.emoji, status_expiration: expiration)
@@ -42,6 +56,7 @@ public struct SlackClient: Sendable {
   }
 
   public func currentStatus() async throws -> SlackStatus {
+    if let demo { return demo.read() }
     let response = try await call("users.profile.get", body: Optional<EmptyBody>.none, as: GetProfileResponse.self)
     let profile = response.profile
     let expiration = profile.status_expiration.flatMap { $0 > 0 ? Date(timeIntervalSince1970: TimeInterval($0)) : nil }

@@ -50,4 +50,6 @@ Requires iOS 27, watchOS 26 and Xcode 27.
 
 Debug builds also offer "Use a token instead" for a pasted `xoxp-` User OAuth Token. Release builds leave it out.
 
+"Try the demo" on the sign-in screen, and on the watch while it isn't connected, runs the app against a sample workspace. The demo token makes `SlackClient` keep the status in UserDefaults and skip the network. App Review uses it, because Slack's sign-in emails a confirmation code.
+
 Status for Slack is an independent app and is not made by or affiliated with Slack Technologies.

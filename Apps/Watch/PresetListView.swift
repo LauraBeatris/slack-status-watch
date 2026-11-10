@@ -9,11 +9,15 @@ struct PresetListView: View {
     NavigationStack {
       Group {
         if model.token == nil {
-          ContentUnavailableView(
-            "Not connected",
-            systemImage: "iphone.and.applewatch",
-            description: Text("Open Status for Slack on your iPhone and paste your Slack token.")
-          )
+          ScrollView {
+            ContentUnavailableView {
+              Label("Not connected", systemImage: "iphone.and.applewatch")
+            } description: {
+              Text("Open Status for Slack on your iPhone and sign in with Slack.")
+            } actions: {
+              Button("Try the demo") { model.startDemo() }
+            }
+          }
         } else {
           presetList
         }
@@ -69,6 +73,14 @@ struct PresetListView: View {
           Button("Retry") {
             Task { await model.retry() }
           }
+        }
+      }
+
+      if model.isDemo {
+        Section {
+          Button("Exit demo", role: .destructive) { model.exitDemo() }
+        } footer: {
+          Text("Demo mode. Nothing is sent to Slack.")
         }
       }
     }

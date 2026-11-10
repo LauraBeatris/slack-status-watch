@@ -8,6 +8,10 @@ final class PhoneModel {
   private(set) var presets: [StatusPreset]
   private(set) var isConnecting = false
   private(set) var isConnected: Bool
+  /*
+   Connected to the simulated workspace instead of Slack
+   */
+  private(set) var isDemo = false
   var connectionError: String?
 
   private let keychain = KeychainStore()
@@ -24,7 +28,9 @@ final class PhoneModel {
     }
     #endif
     presets = presetFile.load()
-    isConnected = keychain.read() != nil
+    let token = keychain.read()
+    isConnected = token != nil
+    isDemo = token == DemoWorkspace.token
     session.activate(presets: presets)
   }
 
@@ -52,16 +58,23 @@ final class PhoneModel {
     }
   }
 
+  func startDemo() async {
+    await connect(token: DemoWorkspace.token)
+  }
+
   private func store(token: String) async throws {
     identity = try await SlackClient(token: token).authTest()
     try keychain.write(token)
     isConnected = true
+    isDemo = token == DemoWorkspace.token
     session.sendToken(token)
   }
 
   func disconnect() {
+    if isDemo { DemoWorkspace.reset() }
     keychain.delete()
     isConnected = false
+    isDemo = false
     identity = nil
     session.sendToken("")
   }

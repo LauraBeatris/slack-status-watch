@@ -48,6 +48,15 @@ private struct ConnectView: View {
         }
       }
 
+      Section {
+        Button("Try the demo") {
+          Task { await model.startDemo() }
+        }
+        .disabled(model.isConnecting)
+      } footer: {
+        Text("Explore the app with a sample workspace, no Slack account needed. Nothing is sent to Slack.")
+      }
+
       #if DEBUG
       Section {
         DisclosureGroup("Use a token instead", isExpanded: $showsTokenField) {
@@ -74,15 +83,21 @@ private struct ConnectedView: View {
 
   var body: some View {
     List {
-      Section("Workspace") {
+      Section {
         if let identity = model.identity {
           LabeledContent("Connected to", value: identity.team)
           LabeledContent("As", value: identity.user)
         } else {
           Text("Connected")
         }
-        Button("Disconnect", role: .destructive) {
+        Button(model.isDemo ? "Exit demo" : "Disconnect", role: .destructive) {
           model.disconnect()
+        }
+      } header: {
+        Text("Workspace")
+      } footer: {
+        if model.isDemo {
+          Text("Demo mode. Statuses you set on your watch or with Siri are simulated, and nothing is sent to Slack.")
         }
       }
 
