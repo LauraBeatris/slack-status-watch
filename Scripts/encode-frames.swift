@@ -1,7 +1,7 @@
 #!/usr/bin/env swift
 // Encodes a folder of PNG frames into an H.264 MP4 that link previews can play.
 //
-//   swift Scripts/encode-frames.swift <frames-dir> <out.mp4> [fps]
+//   swift Scripts/encode-frames.swift <frames-dir> <out.mp4> [fps] [bits-per-second]
 //
 // The file is written with its index at the front, so a player that asks for
 // byte ranges can start before it has the whole thing.
@@ -17,10 +17,12 @@ func fail(_ message: String) -> Never {
 }
 
 let arguments = CommandLine.arguments
-guard arguments.count >= 3 else { fail("usage: encode-frames.swift <frames-dir> <out.mp4> [fps]") }
+guard arguments.count >= 3 else { fail("usage: encode-frames.swift <frames-dir> <out.mp4> [fps] [bits-per-second]") }
 let framesURL = URL(fileURLWithPath: arguments[1])
 let outputURL = URL(fileURLWithPath: arguments[2])
 let fps = arguments.count > 3 ? Int32(arguments[3]) ?? 30 : 30
+// The default suits a link preview: mostly flat colour and a still background
+let bitRate = arguments.count > 4 ? Int(arguments[4]) ?? 1_600_000 : 1_600_000
 
 func loadImage(_ url: URL) -> CGImage {
     guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
@@ -56,8 +58,7 @@ let input = AVAssetWriterInput(mediaType: .video, outputSettings: [
         AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_709_2,
     ],
     AVVideoCompressionPropertiesKey: [
-        // Mostly flat colour and a still background, so this is generous
-        AVVideoAverageBitRateKey: 1_600_000,
+        AVVideoAverageBitRateKey: bitRate,
         AVVideoProfileLevelKey: AVVideoProfileLevelH264HighAutoLevel,
         AVVideoExpectedSourceFrameRateKey: fps,
         AVVideoMaxKeyFrameIntervalKey: fps * 2,

@@ -4,63 +4,84 @@
 //
 //   node Scripts/render-og-video.mjs
 //
-// Headless Chrome is paused and stepped through the card's animations one frame
-// at a time, so the video is exact however slow the machine is. The frames are
-// then encoded by Scripts/encode-frames.swift. Needs Chrome, Node 22+ and Xcode.
+// With --out it renders to that file only and leaves the share card alone.
+// --width sets the output width, and --page picks another page to render:
+//
+//   node Scripts/render-og-video.mjs --width 3840 --out AppStore/promo/og-3840x2016.mp4
+//   node Scripts/render-og-video.mjs --page AppStore/design/og-demo.html --width 3840 --out AppStore/promo/og-video-demo.mp4
+//
+// A page is drawn at the size its <html> element sets. Headless Chrome is paused and
+// stepped through it one frame at a time, so the video is exact however slow the
+// machine is. A page that defines window.seek(ms) and window.DURATION is stepped
+// through those; otherwise through its Web Animations. The frames are then encoded
+// by Scripts/encode-frames.swift. Needs Chrome, Node 22+ and Xcode.
 
 import { spawn, execFileSync } from 'node:child_process';
-import { copyFileSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { parseArgs } from 'node:util';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const page = join(root, 'AppStore/design/og.html');
-const out = join(root, 'web/public');
 const chromePath = process.env.CHROME ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
-// The card is drawn at 3840 x 2016 and comes out at 1200 x 630
-const DESIGN = { width: 3840, height: 2016 };
-const SCALE = 1200 / DESIGN.width;
+const { values: options } = parseArgs({
+  options: { page: { type: 'string' }, width: { type: 'string' }, out: { type: 'string' } },
+});
+const page = options.page ? resolve(options.page) : join(root, 'AppStore/design/og.html');
+const WIDTH = Number(options.width ?? 1200);
+if (!(WIDTH > 0)) throw new Error('--width must be a positive number');
 const FPS = 60;
+
+const shareCard = !options.out;
+const video = shareCard ? join(root, 'web/public/og.mp4') : resolve(options.out);
+mkdirSync(dirname(video), { recursive: true });
 
 const work = mkdtempSync(join(tmpdir(), 'og-video-'));
 const frames = join(work, 'frames');
-execFileSync('mkdir', ['-p', frames]);
+mkdirSync(frames);
 
 const chrome = spawn(chromePath, [
   '--headless=new', '--remote-debugging-port=0', `--user-data-dir=${join(work, 'profile')}`,
-  '--hide-scrollbars', '--no-first-run', 'about:blank',
+  '--hide-scrollbars', '--no-first-run', '--autoplay-policy=no-user-gesture-required', 'about:blank',
 ], { stdio: ['ignore', 'ignore', 'pipe'] });
 
 try {
   const send = await connect(await debuggerPort(chrome));
 
-  await send('Emulation.setDeviceMetricsOverride', { ...DESIGN, deviceScaleFactor: SCALE, mobile: false });
   await send('Page.enable');
   const loaded = send.once('Page.loadEventFired');
   await send('Page.navigate', { url: pathToFileURL(page).href });
   await loaded;
 
-  const loop = await evaluate(send, `document.fonts.ready.then(() =>
-    Math.max(0, ...document.getAnimations().map((a) => a.effect.getTiming().duration)))`);
-  if (!loop) throw new Error(`${page} has no animations to render`);
+  const design = await evaluate(send, `({ width: document.documentElement.offsetWidth, height: document.documentElement.offsetHeight })`);
+  const scale = WIDTH / design.width;
+  await send('Emulation.setDeviceMetricsOverride', { ...design, deviceScaleFactor: scale, mobile: false });
 
-  const count = Math.round((loop / 1000) * FPS);
+  const duration = await evaluate(send, `Promise.resolve(window.ready ?? document.fonts.ready).then(() =>
+    window.DURATION ?? Math.max(0, ...document.getAnimations().map((a) => a.effect.getTiming().duration)))`);
+  if (!duration) throw new Error(`${page} has nothing to animate`);
+
+  const count = Math.round((duration / 1000) * FPS);
   for (let i = 0; i < count; i++) {
-    await evaluate(send, `new Promise((done) => {
-      for (const a of document.getAnimations()) { a.pause(); a.currentTime = ${(i * 1000) / FPS}; }
-      requestAnimationFrame(() => requestAnimationFrame(done));
-    })`);
+    const ms = (i * 1000) / FPS;
+    await evaluate(send, `Promise.resolve(window.seek ? window.seek(${ms}) : (() => {
+      for (const a of document.getAnimations()) { a.pause(); a.currentTime = ${ms}; }
+    })()).then(() => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))))`);
     const { data } = await send('Page.captureScreenshot', { format: 'png' });
     writeFileSync(join(frames, `${String(i).padStart(5, '0')}.png`), Buffer.from(data, 'base64'));
     process.stdout.write(`\rframe ${i + 1}/${count}`);
   }
   process.stdout.write('\n');
 
-  execFileSync('swift', [join(root, 'Scripts/encode-frames.swift'), frames, join(out, 'og.mp4'), String(FPS)], { stdio: 'inherit' });
-  copyFileSync(join(frames, '00000.png'), join(out, 'og.png'));
-  console.log(`wrote ${join(out, 'og.mp4')} and og.png`);
+  // The share card stays small for link previews. Anything else gets enough bits that
+  // gradients and text edges hold up at full size: about 0.05 bits a pixel.
+  const pixels = WIDTH * Math.round(design.height * scale);
+  const bitrate = shareCard ? 1_600_000 : Math.round(pixels * FPS * 0.05);
+  execFileSync('swift', [join(root, 'Scripts/encode-frames.swift'), frames, video, String(FPS), String(bitrate)], { stdio: 'inherit' });
+  if (shareCard) copyFileSync(join(frames, '00000.png'), join(root, 'web/public/og.png'));
+  console.log(`wrote ${video}${shareCard ? ' and og.png' : ''}`);
 } finally {
   chrome.kill();
   rmSync(work, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
