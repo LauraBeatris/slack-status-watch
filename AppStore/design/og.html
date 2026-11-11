@@ -1,4 +1,9 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="style.css">
+<!--
+  The landing page's share card. It is a six second loop: the watch taps through
+  the presets and the matching status pill lights up. Scripts/render-og-video.mjs
+  renders it to web/public/og.mp4, and its first frame to web/public/og.png.
+-->
 <style>
   html, body { width: 3840px; height: 2016px; }
   body {
@@ -10,12 +15,36 @@
   .headline { position: absolute; left: 300px; top: 500px; width: 1700px; }
   .headline h1 { margin-top: 56px; font-size: 168px; letter-spacing: -4px; }
   .headline p { margin-top: 44px; font-size: 62px; line-height: 1.3; color: rgba(255,255,255,.72); font-weight: 500; }
-  .pill { font-size: 56px; padding: 30px 64px 30px 34px; }
-  .pill img { width: 88px; height: 88px; }
+
+  /* The pills' colours come from the script below, which moves them between lit and dim */
+  .pill { font-size: 56px; padding: 30px 64px 30px 34px; border: 2px solid transparent; white-space: nowrap; backdrop-filter: blur(20px); }
+  .pill img, .pill .emoji { flex: none; width: 88px; height: 88px; }
+  .pill .emoji { font-size: 74px; line-height: 88px; text-align: center; }
   .pill small { font-size: 38px; }
-  .pill.dim { background: rgba(255,255,255,.16); color: #fff; box-shadow: none; border: 2px solid rgba(255,255,255,.22); backdrop-filter: blur(20px); }
-  .pill.dim small { color: rgba(255,255,255,.65); }
-  .emoji { width: 88px; height: 88px; border-radius: 50%; background: rgba(255,255,255,.2); display: grid; place-items: center; font-size: 50px; }
+  /* The tick's slot is closed while a pill is dim. The negative margin cancels the flex gap. */
+  .pill .slot { flex: none; width: 0; height: 64px; margin-left: -30px; }
+  .pill .check { margin-left: 0; }
+
+  /* The watch face, copied from the landing page. Sized in cqw so it scales with the case. */
+  .watch .screen { position: relative; container-type: inline-size; font-family: ui-rounded, -apple-system, system-ui, sans-serif; }
+  .watch-time { position: absolute; top: 7cqw; right: 7.5cqw; font-size: 7.7cqw; font-weight: 600; line-height: 1; }
+  .watch-title { position: absolute; top: 15cqw; left: 7.5cqw; font-size: 11cqw; font-weight: 500; line-height: 1; color: #77777c; }
+  .rows { display: grid; gap: 1.9cqw; padding: 29.8cqw 1.4cqw 0; }
+  .row {
+    position: relative; display: flex; align-items: center; gap: 4.5cqw; height: 26.9cqw;
+    padding: 0 9cqw 0 7cqw; border-radius: 6.8cqw; background: #1f1f21;
+  }
+  .row-emoji { width: 10cqw; font-size: 8.4cqw; line-height: 1; text-align: center; }
+  .row-text { flex: 1; display: grid; gap: .6cqw; line-height: 1.1; }
+  .row-title { font-size: 7.7cqw; font-weight: 500; }
+  .row-sub { font-size: 6.3cqw; color: #98989f; }
+  .row-check { width: 8cqw; height: 8cqw; fill: none; stroke: #30d158; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  /* A fingertip, so a video with no cursor still shows what caused the change */
+  .touch {
+    position: absolute; left: 60%; top: 50%; width: 16cqw; height: 16cqw; margin: -8cqw 0 0 -8cqw;
+    border-radius: 50%; background: rgba(255,255,255,.26); box-shadow: inset 0 0 0 .5cqw rgba(255,255,255,.42);
+    opacity: 0;
+  }
 </style>
 <body><div class="grain"></div>
 <div class="headline">
@@ -25,10 +54,116 @@
 </div>
 <div class="watch" style="left:2420px;top:610px;width:760px;height:1006px">
   <div class="band top"></div><div class="band bottom"></div>
-  <div class="case"><div class="screen"><img src="../raw/watch-presets.png"></div></div>
+  <div class="case"><div class="screen">
+    <span class="watch-time">10:09</span>
+    <span class="watch-title">Status</span>
+    <div class="rows">
+      <div class="row" data-status="lunch">
+        <span class="row-emoji">🍔</span>
+        <span class="row-text"><span class="row-title">Lunch</span><span class="row-sub">1h</span></span>
+        <svg class="row-check" viewBox="0 0 24 24"><path d="M4 13l5.5 6L20 5"/></svg><i class="touch"></i>
+      </div>
+      <div class="row" data-status="meeting">
+        <span class="row-emoji">📅</span>
+        <span class="row-text"><span class="row-title">In a meeting</span><span class="row-sub">1h</span></span>
+        <svg class="row-check" viewBox="0 0 24 24"><path d="M4 13l5.5 6L20 5"/></svg><i class="touch"></i>
+      </div>
+      <div class="row" data-status="focus">
+        <span class="row-emoji">🎧</span>
+        <span class="row-text"><span class="row-title">Focusing</span><span class="row-sub">2h</span></span>
+        <svg class="row-check" viewBox="0 0 24 24"><path d="M4 13l5.5 6L20 5"/></svg><i class="touch"></i>
+      </div>
+      <div class="row">
+        <span class="row-emoji">🚶</span>
+        <span class="row-text"><span class="row-title">Away</span><span class="row-sub">Until 18:00</span></span>
+      </div>
+    </div>
+  </div></div>
   <div class="crown"></div><div class="button"></div>
 </div>
-<div class="pill" style="left:2900px;top:490px"><img src="burger.png"><div>Lunch<small>Clears in 1 hour</small></div><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div>
-<div class="pill dim" style="left:2020px;top:1270px"><div>In a meeting<small>Clears in 1 hour</small></div></div>
-<div class="pill dim" style="left:3120px;top:1370px"><div>Focusing<small>Clears in 2 hours</small></div></div>
+
+<div class="pill" data-status="lunch" style="left:2900px;top:490px">
+  <img src="burger.png"><div>Lunch<small>Clears in 1 hour</small></div>
+  <span class="slot"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></span>
+</div>
+<!-- Anchored on the right, so it opens away from the watch -->
+<div class="pill" data-status="meeting" style="right:1410px;top:1270px">
+  <span class="emoji">📅</span><div>In a meeting<small>Clears in 1 hour</small></div>
+  <span class="slot"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></span>
+</div>
+<div class="pill" data-status="focus" style="left:3120px;top:1370px">
+  <span class="emoji">🎧</span><div>Focusing<small>Clears in 2 hours</small></div>
+  <span class="slot"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></span>
+</div>
+
+<script>
+  /*
+   One timeline, in milliseconds, that every animation shares and that loops with no seam:
+   Lunch is set when it starts, and the last tap sets Lunch again before it ends.
+   Everything is a Web Animation so the renderer can pause the page and step through it.
+   */
+  const LOOP = 6000;
+  const ORDER = ['meeting', 'focus', 'lunch'];
+  const FIRST_TAP = 1300;
+  const EVERY = 2000;
+  const PRESS = 180;
+  const EASE_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)';
+
+  const DIM = { backgroundColor: 'rgba(255,255,255,.16)', borderColor: 'rgba(255,255,255,.22)', color: '#fff', boxShadow: '0 40px 90px rgba(0,0,0,0)' };
+  const LIT = { backgroundColor: '#fff', borderColor: '#fff', color: '#1d1d1f', boxShadow: '0 40px 90px rgba(0,0,0,.4)' };
+
+  /* Keyframes at times on the loop. Each one's easing runs until the next. Nothing may be mid-change when the loop ends. */
+  function animate(el, points) {
+    const sorted = points
+      .map((p) => ({ ...p, at: ((p.at % LOOP) + LOOP) % LOOP }))
+      .sort((a, b) => a.at - b.at);
+    const { at, easing, ...resting } = sorted.at(-1);
+    el.animate([
+      { offset: 0, ...resting },
+      ...sorted.map(({ at, ...frame }) => ({ offset: at / LOOP, ...frame })),
+      { offset: 1, ...resting },
+    ], { duration: LOOP, iterations: Infinity });
+  }
+
+  /* `on` from onAt until offAt, `off` the rest of the loop */
+  function toggle(el, off, on, onAt, offAt, { enter = 300, exit = 200, delay = 0, exitEasing = 'ease' } = {}) {
+    animate(el, [
+      { at: onAt + delay, ...off, easing: EASE_OUT },
+      { at: onAt + delay + enter, ...on },
+      { at: offAt, ...on, easing: exitEasing },
+      { at: offAt + exit, ...off },
+    ]);
+  }
+
+  ORDER.forEach((status, i) => {
+    const tap = FIRST_TAP + i * EVERY;
+    const set = tap + PRESS;
+    const cleared = set + EVERY;
+    const row = document.querySelector(`.row[data-status="${status}"]`);
+    const pill = document.querySelector(`.pill[data-status="${status}"]`);
+
+    /* The fingertip lands, the row gives under it, and it lifts */
+    animate(row.querySelector('.touch'), [
+      { at: tap - 220, opacity: 0, transform: 'scale(1.35)', easing: EASE_OUT },
+      { at: tap, opacity: 1, transform: 'scale(1)' },
+      { at: tap + PRESS, opacity: 1, transform: 'scale(1)', easing: 'ease' },
+      { at: tap + PRESS + 260, opacity: 0, transform: 'scale(1.2)' },
+    ]);
+    toggle(row, { transform: 'scale(1)', backgroundColor: '#1f1f21' }, { transform: 'scale(.97)', backgroundColor: '#2c2c2f' },
+      tap, tap + PRESS, { enter: 160, exit: 160, exitEasing: EASE_OUT });
+
+    /* The tick is drawn left to right. Unchecking fades fast, then the clip resets out of sight. */
+    const tick = row.querySelector('.row-check');
+    toggle(tick, { opacity: 0 }, { opacity: 1 }, set, cleared, { enter: 1, exit: 100 });
+    toggle(tick, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)' }, set, cleared + 100, { delay: 60, enter: 280, exit: 1 });
+
+    /* Slack follows a beat behind the watch */
+    const lit = { delay: 90, enter: 340, exit: 220 };
+    toggle(pill, DIM, LIT, set, cleared, lit);
+    toggle(pill.querySelector('small'), { color: 'rgba(255,255,255,.65)' }, { color: '#86868b' }, set, cleared, lit);
+    toggle(pill.querySelector('.slot'), { width: '0px', marginLeft: '-30px' }, { width: '64px', marginLeft: '10px' }, set, cleared, lit);
+    toggle(pill.querySelector('.check'), { opacity: 0, transform: 'scale(.5)' }, { opacity: 1, transform: 'scale(1)' },
+      set, cleared, { delay: 170, enter: 300, exit: 120 });
+  });
+</script>
 </body>

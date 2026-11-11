@@ -15,8 +15,10 @@ cd AppStore/design
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1320,2868 --screenshot=../iphone-6.9/01-hero.png "file://$PWD/01-hero.html"
 ```
 
-The landing page's share image, `web/public/og.png`, comes from `design/og.html`. Render it at `--window-size=3840,2016`, then scale it down:
+The landing page's share card comes from `design/og.html`, a six second loop of the watch tapping through the presets. Open the file in a browser to watch it. One command renders it to `web/public/og.mp4` (the `og:video`) and its first frame to `web/public/og.png` (the `og:image`), both at 1200 x 630:
 
 ```sh
-sips -z 630 1200 og-full.png --out ../../web/public/og.png
+node Scripts/render-og-video.mjs
 ```
+
+It needs Chrome, Node 22 or later and Xcode's `swift`. Keep the loop seamless: the first frame is the poster, so the card has to end the way it starts.
