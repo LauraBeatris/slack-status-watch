@@ -39,6 +39,14 @@ public struct SlackClient: Sendable {
     return SlackIdentity(team: response.team ?? "", user: response.user ?? "")
   }
 
+  /*
+   Tells Slack to invalidate the token, so a copy of it is worthless afterwards
+   */
+  public func revoke() async throws {
+    if demo != nil { return }
+    _ = try await call("auth.revoke", body: Optional<EmptyBody>.none, as: OKResponse.self)
+  }
+
   public func setStatus(_ status: SlackStatus) async throws {
     if let demo {
       demo.write(status)

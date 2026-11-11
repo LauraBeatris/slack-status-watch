@@ -70,8 +70,15 @@ final class PhoneModel {
     session.sendToken(token)
   }
 
+  /*
+   Forgets the token here and on the watch right away, then asks Slack to revoke it.
+   Revoking is best effort: offline, the token stays valid until removed in Slack
+   */
   func disconnect() {
     if isDemo { DemoWorkspace.reset() }
+    if let token = keychain.read() {
+      Task { try? await SlackClient(token: token).revoke() }
+    }
     keychain.delete()
     isConnected = false
     isDemo = false
