@@ -17,6 +17,10 @@ struct DemoWorkspaceTests {
     #expect(try await client.authTest() == DemoWorkspace.identity)
   }
 
+  @Test func `revoking the demo token does nothing`() async throws {
+    try await client.revoke()
+  }
+
   @Test func `a status set in the demo reads back`() async throws {
     let status = SlackStatus(text: "Lunch", emoji: ":hamburger:", expiration: Date(timeIntervalSince1970: 4_000_000_000))
 

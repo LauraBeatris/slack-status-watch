@@ -33,6 +33,17 @@ struct SlackClientTests {
     #expect(body["profile"]?["status_expiration"] as? Int == 0)
   }
 
+  @Test func `revoking calls auth revoke with the token`() async throws {
+    let stub = StubSlack(response: #"{"ok":true,"revoked":true}"#)
+    let client = SlackClient(token: stub.token, session: stub.session)
+
+    try await client.revoke()
+
+    let request = try #require(stub.lastRequest())
+    #expect(request.url?.absoluteString == "https://slack.com/api/auth.revoke")
+    #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer \(stub.token)")
+  }
+
   @Test func `a Slack error surfaces its code`() async throws {
     let stub = StubSlack(response: #"{"ok":false,"error":"token_revoked"}"#)
     let client = SlackClient(token: stub.token, session: stub.session)
