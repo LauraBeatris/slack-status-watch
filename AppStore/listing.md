@@ -5,7 +5,7 @@ Paste these into App Store Connect. Character counts are checked against Apple's
 ## App Information
 
 - **Name:** Status for Slack
-- **Subtitle:** Set it from your Apple Watch
+- **Subtitle:** One-tap status from your wrist
 - **Primary category:** Productivity
 - **Secondary category:** Business
 - **Content rights:** Does not contain, show, or access third-party content
@@ -49,7 +49,7 @@ Status for Slack is an independent app and is not made by or affiliated with Sla
 
 **Keywords**
 
-apple watch,presence,away,busy,meeting,lunch,focus,out of office,siri,shortcuts,presets,work,remote
+presence,away,busy,meeting,lunch,focus,out of office,siri,shortcuts,presets,work,remote,wrist
 
 **Support URL:** https://status-for-slack.vercel.app/support
 
