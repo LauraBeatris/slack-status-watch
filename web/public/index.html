@@ -241,6 +241,10 @@
   .closing h2 { margin-top: 28px; font-family: var(--rounded); font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.1; font-weight: 800; letter-spacing: -.02em; text-wrap: balance; }
   .closing p { margin-top: 12px; max-width: 28em; color: var(--muted); text-wrap: pretty; }
   .closing .button { margin-top: 30px; }
+  .slack-install { display: grid; justify-items: center; gap: 12px; margin-top: 40px; }
+  .slack-install p { margin: 0; font-size: .9375rem; color: var(--faint); }
+  .slack-install a { display: inline-block; border-radius: 6px; line-height: 0; }
+  .slack-install img { display: block; }
 
   /* Footer */
   .site-footer {
@@ -419,7 +423,7 @@
       </article>
       <article class="reveal">
         <h3>Does it work with my company&rsquo;s Slack workspace?</h3>
-        <p>It works with any Slack workspace. Some workspaces only allow apps an admin has approved, so you may need to ask yours. <a href="/support">More help</a></p>
+        <p>It works with any Slack workspace. Some workspaces only allow apps an admin has approved, so you may need to ask yours. You can also <a href="https://status-for-slack.vercel.app/api/slack/install">add it to your workspace</a> from here first. <a href="/support">More help</a></p>
       </article>
     </div>
   </section>
@@ -430,6 +434,10 @@
     <p>You'll need a Slack workspace. Some workspaces ask an admin to approve new apps.</p>
     <!-- TODO: replace with the real App Store URL once the app has an ID -->
     <a class="button" href="https://apps.apple.com/app/id0000000000">Download on the App Store</a>
+    <div class="slack-install">
+      <p>Adding it to your Slack workspace first, or approving it for your team?</p>
+      <a href="https://status-for-slack.vercel.app/api/slack/install"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" loading="lazy"></a>
+    </div>
   </section>
 </main>
 
