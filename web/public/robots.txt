@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
-Sitemap: https://status-for-slack.vercel.app/sitemap.xml
+Sitemap: https://www.statusforslack.app/sitemap.xml
