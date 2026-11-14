@@ -12,7 +12,7 @@ These block approval or leave the launch broken. Do them in order.
    - Production on Vercel runs `seo-custom-domain`, which isn't on any shared branch. A deploy from `main` or `landing-page` would drop the custom domain redirects in `web/vercel.json` and the new SEO.
    - `AppStore/listing.md` on `main` still has the rejected subtitle, "Set it from your Apple Watch".
 2. ~~**[Code] Declare UserDefaults in both privacy manifests.**~~ Done in e2b21e8. The demo store in `Packages/SlackStatusKit/Sources/SlackStatusKit/DemoWorkspace.swift` uses `UserDefaults`, a required-reason API. `Apps/Phone/PrivacyInfo.xcprivacy` and `Apps/Watch/PrivacyInfo.xcprivacy` both have an empty `NSPrivacyAccessedAPITypes`. Add `NSPrivacyAccessedAPICategoryUserDefaults` with reason `CA92.1`. Without it, App Store Connect flags the build (ITMS-91053) and can refuse it. Build 4 added the demo, so it's the first build affected.
-3. **[Code] Upload a new build.** Build 5 was uploaded on 2026-11-14 but uses the old Resend Slack app. Submit build 6, which uses the new client ID. The manifest fix needs a new binary:
+3. **[Code] Upload a new build.** Build 5 was uploaded on 2026-11-14 but uses the old Resend Slack app. Build 6, which uses the new client ID, was uploaded on 2026-11-14. Select build 6 on the 1.0 version. The manifest fix needs a new binary:
    - Bump `CURRENT_PROJECT_VERSION` in `project.yml` from 4 to 5 and run `xcodegen`. Keep `MARKETING_VERSION` at 1.0.0.
    - Archive the `Status` scheme in Release and upload with `ExportOptions.plist`.
    - In `AppStore/listing.md`, the review notes say "build 4 adds a demonstration mode". Change it to the build you submit.
