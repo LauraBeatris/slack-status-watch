@@ -5,7 +5,7 @@ Paste these into App Store Connect. Character counts are checked against Apple's
 ## App Information
 
 - **Name:** Status for Slack
-- **Subtitle:** Set it from your Apple Watch
+- **Subtitle:** One-tap status from your wrist
 - **Primary category:** Productivity
 - **Secondary category:** Business
 - **Content rights:** Does not contain, show, or access third-party content
@@ -49,17 +49,17 @@ Status for Slack is an independent app and is not made by or affiliated with Sla
 
 **Keywords**
 
-apple watch,presence,away,busy,meeting,lunch,focus,out of office,siri,shortcuts,presets,work,remote
+presence,away,busy,meeting,lunch,focus,out of office,siri,shortcuts,presets,work,remote,wrist
 
-**Support URL:** https://status-for-slack.vercel.app/support
+**Support URL:** https://www.statusforslack.app/support
 
-**Marketing URL:** leave empty
+**Marketing URL:** https://www.statusforslack.app
 
 **Copyright:** 2026 Laura Serafim
 
 ## App Privacy
 
-- **Privacy policy URL:** https://status-for-slack.vercel.app/privacy
+- **Privacy policy URL:** https://www.statusforslack.app/privacy
 - **Data collection:** choose "No, we do not collect data from this app".
 
 The sign-in callback exchanges a one-time code and keeps nothing, so it isn't collection under Apple's definition.

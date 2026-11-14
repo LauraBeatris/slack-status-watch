@@ -1,22 +1,17 @@
-# App Store screenshots
+# App Store assets
 
-- `iphone-6.9/`: the five branded iPhone screenshots at 1320 x 2868, upload as the 6.9" set. App Store Connect scales them down for smaller iPhones.
-- `watch/`: plain Apple Watch captures at 416 x 496, upload as the watch set.
-- `header/`: the product page header at 3840 x 1646 and the search results image at 3840 x 2560, from `design/header.html` and `design/search-results.html`. Render each with its size as `--window-size`.
+- `iphone-6.9/` (1320 x 2868) and `iphone-6.3/` (1206 x 2622): the five iPhone screenshots.
+- `watch/` (416 x 496): plain Apple Watch captures.
+- `header/`: the product page header and search results image, from `design/header.html` and `design/search-results.html`.
+- `design/`: one HTML file per image plus `style.css`. `og.html` is the landing page's share card (`web/public/og.mp4` and `og.png`).
 - `raw/`: the simulator captures the slides are built from.
-- `design/`: one HTML file per slide plus `style.css`.
+- `listing.md`: the store listing copy.
 
-Both apps have a debug-only `-screenshots` launch argument that loads the default presets, marks Lunch active and skips the network, so captures never touch a real Slack account.
+Launch either app with `-screenshots` (debug builds) to load the default presets with Lunch active and no network calls.
 
-To regenerate a slide after editing its HTML:
+Render a slide with headless Chrome at its size as `--window-size`:
 
 ```sh
 cd AppStore/design
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --force-device-scale-factor=1 --window-size=1320,2868 --screenshot=../iphone-6.9/01-hero.png "file://$PWD/01-hero.html"
-```
-
-The landing page's share image, `web/public/og.png`, comes from `design/og.html`. Render it at `--window-size=3840,2016`, then scale it down:
-
-```sh
-sips -z 630 1200 og-full.png --out ../../web/public/og.png
 ```
