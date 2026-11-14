@@ -78,12 +78,12 @@ These block approval or leave the launch broken. Do them in order.
 
 ## Web
 
-- ~~**[Code] Update the privacy policy.**~~ Done on 2026-11-14, except the contact email. `web/public/privacy.html`:
+- ~~**[Code] Update the privacy policy.**~~ Done on 2026-11-14. `web/public/privacy.html`:
   - Remove "To revoke the app's access on Slack's side, remove it under your Slack workspace's app settings". Since d158d19, Disconnect revokes the token itself.
   - Mention that demo mode keeps its simulated status on the device.
   - Add a contact email. A GitHub profile is the only contact on the privacy and support pages right now.
   - Update "Last updated" and the `privacy` `<lastmod>` in `web/public/sitemap.xml`.
-- ~~**[Code] Update the support page.**~~ Done on 2026-11-14, except the contact email. `web/public/support.html`:
+- ~~**[Code] Update the support page.**~~ Done on 2026-11-14. `web/public/support.html`:
   - Add the same contact email.
   - Say that Disconnect also revokes access in Slack.
   - Explain "Try the demo".
@@ -100,7 +100,7 @@ These block approval or leave the launch broken. Do them in order.
 ## Legal and support
 
 - ~~**[Code] Add the copyright and Slack disclaimer to every page.**~~ Done on 2026-11-14. `web/public/privacy.html` and `web/public/support.html` have neither. Copy the footer from `web/public/index.html`: "© 2026 Laura Serafim. Status for Slack is an independent app and is not made by or affiliated with Slack Technologies." The App Store description and `README.md` already have the disclaimer.
-- **[You] Pick a public support email.** App Store Connect, Slack's display info and the web pages all need a way to reach you besides GitHub. GitHub issues are on and the repo is public, so "open an issue" works too.
+- ~~**[You] Pick a public support email.**~~ Done on 2026-11-14: support@laurabeatris.com (a Resend inbox), now on the privacy and support pages. App Store Connect, Slack's display info and the web pages all need a way to reach you besides GitHub. GitHub issues are on and the repo is public, so "open an issue" works too.
 - **[You] Know the domain trademark risk.** [Slack's brand terms](https://slack.com/terms-of-service/slack-brand) say not to register domains containing "slack". `statusforslack.app` does. It isn't a review blocker, but Slack could ask for it to change. Keep `status-for-slack.vercel.app` working as a fallback.
 - **[You] Check that the name and copyright holder match.** The App Store copyright, the site footer and the JSON-LD author all say "Laura Serafim". Make sure it matches the name on your Apple Developer account, since the App Store shows that account name as the seller.
 

@@ -67,7 +67,7 @@ The sign-in callback exchanges a one-time code and keeps nothing, so it isn't co
 ## App Review Information
 
 - **Sign-in required:** Yes. Enter the demo account's email and password.
-- **Contact:** your name, email, and phone.
+- **Contact:** your name, support@laurabeatris.com, and your phone.
 
 **Notes**
 
