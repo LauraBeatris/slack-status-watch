@@ -24,7 +24,7 @@ These block approval or leave the launch broken. Do them in order.
    - Demo account email and password for `statusforslackreview.slack.com`. Before submitting, sign in with them once to confirm they still work.
    - Contact name, email and phone.
    - Paste the notes from `AppStore/listing.md`.
-6. **[You] Confirm public distribution is on for the Slack app.** At api.slack.com/apps → Status for Slack → Manage Distribution, it must say "Distributed". Without it, only your own workspace can sign in, and App Review's live-Slack path fails. Then sign in from a second workspace you don't own, on a Release build: it should land on the presets with the right workspace name.
+6. **[You] Confirm public distribution is on for the Slack app.** Confirmed on 2026-11-14: "Publicly Distributed". Still to do: the sign-in test from a second workspace below. At api.slack.com/apps → Status for Slack → Manage Distribution, it must say "Distributed". Without it, only your own workspace can sign in, and App Review's live-Slack path fails. Then sign in from a second workspace you don't own, on a Release build: it should land on the presets with the right workspace name.
 7. **[You] Set the App Store Connect URLs.** Use `www.statusforslack.app` for all three (they're already in `AppStore/listing.md`):
    - Support URL: `https://www.statusforslack.app/support`
    - Marketing URL: `https://www.statusforslack.app`
