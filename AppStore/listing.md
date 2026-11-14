@@ -74,7 +74,7 @@ The sign-in callback exchanges a one-time code and keeps nothing, so it isn't co
 Status for Slack sets the user's own Slack status from Apple Watch presets.
 
 ABOUT THE AUTHENTICATION CODE
-Sign-in uses Slack OAuth. Slack's sign-in page asks for a confirmation code that Slack emails to the account. That step belongs to Slack and the app can't skip it, so build 5 includes a demonstration mode that needs no account, password or code.
+Sign-in uses Slack OAuth. Slack's sign-in page asks for a confirmation code that Slack emails to the account. That step belongs to Slack and the app can't skip it, so build 6 includes a demonstration mode that needs no account, password or code.
 
 TO REVIEW WITH THE DEMONSTRATION MODE (RECOMMENDED)
 1. Open Status on the iPhone and tap "Try the demo". The app connects to a sample workspace and shows the presets.

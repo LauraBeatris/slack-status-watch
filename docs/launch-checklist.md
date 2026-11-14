@@ -12,7 +12,7 @@ These block approval or leave the launch broken. Do them in order.
    - Production on Vercel runs `seo-custom-domain`, which isn't on any shared branch. A deploy from `main` or `landing-page` would drop the custom domain redirects in `web/vercel.json` and the new SEO.
    - `AppStore/listing.md` on `main` still has the rejected subtitle, "Set it from your Apple Watch".
 2. ~~**[Code] Declare UserDefaults in both privacy manifests.**~~ Done in e2b21e8. The demo store in `Packages/SlackStatusKit/Sources/SlackStatusKit/DemoWorkspace.swift` uses `UserDefaults`, a required-reason API. `Apps/Phone/PrivacyInfo.xcprivacy` and `Apps/Watch/PrivacyInfo.xcprivacy` both have an empty `NSPrivacyAccessedAPITypes`. Add `NSPrivacyAccessedAPICategoryUserDefaults` with reason `CA92.1`. Without it, App Store Connect flags the build (ITMS-91053) and can refuse it. Build 4 added the demo, so it's the first build affected.
-3. ~~**[Code] Upload a new build.**~~ Done on 2026-11-14: build 5 (1.0.0) uploaded to App Store Connect. The manifest fix needs a new binary:
+3. **[Code] Upload a new build.** Build 5 was uploaded on 2026-11-14 but uses the old Resend Slack app. Submit build 6, which uses the new client ID. The manifest fix needs a new binary:
    - Bump `CURRENT_PROJECT_VERSION` in `project.yml` from 4 to 5 and run `xcodegen`. Keep `MARKETING_VERSION` at 1.0.0.
    - Archive the `Status` scheme in Release and upload with `ExportOptions.plist`.
    - In `AppStore/listing.md`, the review notes say "build 4 adds a demonstration mode". Change it to the build you submit.
@@ -24,7 +24,7 @@ These block approval or leave the launch broken. Do them in order.
    - Demo account email and password for `statusforslackreview.slack.com`. Before submitting, sign in with them once to confirm they still work.
    - Contact name, email and phone.
    - Paste the notes from `AppStore/listing.md`.
-6. **[You] Confirm public distribution is on for the Slack app.** Confirmed on 2026-11-14: "Publicly Distributed". Still to do: the sign-in test from a second workspace below. At api.slack.com/apps → Status for Slack → Manage Distribution, it must say "Distributed". Without it, only your own workspace can sign in, and App Review's live-Slack path fails. Then sign in from a second workspace you don't own, on a Release build: it should land on the presets with the right workspace name.
+6. **[You] Confirm public distribution is on for the Slack app.** On 2026-11-14 the app moved out of the Resend workspace into a new "Status for Slack" workspace (app A0CHBSN88H5, publicly distributed). Delete the old Resend app (A0CBCUDDDGW) once build 6 signs in. Still to do: the sign-in test from a second workspace below. At api.slack.com/apps → Status for Slack → Manage Distribution, it must say "Distributed". Without it, only your own workspace can sign in, and App Review's live-Slack path fails. Then sign in from a second workspace you don't own, on a Release build: it should land on the presets with the right workspace name.
 7. **[You] Set the App Store Connect URLs.** Use `www.statusforslack.app` for all three (they're already in `AppStore/listing.md`):
    - Support URL: `https://www.statusforslack.app/support`
    - Marketing URL: `https://www.statusforslack.app`
@@ -54,7 +54,7 @@ These block approval or leave the launch broken. Do them in order.
   - Redirect URL: `https://status-for-slack.vercel.app/api/slack/callback`.
   - User scopes: `users.profile:read` and `users.profile:write`, with no bot scopes.
   - Token rotation: off.
-  - Client ID: `3972288438658.12386965455574`, the same in `project.yml` and the Vercel `SLACK_CLIENT_ID`.
+  - Client ID: `12599985929749.12589906280583`, the same in `project.yml` and the Vercel `SLACK_CLIENT_ID`.
 - **[You] Finish the Slack app's display info.** Slack shows it on the consent screen: add the app icon, a background colour, a short description and a long description in Basic Information → Display Information. **[Code]** Optionally, mirror them in the manifest's `display_information` (`long_description`, `background_color`) so a rebuild from the manifest keeps them.
 - **[You] Keep the redirect URI on `vercel.app`.** The callback (`web/api/slack/callback.ts`) builds `redirect_uri` from its own origin, so it must stay where Slack has it registered. Moving it to `www.statusforslack.app` takes four steps: add the new URL in Slack, change `SLACK_OAUTH_REDIRECT_URL` in `project.yml`, ship a new build, and keep the old URL for older builds. That can wait until after launch.
 - **[You] Decide on the Slack Marketplace (optional for GA).** Public distribution is enough for any workspace to sign in. A Marketplace listing adds discoverability, but Slack reviews it first: it checks a support email, privacy policy, icon and descriptions, and that the name uses "for Slack" only to mark a third-party integration, which "Status for Slack" does ([Slack's checklist](https://docs.slack.dev/slack-marketplace/is-your-slack-app-ready-for-the-slack-marketplace)).
