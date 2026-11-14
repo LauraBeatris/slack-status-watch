@@ -6,6 +6,8 @@ Everything left before Status for Slack is public. Audited on 2026-11-14 against
 
 ## Blockers
 
+**Status on 2026-11-14:** version 1.0 with build 6 was submitted to App Review, set to release manually. App Store ID: 6826875571.
+
 These block approval or leave the launch broken. Do them in order.
 
 1. ~~**[You] Merge the open work into `main`.**~~ Done on 2026-11-14: PR #1 merged into `landing-page`, and `landing-page` merged into `main`. Merge PR [LauraBeatris/slack-status-watch#1](https://github.com/LauraBeatris/slack-status-watch/pull/1) (`seo-custom-domain` → `landing-page`; it's no longer a draft and has no conflicts), then merge `landing-page` into `main`. Until then:
