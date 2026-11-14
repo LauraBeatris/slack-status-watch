@@ -51,15 +51,15 @@ Status for Slack is an independent app and is not made by or affiliated with Sla
 
 presence,away,busy,meeting,lunch,focus,out of office,siri,shortcuts,presets,work,remote,wrist
 
-**Support URL:** https://www.statusforslack.app/support
+**Support URL:** https://www.wriststatus.com/support
 
-**Marketing URL:** https://www.statusforslack.app
+**Marketing URL:** https://www.wriststatus.com
 
 **Copyright:** 2026 Laura Serafim
 
 ## App Privacy
 
-- **Privacy policy URL:** https://www.statusforslack.app/privacy
+- **Privacy policy URL:** https://www.wriststatus.com/privacy
 - **Data collection:** choose "No, we do not collect data from this app".
 
 The sign-in callback exchanges a one-time code and keeps nothing, so it isn't collection under Apple's definition.

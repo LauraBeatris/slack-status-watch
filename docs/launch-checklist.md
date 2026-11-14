@@ -25,10 +25,10 @@ These block approval or leave the launch broken. Do them in order.
    - Contact name, email and phone.
    - Paste the notes from `AppStore/listing.md`.
 6. **[You] Confirm public distribution is on for the Slack app.** On 2026-11-14 the app moved out of the Resend workspace into a new "Status for Slack" workspace (app A0CHBSN88H5, publicly distributed). Delete the old Resend app (A0CBCUDDDGW) once build 6 signs in. Still to do: the sign-in test from a second workspace below. At api.slack.com/apps → Status for Slack → Manage Distribution, it must say "Distributed". Without it, only your own workspace can sign in, and App Review's live-Slack path fails. Then sign in from a second workspace you don't own, on a Release build: it should land on the presets with the right workspace name.
-7. **[You] Set the App Store Connect URLs.** Use `www.statusforslack.app` for all three (they're already in `AppStore/listing.md`):
-   - Support URL: `https://www.statusforslack.app/support`
-   - Marketing URL: `https://www.statusforslack.app`
-   - Privacy Policy URL: `https://www.statusforslack.app/privacy`
+7. **[You] Set the App Store Connect URLs.** Use `www.wriststatus.com` for all three (they're already in `AppStore/listing.md`):
+   - Support URL: `https://www.wriststatus.com/support`
+   - Marketing URL: `https://www.wriststatus.com`
+   - Privacy Policy URL: `https://www.wriststatus.com/privacy`
 8. **[You] Choose manual release.** In App Store Connect → version → Version Release, pick "Manually release this version". The App Store ID only exists after approval, and the site needs it before people arrive (see "After approval").
 
 ## iOS and watchOS app
@@ -56,7 +56,7 @@ These block approval or leave the launch broken. Do them in order.
   - Token rotation: off.
   - Client ID: `12599985929749.12589906280583`, the same in `project.yml` and the Vercel `SLACK_CLIENT_ID`.
 - **[You] Finish the Slack app's display info.** Slack shows it on the consent screen: add the app icon, a background colour, a short description and a long description in Basic Information → Display Information. **[Code]** Optionally, mirror them in the manifest's `display_information` (`long_description`, `background_color`) so a rebuild from the manifest keeps them.
-- **[You] Keep the redirect URI on `vercel.app`.** The callback (`web/api/slack/callback.ts`) builds `redirect_uri` from its own origin, so it must stay where Slack has it registered. Moving it to `www.statusforslack.app` takes four steps: add the new URL in Slack, change `SLACK_OAUTH_REDIRECT_URL` in `project.yml`, ship a new build, and keep the old URL for older builds. That can wait until after launch.
+- **[You] Keep the redirect URI on `vercel.app`.** The callback (`web/api/slack/callback.ts`) builds `redirect_uri` from its own origin, so it must stay where Slack has it registered. Moving it to `www.wriststatus.com` takes four steps: add the new URL in Slack, change `SLACK_OAUTH_REDIRECT_URL` in `project.yml`, ship a new build, and keep the old URL for older builds. That can wait until after launch.
 - **[You] Decide on the Slack Marketplace (optional for GA).** Public distribution is enough for any workspace to sign in. A Marketplace listing adds discoverability, but Slack reviews it first: it checks a support email, privacy policy, icon and descriptions, and that the name uses "for Slack" only to mark a third-party integration, which "Status for Slack" does ([Slack's checklist](https://docs.slack.dev/slack-marketplace/is-your-slack-app-ready-for-the-slack-marketplace)).
 
 ## App Store
@@ -88,9 +88,9 @@ These block approval or leave the launch broken. Do them in order.
   - Say that Disconnect also revokes access in Slack.
   - Explain "Try the demo".
 - **[Code] Deploy to production after the web edits.** Run `vercel --prod` from `web/`, after asking. Deploy from the merged branch, not `seo-custom-domain`.
-- **[You] Add the site to Google Search Console.** Add the `statusforslack.app` domain property (DNS TXT record) or the `https://www.statusforslack.app` URL-prefix property, then submit `https://www.statusforslack.app/sitemap.xml`.
+- **[You] Add the site to Google Search Console.** Add the `wriststatus.com` domain property (DNS TXT record) or the `https://www.wriststatus.com` URL-prefix property, then submit `https://www.wriststatus.com/sitemap.xml`.
 - **Verified on 2026-11-14:**
-  - `www.statusforslack.app`, `/privacy`, `/support`, `/og.png` and `/sitemap.xml` return 200.
+  - `www.wriststatus.com`, `/privacy`, `/support`, `/og.png` and `/sitemap.xml` return 200.
   - The apex and `status-for-slack.vercel.app` 308 to `www`.
   - `status-for-slack.vercel.app/api/slack/callback` answers without redirecting to `www`.
   - Vercel has `SLACK_CLIENT_ID` (production and preview) and `SLACK_CLIENT_SECRET` (production, sensitive).
@@ -101,7 +101,7 @@ These block approval or leave the launch broken. Do them in order.
 
 - ~~**[Code] Add the copyright and Slack disclaimer to every page.**~~ Done on 2026-11-14. `web/public/privacy.html` and `web/public/support.html` have neither. Copy the footer from `web/public/index.html`: "© 2026 Laura Serafim. Status for Slack is an independent app and is not made by or affiliated with Slack Technologies." The App Store description and `README.md` already have the disclaimer.
 - ~~**[You] Pick a public support email.**~~ Done on 2026-11-14: support@laurabeatris.com (a Resend inbox), now on the privacy and support pages. App Store Connect, Slack's display info and the web pages all need a way to reach you besides GitHub. GitHub issues are on and the repo is public, so "open an issue" works too.
-- **[You] Know the domain trademark risk.** [Slack's brand terms](https://slack.com/terms-of-service/slack-brand) say not to register domains containing "slack". `statusforslack.app` does. It isn't a review blocker, but Slack could ask for it to change. Keep `status-for-slack.vercel.app` working as a fallback.
+- ~~**[You] Know the domain trademark risk.**~~ Resolved on 2026-11-14: the site moved to `www.wriststatus.com`, and `statusforslack.app` redirects there. Let `statusforslack.app` expire instead of renewing it. [Slack's brand terms](https://slack.com/terms-of-service/slack-brand) say not to register domains containing "slack". `statusforslack.app` does. It isn't a review blocker, but Slack could ask for it to change. Keep `status-for-slack.vercel.app` working as a fallback.
 - **[You] Check that the name and copyright holder match.** The App Store copyright, the site footer and the JSON-LD author all say "Laura Serafim". Make sure it matches the name on your Apple Developer account, since the App Store shows that account name as the seller.
 
 ## After approval, before releasing

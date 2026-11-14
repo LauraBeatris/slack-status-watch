@@ -5,7 +5,13 @@
     {
       "source": "/:path((?!api/).*)",
       "has": [{ "type": "host", "value": "status-for-slack.vercel.app" }],
-      "destination": "https://www.statusforslack.app/:path",
+      "destination": "https://www.wriststatus.com/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "(?:www\\.)?statusforslack\\.app" }],
+      "destination": "https://www.wriststatus.com/:path",
       "permanent": true
     }
   ],
