@@ -75,7 +75,8 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  /* The gutter keeps the header where it was when a short page has no scrollbar */
+  html { -webkit-text-size-adjust: 100%; scrollbar-gutter: stable; }
   body {
     margin: 0;
     font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
@@ -95,13 +96,21 @@
   a { color: inherit; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 
+  /* Moving between pages is a dissolve, not a cut. They share a header and a background, so only the words change */
+  @view-transition { navigation: auto; }
+  ::view-transition-group(root) { animation-duration: 200ms; }
+
   .wrap { max-width: 1120px; margin-inline: auto; padding-inline: var(--gutter); }
 
   /* Header */
   .site-header { display: flex; align-items: center; justify-content: space-between; padding-block: 22px; }
   .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; text-decoration: none; }
   .brand img { border-radius: 22.5%; }
-  .site-header nav a { color: var(--muted); text-decoration: none; font-weight: 500; padding: 8px 0; transition: color 150ms ease; }
+  .site-header nav a { color: var(--muted); text-decoration: none; font-weight: 500; padding: 8px 0; }
+
+  /* Touch gets no hover and the tap highlight is off, so a pressed link dims at once and eases back */
+  .brand, .site-header nav a, .site-footer a, p a { transition: opacity 200ms ease, color 150ms ease; }
+  .brand:active, .site-header nav a:active, .site-footer a:active, p a:active { opacity: .6; transition: opacity 0s, color 150ms ease; }
 
   /* Hero */
   .hero {
@@ -128,7 +137,7 @@
     box-shadow: 0 12px 32px rgba(0, 0, 0, .3);
     transition: transform 160ms var(--ease-out), background-color 150ms ease;
   }
-  .button:active { transform: scale(.97); }
+  .button:active { transform: scale(.97); background: #e9e1ea; }
   .note { color: var(--faint); font-size: .9375rem; font-weight: 500; }
 
   /* Demo: the pill is the Slack side, the watch is the wrist */
@@ -158,7 +167,11 @@
   .pill-text { font-weight: 600; line-height: 1.2; }
   .pill-text small { display: block; font-size: .8125rem; font-weight: 500; color: #6e6e73; }
   .pill-check { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #34c759; }
-  .pill-check svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+  .pill-check svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round;
+    /* Drawn a beat after the tick on the watch: the wrist first, then Slack */
+    clip-path: inset(0);
+    transition: opacity 0s, clip-path 280ms var(--ease-out) 80ms;
+  }
 
   .watch { position: relative; aspect-ratio: 820 / 1085; }
   .band {
@@ -210,6 +223,11 @@
     opacity: 1; clip-path: inset(0);
     transition: opacity 0s, clip-path 280ms var(--ease-out) 60ms;
   }
+  /* Every tap gets an answer. data-redraw wipes a tick the same way unchecking does, and taking it off draws it again */
+  .row[aria-pressed="true"][data-redraw] .row-check, .pill[data-redraw] .pill-check svg {
+    opacity: 0; clip-path: inset(0 100% 0 0);
+    transition: opacity 100ms ease, clip-path 0s 100ms;
+  }
 
   .hint { margin-top: clamp(64px, 9vw, 92px); color: var(--faint); font-size: .9375rem; font-weight: 500; }
 
@@ -246,7 +264,8 @@
   .closing .button { margin-top: 30px; }
   .slack-install { display: grid; justify-items: center; gap: 12px; margin-top: 40px; }
   .slack-install p { margin: 0; font-size: .9375rem; color: var(--faint); }
-  .slack-install a { display: inline-block; border-radius: 6px; line-height: 0; }
+  .slack-install a { display: inline-block; border-radius: 6px; line-height: 0; transition: transform 160ms var(--ease-out), opacity 200ms ease; }
+  .slack-install a:active { transform: scale(.97); }
   .slack-install img { display: block; }
 
   /* Footer */
@@ -256,7 +275,7 @@
     border-top: 1px solid var(--line); color: var(--faint); font-size: .875rem;
   }
   .site-footer ul { display: flex; gap: 24px; }
-  .site-footer a { display: inline-block; padding-block: 8px; text-decoration: none; transition: color 150ms ease; }
+  .site-footer a { display: inline-block; padding-block: 8px; text-decoration: none; }
 
   /* Page load. The headline is left alone: it is the largest paint and the line people came to read. */
   @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
@@ -275,7 +294,8 @@
 
   @media (hover: hover) and (pointer: fine) {
     .button:hover { background: #f3eef4; }
-    .site-header nav a:hover, .site-footer a:hover { color: #fff; }
+    .button:active { background: #e9e1ea; }
+    .site-header nav a:hover, .site-footer a:hover, p a:hover { color: #fff; }
     .row:hover { background: #262629; }
     .row:active { background: #2c2c2f; }
   }
@@ -284,8 +304,12 @@
   @media (prefers-reduced-motion: reduce) {
     .lede, .cta, .watch, .hint, .pill { animation-name: fade; animation-duration: 300ms; }
     .pill-state, .js .reveal { transform: none; }
-    .row-check { clip-path: none; }
-    .button:active, .row:active { transform: none; }
+    /* Ticks fade where they would have been drawn */
+    .row-check, .row[aria-pressed="true"][data-redraw] .row-check, .pill[data-redraw] .pill-check svg { clip-path: none; }
+    .row[aria-pressed="true"] .row-check, .pill-check svg { transition: opacity 200ms ease; }
+    .button:active, .row:active, .slack-install a:active { transform: none; }
+    /* With no scale left, the badge dims the way a text link does */
+    .slack-install a:active { opacity: .6; transition: opacity 0s; }
   }
 
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -466,12 +490,48 @@
       for (const el of document.querySelectorAll('.reveal')) reveal.observe(el);
     }
 
+    /*
+     iPhone Safari only holds :active under a finger where something listens for touches.
+     Without this the buttons and links never show their pressed state on a phone
+     */
+    document.addEventListener('touchstart', () => {}, { passive: true });
+
     const stage = document.querySelector('.stage');
+    const pill = stage.querySelector('.pill');
     const rows = [...stage.querySelectorAll('.row')];
     const states = [...stage.querySelectorAll('.pill-state')];
     const announcer = document.getElementById('announcer');
 
+    /*
+     A tap that changes nothing on screen reads as a miss, and the preset that is already
+     set is the first one people try. So every tap redraws the pill's tick, and a second
+     tap on the same preset redraws the row's first, the way the watch confirms it again.
+     The wait is the 100ms wipe plus a margin, so the tick is drawn from nothing. If a
+     stalled frame eats the margin, the tick only blinks instead of being drawn.
+     */
+    const REDRAW_MS = 160;
+    const redrawTimers = new WeakMap();
+    let pillTurn;
+
+    function redraw(el) {
+      el.toggleAttribute('data-redraw', true);
+      clearTimeout(redrawTimers.get(el));
+      redrawTimers.set(el, setTimeout(() => el.removeAttribute('data-redraw'), REDRAW_MS));
+    }
+
     function select(row, byUser) {
+      clearTimeout(pillTurn);
+      if (row.getAttribute('aria-pressed') === 'true') {
+        /*
+         Nothing else on the pill changes, so it waits its turn: the wrist first, then Slack.
+         A pill tick that is already wiped stays wiped until then
+         */
+        redraw(row);
+        if (pill.hasAttribute('data-redraw')) redraw(pill);
+        pillTurn = setTimeout(redraw, REDRAW_MS, pill);
+      } else {
+        redraw(pill);
+      }
       for (const r of rows) r.setAttribute('aria-pressed', String(r === row));
       for (const s of states) s.toggleAttribute('data-active', s.dataset.status === row.dataset.status);
       if (byUser) announcer.textContent = `Slack status set to ${row.getAttribute('aria-label')}.`;
