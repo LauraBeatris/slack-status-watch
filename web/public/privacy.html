@@ -1,50 +1,80 @@
 <!doctype html>
 <html lang="en">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy policy · Status for Slack</title>
 <meta name="description" content="Status for Slack keeps your Slack sign-in in the Keychain on your iPhone and Apple Watch. No accounts, no analytics, no tracking, no server storage.">
 <link rel="canonical" href="https://www.wriststatus.com/privacy">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#521755">
 <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<title>Privacy policy · Status for Slack</title>
-<style>body{font-family:-apple-system,system-ui,sans-serif;max-width:36rem;margin:4rem auto;padding:0 1rem;line-height:1.6;color:#222}h1{font-size:1.6rem}h2{font-size:1.1rem;margin-top:2rem}footer{margin-top:3rem;color:#6e6e73}</style>
-<p><a href="/">&larr; Status for Slack</a></p>
-<h1>Privacy policy</h1>
-<p><em>Status for Slack</em> is an iPhone and Apple Watch app that sets your Slack status. This page explains what it does with your data. Last updated 14 November 2026.</p>
+<link rel="stylesheet" href="/pages.css">
+</head>
+<body>
 
-<h2>What the app stores</h2>
-<p>When you sign in, Slack issues the app a user token that lets it read and set your own status. The token is stored in the Keychain on your iPhone and on your Apple Watch, and nowhere else. Your status presets are stored on your iPhone and copied to your watch.</p>
-<h2>What the app reads from Slack</h2>
-<p>The app asks Slack for two permissions, both about your own profile: <code>users.profile:read</code> and <code>users.profile:write</code>. It uses them to read your current status and to set or clear it.</p>
-<p>When the app reads your status, Slack sends your whole profile, which can include your name, title, email address and phone number. The app only uses the status text, the status emoji and when the status expires. It ignores the rest of the profile and never stores or sends it anywhere. When you sign in, the app also reads your workspace's name so it can show which workspace you're connected to.</p>
-<p>If you tap <strong>Try the demo</strong>, the app connects to a sample workspace instead of Slack. The demo status is kept on your device and is never sent anywhere.</p>
+<header class="wrap site-header">
+  <a class="brand" href="/">
+    <img src="/apple-touch-icon.png" width="30" height="30" alt="">
+    Status for Slack
+  </a>
+  <nav aria-label="Site"><a href="/support">Support</a></nav>
+</header>
 
-<h2>What leaves your devices</h2>
-<p>The app talks to one service: Slack's API, to read and set your status. The only other network call is the sign-in callback at <code>status-for-slack.vercel.app</code>, a small function that exchanges Slack's one-time sign-in code for your token and hands it straight back to the app. It does not store the code, the token, or anything about you.</p>
-<p>The app is hosted on Vercel. Like most hosts, Vercel keeps basic request logs, such as the time and IP address of a request, for a short period.</p>
+<main class="wrap">
+  <article class="doc">
+    <h1>Privacy policy</h1>
+    <p><em>Status for Slack</em> is an iPhone and Apple Watch app that sets your Slack status. This page explains what it does with your data. Last updated 14 November 2026.</p>
 
-<h2>Adding the app from the website</h2>
-<p>You can also add Status for Slack to a workspace with the <strong>Add to Slack</strong> button on this website. That uses the same function. It completes Slack's install, then discards the token Slack sends back without storing it, so the website keeps no access to your account. You then sign in again in the iPhone app, which gets its own token.</p>
+    <h2>What the app stores</h2>
+    <p>When you sign in, Slack issues the app a user token that lets it read and set your own status. The token is stored in the Keychain on your iPhone and on your Apple Watch, and nowhere else. Your status presets are stored on your iPhone and copied to your watch.</p>
+    <h2>What the app reads from Slack</h2>
+    <p>The app asks Slack for two permissions, both about your own profile: <code>users.profile:read</code> and <code>users.profile:write</code>. It uses them to read your current status and to set or clear it.</p>
+    <p>When the app reads your status, Slack sends your whole profile, which can include your name, title, email address and phone number. The app only uses the status text, the status emoji and when the status expires. It ignores the rest of the profile and never stores or sends it anywhere. When you sign in, the app also reads your workspace's name so it can show which workspace you're connected to.</p>
+    <p>If you tap <strong>Try the demo</strong>, the app connects to a sample workspace instead of Slack. The demo status is kept on your device and is never sent anywhere.</p>
 
-<h2>How long data is kept</h2>
-<ul>
-  <li>Your Slack token stays in the Keychain on your iPhone and Apple Watch until you tap <strong>Disconnect</strong> or delete the app.</li>
-  <li>Your presets stay on your devices until you delete them or the app.</li>
-  <li>Nothing is kept on a server.</li>
-</ul>
+    <h2>What leaves your devices</h2>
+    <p>The app talks to one service: Slack's API, to read and set your status. The only other network call is the sign-in callback at <code>status-for-slack.vercel.app</code>, a small function that exchanges Slack's one-time sign-in code for your token and hands it straight back to the app. It does not store the code, the token, or anything about you.</p>
+    <p>The app is hosted on Vercel. Like most hosts, Vercel keeps basic request logs, such as the time and IP address of a request, for a short period.</p>
 
-<h2>What we don't do</h2>
-<ul>
-  <li>No accounts, no server-side storage, no database.</li>
-  <li>No analytics, crash reporting, or tracking of any kind.</li>
-  <li>No data is sold, shared, or used for advertising.</li>
-</ul>
+    <h2>Adding the app from the website</h2>
+    <p>You can also add Status for Slack to a workspace with the <strong>Add to Slack</strong> button on this website. That uses the same function. It completes Slack's install, then discards the token Slack sends back without storing it, so the website keeps no access to your account. You then sign in again in the iPhone app, which gets its own token.</p>
 
-<h2>Seeing, moving or deleting your data</h2>
-<p>Everything the app keeps is on your own devices, so there's no copy anywhere else to request. Your presets are visible and editable in the iPhone app, and your status is visible in Slack.</p>
-<p>Tap <strong>Disconnect</strong> in the app. It revokes the app's access in Slack and removes the token from both devices. Deleting the app removes the token from your devices too, but leaves the app's access in Slack until you remove it under your workspace's app settings.</p>
+    <h2>How long data is kept</h2>
+    <ul>
+      <li>Your Slack token stays in the Keychain on your iPhone and Apple Watch until you tap <strong>Disconnect</strong> or delete the app.</li>
+      <li>Your presets stay on your devices until you delete them or the app.</li>
+      <li>Nothing is kept on a server.</li>
+    </ul>
 
-<h2>Contact</h2>
-<p>Questions about your data: email <a href="mailto:support@laurabeatris.com">support@laurabeatris.com</a>.</p>
+    <h2>What we don't do</h2>
+    <ul>
+      <li>No accounts, no server-side storage, no database.</li>
+      <li>No analytics, crash reporting, or tracking of any kind.</li>
+      <li>No data is sold, shared, or used for advertising.</li>
+    </ul>
 
-<footer><p><small>&copy; 2026 Laura Serafim. Status for Slack is an independent app and is not made by or affiliated with Slack Technologies.</small></p></footer>
+    <h2>Seeing, moving or deleting your data</h2>
+    <p>Everything the app keeps is on your own devices, so there's no copy anywhere else to request. Your presets are visible and editable in the iPhone app, and your status is visible in Slack.</p>
+    <p>Tap <strong>Disconnect</strong> in the app. It revokes the app's access in Slack and removes the token from both devices. Deleting the app removes the token from your devices too, but leaves the app's access in Slack until you remove it under your workspace's app settings.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about your data: email <a href="mailto:support@laurabeatris.com">support@laurabeatris.com</a>.</p>
+  </article>
+</main>
+
+<footer class="wrap">
+  <div class="site-footer">
+    <p>&copy; 2026 Laura Serafim. Status for Slack is an independent app and is not made by or affiliated with Slack Technologies.</p>
+    <ul>
+      <li><a href="/support">Support</a></li>
+      <li><a href="/privacy" aria-current="page">Privacy</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- iPhone Safari only holds :active under a finger where something listens for touches. Without this the links never show their pressed state on a phone -->
+<script>document.addEventListener("touchstart", () => {}, { passive: true });</script>
+</body>
+</html>
