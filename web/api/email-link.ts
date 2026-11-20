@@ -39,7 +39,8 @@ export async function POST(request: Request): Promise<Response> {
     if (await overLimit(clientIp(request))) {
       return reply(429, "too_many_requests");
     }
-  } catch {
+  } catch (error) {
+    console.error("email-link: rate limit check failed", error);
     return reply(503, "unavailable");
   }
 
@@ -65,7 +66,8 @@ export async function POST(request: Request): Promise<Response> {
       const [usedFor] = await redis([["GET", key]]);
       return usedFor === recipient ? reply(202) : reply(409, "ticket_used");
     }
-  } catch {
+  } catch (error) {
+    console.error("email-link: claiming the ticket failed", error);
     return reply(503, "unavailable");
   }
 
@@ -84,8 +86,10 @@ async function sendEvent(email: string): Promise<boolean> {
       { event: eventName, email },
       { signal: AbortSignal.timeout(resendTimeout) },
     );
+    if (error) console.error("email-link: Resend refused the event", error.name, error.message);
     return !error;
-  } catch {
+  } catch (error) {
+    console.error("email-link: sending the event failed", error);
     return false;
   }
 }
