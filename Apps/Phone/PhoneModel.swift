@@ -12,11 +12,17 @@ final class PhoneModel {
    Connected to the simulated workspace instead of Slack
    */
   private(set) var isDemo = false
+  /*
+   What Slack shows right now, so the presets screen can say which one is live.
+   Nil until the first read, or when nothing is set
+   */
+  private(set) var currentStatus: SlackStatus?
   var connectionError: String?
 
   private let keychain = KeychainStore()
   private let presetFile = PresetFile()
   private let session = PhoneSession()
+  private var isScreenshotMode = false
 
   init() {
     #if DEBUG
@@ -24,6 +30,8 @@ final class PhoneModel {
       presets = StatusPreset.defaults
       identity = SlackIdentity(team: "Acme", user: "laura")
       isConnected = true
+      currentStatus = presets.first?.slackStatus(at: .now.addingTimeInterval(-8 * 60))
+      isScreenshotMode = true
       return
     }
     #endif
@@ -83,6 +91,7 @@ final class PhoneModel {
     isConnected = false
     isDemo = false
     identity = nil
+    currentStatus = nil
     session.sendToken("")
   }
 
@@ -115,6 +124,25 @@ final class PhoneModel {
   func refreshIdentity() async {
     guard identity == nil, let token = keychain.read() else { return }
     identity = try? await SlackClient(token: token).authTest()
+  }
+
+  /*
+   Reads the status from Slack. Failures keep the last known value, since the
+   screen still works for editing presets without it
+   */
+  func refreshStatus() async {
+    guard isConnected, !isScreenshotMode, let token = keychain.read() else { return }
+    guard let status = try? await SlackClient(token: token).currentStatus() else { return }
+    currentStatus = status.isCleared ? nil : status
+  }
+
+  /*
+   The preset Slack is showing, if the current status is one of them and hasn't expired
+   */
+  func livePreset(at now: Date = .now) -> StatusPreset? {
+    guard let currentStatus else { return nil }
+    if let expiration = currentStatus.expiration, expiration <= now { return nil }
+    return presets.first { $0.matches(currentStatus) }
   }
 
   private static func describe(_ error: Error) -> String {
