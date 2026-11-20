@@ -8,6 +8,7 @@ import SwiftUI
 struct PresetListView: View {
   @Environment(WatchModel.self) private var model
   @Environment(\.scenePhase) private var scenePhase
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var confirmed: Confirmation?
 
   var body: some View {
@@ -24,7 +25,7 @@ struct PresetListView: View {
     .overlay {
       if let confirmed {
         ConfirmationView(confirmation: confirmed)
-          .transition(.opacity.combined(with: .scale(scale: 0.96)))
+          .transition(reduceMotion ? .opacity : .opacity.combined(with: .scale(scale: 0.96)))
       }
     }
     .animation(.easeOut(duration: 0.2), value: confirmed)
