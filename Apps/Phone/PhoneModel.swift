@@ -23,6 +23,11 @@ final class PhoneModel {
   private let presetFile = PresetFile()
   private let session = PhoneSession()
   private var isScreenshotMode = false
+  /*
+   Screenshot mode pins the clock to 9:41, the time in the status bar, so the live
+   card reads the same on every capture. Nil everywhere else
+   */
+  private(set) var frozenNow: Date?
 
   init() {
     #if DEBUG
@@ -30,7 +35,9 @@ final class PhoneModel {
       presets = StatusPreset.defaults
       identity = SlackIdentity(team: "Acme", user: "laura")
       isConnected = true
-      currentStatus = presets.first?.slackStatus(at: .now.addingTimeInterval(-8 * 60))
+      let nineFortyOne = Calendar.current.date(bySettingHour: 9, minute: 41, second: 0, of: .now) ?? .now
+      frozenNow = nineFortyOne
+      currentStatus = presets.first?.slackStatus(at: nineFortyOne.addingTimeInterval(-8 * 60))
       isScreenshotMode = true
       return
     }
