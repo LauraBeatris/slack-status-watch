@@ -116,6 +116,8 @@
   const failures = {
     invalid_email: "That doesn't look like an email address. Check it and try again.",
     expired_ticket: "This page is more than an hour old, so it can't send email any more. Search the App Store for Status for Slack on your iPhone instead.",
+    ticket_used: "The link already went to another address from this page. Search the App Store for Status for Slack on your iPhone instead.",
+    too_many_requests: "That's a lot of tries in a short time. Wait a while, or search the App Store for Status for Slack on your iPhone.",
   };
 
   form.addEventListener("submit", async (event) => {

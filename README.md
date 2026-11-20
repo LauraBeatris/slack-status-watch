@@ -23,6 +23,6 @@ xcodegen && open Status.xcodeproj
 
 Run the package tests with `cd Packages/SlackStatusKit && swift test`.
 
-To use your own Slack app, create it from `slack-app-manifest.json`, deploy `web/` to Vercel with `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET` and `RESEND_API_KEY` (for the install page's "Email me the link", see [`web/emails`](web/emails)), and set the client ID, redirect URL and `DEVELOPMENT_TEAM` in `project.yml`.
+To use your own Slack app, create it from `slack-app-manifest.json`, deploy `web/` to Vercel with `SLACK_CLIENT_ID`, `SLACK_CLIENT_SECRET`, `RESEND_API_KEY` and an Upstash Redis database (`KV_REST_API_URL`, `KV_REST_API_TOKEN`) for the install page's "Email me the link" (see [`web/emails`](web/emails)), and set the client ID, redirect URL and `DEVELOPMENT_TEAM` in `project.yml`.
 
 <sub>Not made by or affiliated with Slack Technologies.</sub>

@@ -1,28 +1,42 @@
 /*
- A ticket proves a page came out of a finished Slack install. It is an expiry time and
- an HMAC of it, so checking one needs no storage. The underscore keeps Vercel from
- serving this file as a function of its own
+ A ticket proves a page came out of a finished Slack install. It carries an expiry time,
+ a random ID and an HMAC of both. The signature needs no storage to check. The ID is what
+ api/email-link.ts claims in Redis, so each ticket sends email once. The underscore keeps
+ Vercel from serving this file as a function of its own
  */
-const lifetimeSeconds = 60 * 60;
+export const lifetimeSeconds = 60 * 60;
 const purpose = "email-link";
+
+export type Ticket = { id: string; expires: number };
 
 export async function issueTicket(now = Date.now()): Promise<string> {
   const expires = Math.floor(now / 1000) + lifetimeSeconds;
-  return `${expires}.${await sign(expires)}`;
+  const id = Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString("base64url");
+  return `${expires}.${id}.${await sign(`${purpose}.${expires}.${id}`)}`;
 }
 
-export async function verifyTicket(ticket: string, now = Date.now()): Promise<boolean> {
-  const match = /^(\d{10})\.([A-Za-z0-9_-]{43})$/.exec(ticket);
-  if (!match) return false;
+export async function verifyTicket(ticket: string, now = Date.now()): Promise<Ticket | null> {
+  const match = /^(\d{10})\.([A-Za-z0-9_-]{22})\.([A-Za-z0-9_-]{43})$/.exec(ticket);
+  if (!match) return null;
 
   const expires = Number(match[1]);
+  const id = match[2];
   const seconds = Math.floor(now / 1000);
-  if (expires < seconds || expires > seconds + lifetimeSeconds) return false;
+  if (expires < seconds || expires > seconds + lifetimeSeconds) return null;
 
-  return timingSafeEqual(match[2], await sign(expires));
+  const valid = timingSafeEqual(match[3], await sign(`${purpose}.${expires}.${id}`));
+  return valid ? { id, expires } : null;
 }
 
-async function sign(expires: number): Promise<string> {
+/*
+ Keyed hashes for what api/email-link.ts keeps in Redis, so an email address or IP
+ address never appears there in a form anyone can read back
+ */
+export function digest(label: string, value: string): Promise<string> {
+  return sign(`${purpose}.${label}.${value}`);
+}
+
+async function sign(message: string): Promise<string> {
   const key = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(secret()),
@@ -30,7 +44,7 @@ async function sign(expires: number): Promise<string> {
     false,
     ["sign"],
   );
-  const mac = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${purpose}.${expires}`));
+  const mac = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(message));
   return Buffer.from(mac).toString("base64url");
 }
 
