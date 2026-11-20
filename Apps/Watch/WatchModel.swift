@@ -40,6 +40,7 @@ final class WatchModel {
     presets = presetFile.load()
     token = keychain.read()
     session.activate(model: self)
+    StatusShortcuts.presetsChanged()
   }
 
   var isDemo: Bool {
@@ -115,6 +116,7 @@ final class WatchModel {
   func receivePresets(_ presets: [StatusPreset]) {
     self.presets = presets
     try? presetFile.save(presets)
+    StatusShortcuts.presetsChanged()
   }
 
   func receiveToken(_ token: String) {
