@@ -146,7 +146,8 @@ private struct GlowCard: View {
       StatusPill(emoji: "🎧", title: "Focusing", subtitle: "Clears in 2h")
     }
     .frame(maxWidth: .infinity)
-    .frame(height: 360)
+    .padding(.vertical, 40)
+    .frame(minHeight: 360)
     .background {
       RoundedRectangle(cornerRadius: 32, style: .continuous)
         .fill(.brandGlow)
@@ -202,6 +203,7 @@ struct PillButtonStyle: ButtonStyle {
   enum Kind { case primary, secondary }
   let kind: Kind
   @Environment(\.isEnabled) private var isEnabled
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
@@ -218,7 +220,7 @@ struct PillButtonStyle: ButtonStyle {
         }
       }
       .opacity(isEnabled ? 1 : 0.5)
-      .scaleEffect(configuration.isPressed ? 0.97 : 1)
+      .scaleEffect(configuration.isPressed && !reduceMotion ? 0.97 : 1)
       .animation(.easeOut(duration: 0.16), value: configuration.isPressed)
   }
 }
@@ -293,7 +295,7 @@ private struct ConnectedView: View {
               .font(.body.weight(.medium))
               .foregroundStyle(Color.brandMuted)
           }
-          .frame(height: 56)
+          .frame(minHeight: 56)
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
         .listRowSeparator(.hidden)
@@ -344,6 +346,7 @@ private struct LiveCard: View {
   let preset: StatusPreset
   let status: SlackStatus
   let now: Date
+  @Environment(\.dynamicTypeSize) private var typeSize
 
   var body: some View {
     VStack(alignment: .leading, spacing: 14) {
@@ -353,7 +356,11 @@ private struct LiveCard: View {
         .textCase(.uppercase)
         .foregroundStyle(Color.brandPlum)
 
-      HStack(spacing: 14) {
+      // At accessibility text sizes the emoji tile sits above the text so the text gets the full width
+      let layout = typeSize.isAccessibilitySize
+        ? AnyLayout(VStackLayout(alignment: .leading, spacing: 14))
+        : AnyLayout(HStackLayout(spacing: 14))
+      layout {
         Text(SlackEmoji.display(preset.emoji))
           .font(.system(size: 28))
           .frame(width: 52, height: 52)
@@ -366,8 +373,10 @@ private struct LiveCard: View {
             .font(.subheadline)
             .foregroundStyle(Color.brandMuted)
         }
-        Spacer(minLength: 0)
-        LiveTick(size: 28)
+        if !typeSize.isAccessibilitySize {
+          Spacer(minLength: 0)
+          LiveTick(size: 28)
+        }
       }
 
       if let progress {
@@ -421,20 +430,42 @@ private struct PresetRow: View {
   let preset: StatusPreset
   let isLive: Bool
 
+  @Environment(\.dynamicTypeSize) private var typeSize
+
+  /*
+   At accessibility text sizes the expiry moves under the name, so a name is never
+   broken mid-word to make room for it
+   */
   var body: some View {
     HStack(spacing: 12) {
       Text(SlackEmoji.display(preset.emoji))
         .font(.title3)
-        .frame(width: 28)
-      Text(preset.text)
-        .font(.body.weight(.medium))
-        .foregroundStyle(Color.brandInk)
-      Spacer()
-      Text(isLive ? "Live" : preset.expiry.label)
-        .font(isLive ? .subheadline.weight(.semibold) : .subheadline)
-        .foregroundStyle(isLive ? Color.brandPlum : Color.brandFaint)
+        .fixedSize()
+      if typeSize.isAccessibilitySize {
+        VStack(alignment: .leading, spacing: 2) {
+          name
+          detail
+        }
+      } else {
+        name
+        Spacer()
+        detail
+      }
     }
-    .frame(height: 56)
+    .padding(.vertical, 8)
+    .frame(minHeight: 56)
+  }
+
+  private var name: some View {
+    Text(preset.text)
+      .font(.body.weight(.medium))
+      .foregroundStyle(Color.brandInk)
+  }
+
+  private var detail: some View {
+    Text(isLive ? "Live" : preset.expiry.label)
+      .font(isLive ? .subheadline.weight(.semibold) : .subheadline)
+      .foregroundStyle(isLive ? Color.brandPlum : Color.brandFaint)
   }
 }
 
@@ -455,6 +486,8 @@ private struct AccountFooter: View {
         .font(.subheadline.weight(.medium))
         .foregroundStyle(Color.brandDanger)
         .buttonStyle(.plain)
+        .frame(minHeight: 44)
+        .contentShape(.rect)
       }
       if model.isDemo {
         Text("Demo mode. Statuses you set on your watch or with Siri are simulated, and nothing is sent to Slack.")

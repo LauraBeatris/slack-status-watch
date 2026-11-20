@@ -140,41 +140,21 @@ struct PresetEditorView: View {
 }
 
 /*
- Never / After / At a time as one capsule with a white thumb, the same shape as the pills
+ Never / After / At a time. The system segmented control, so VoiceOver reads it as
+ one control with three options and it animates the way every other one does
  */
 private struct KindSwitch: View {
   @Binding var selection: PresetDraft.Kind
-  @Namespace private var thumb
 
   var body: some View {
-    HStack(spacing: 0) {
+    Picker("Clears", selection: $selection) {
       ForEach(PresetDraft.Kind.allCases, id: \.self) { kind in
-        let isOn = kind == selection
-        Button {
-          selection = kind
-        } label: {
-          Text(kind.label)
-            .font(isOn ? .subheadline.weight(.semibold) : .subheadline.weight(.medium))
-            .foregroundStyle(isOn ? Color.brandInk : Color.brandMuted)
-            .frame(maxWidth: .infinity)
-            .frame(height: 36)
-            .background {
-              if isOn {
-                Capsule()
-                  .fill(.white)
-                  .shadow(color: .black.opacity(0.08), radius: 5, y: 2)
-                  .matchedGeometryEffect(id: "thumb", in: thumb)
-              }
-            }
-            .contentShape(.capsule)
-        }
-        .buttonStyle(.plain)
-        .accessibilityAddTraits(isOn ? .isSelected : [])
+        Text(kind.label).tag(kind)
       }
     }
-    .padding(3)
-    .background(Color.brandCard, in: .capsule)
-    .animation(.spring(duration: 0.3, bounce: 0.15), value: selection)
+    .pickerStyle(.segmented)
+    .labelsHidden()
+    .controlSize(.large)
   }
 }
 
@@ -192,7 +172,7 @@ private struct DurationChips: View {
           .font(isOn ? .subheadline.weight(.semibold) : .subheadline.weight(.medium))
           .foregroundStyle(isOn ? Color.white : Color.brandInk)
           .padding(.horizontal, 16)
-          .frame(height: 40)
+          .frame(minWidth: 44, minHeight: 44)
           .background {
             if isOn {
               Capsule().fill(Color.brandPlum)
@@ -231,7 +211,8 @@ private struct WatchRowPreview: View {
       Spacer(minLength: 0)
     }
     .padding(.horizontal, 16)
-    .frame(height: 60)
+    .padding(.vertical, 10)
+    .frame(minHeight: 60)
     .background(Color(hex: 0x1F1F21), in: .rect(cornerRadius: 18, style: .continuous))
     .padding(10)
     .background(.black, in: .rect(cornerRadius: 28, style: .continuous))
