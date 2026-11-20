@@ -1,33 +1,63 @@
 <!doctype html>
 <html lang="en">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Support · Status for Slack</title>
 <meta name="description" content="Help for Status for Slack: sign in with Slack, get your presets onto Apple Watch, use Siri and Shortcuts, and fix common sign-in problems.">
 <link rel="canonical" href="https://www.wriststatus.com/support">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#521755">
 <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<title>Support · Status for Slack</title>
-<style>body{font-family:-apple-system,system-ui,sans-serif;max-width:36rem;margin:4rem auto;padding:0 1rem;line-height:1.6;color:#222}h1{font-size:1.6rem}h2{font-size:1.1rem;margin-top:2rem}footer{margin-top:3rem;color:#6e6e73}</style>
-<p><a href="/">&larr; Status for Slack</a></p>
-<h1>Status for Slack support</h1>
-<p>Set your Slack status from your Apple Watch with one tap, from presets you edit on your iPhone.</p>
+<link rel="stylesheet" href="/pages.css">
+</head>
+<body>
 
-<h2>Getting started</h2>
-<ol>
-  <li>Open Status on your iPhone and tap <strong>Sign in with Slack</strong>.</li>
-  <li>Pick your workspace and allow the app to read and set your status.</li>
-  <li>Open Status on your Apple Watch. Your presets appear within a few seconds.</li>
-</ol>
-<p>Want to look around first? Tap <strong>Try the demo</strong> to use the app with a sample workspace. Nothing is sent to Slack, and <strong>Exit demo</strong> takes you back to sign-in.</p>
+<header class="wrap site-header">
+  <a class="brand" href="/">
+    <img src="/apple-touch-icon.png" width="30" height="30" alt="">
+    Status for Slack
+  </a>
+  <nav aria-label="Site"><a href="/support" aria-current="page">Support</a></nav>
+</header>
 
-<h2>Common questions</h2>
-<p><strong>The watch says "Not connected".</strong> Open the iPhone app once with your watch nearby. The watch receives the sign-in the next time both are reachable.</p>
-<p><strong>My workspace won't let me sign in.</strong> Some workspaces require an admin to approve new apps. Ask your Slack admin to approve Status for Slack.</p>
-<p><strong>Can I use Siri?</strong> Yes. Say "Set Status to Lunch" or "Clear Status", or use the actions in the Shortcuts app.</p>
-<p><strong>How do I sign out?</strong> Tap <strong>Disconnect</strong> in the iPhone app. This revokes the app's access in Slack and removes the sign-in from both your iPhone and your watch.</p>
+<main class="wrap">
+  <article class="doc">
+    <h1>Status for Slack support</h1>
+    <p>Set your Slack status from your Apple Watch with one tap, from presets you edit on your iPhone.</p>
 
-<h2>Contact</h2>
-<p>Email <a href="mailto:support@laurabeatris.com">support@laurabeatris.com</a>. You can also <a href="https://github.com/LauraBeatris/slack-status-watch/issues">open an issue on GitHub</a>.</p>
-<p><a href="/privacy">Privacy policy</a></p>
+    <h2>Getting started</h2>
+    <ol>
+      <li>Open Status on your iPhone and tap <strong>Sign in with Slack</strong>.</li>
+      <li>Pick your workspace and allow the app to read and set your status.</li>
+      <li>Open Status on your Apple Watch. Your presets appear within a few seconds.</li>
+    </ol>
+    <p>Want to look around first? Tap <strong>Try the demo</strong> to use the app with a sample workspace. Nothing is sent to Slack, and <strong>Exit demo</strong> takes you back to sign-in.</p>
 
-<footer><p><small>&copy; 2026 Laura Serafim. Status for Slack is an independent app and is not made by or affiliated with Slack Technologies.</small></p></footer>
+    <h2>Common questions</h2>
+    <p><strong>The watch says "Not connected".</strong> Open the iPhone app once with your watch nearby. The watch receives the sign-in the next time both are reachable.</p>
+    <p><strong>My workspace won't let me sign in.</strong> Some workspaces require an admin to approve new apps. Ask your Slack admin to approve Status for Slack.</p>
+    <p><strong>Can I use Siri?</strong> Yes. Say "Set Status to Lunch" or "Clear Status", or use the actions in the Shortcuts app.</p>
+    <p><strong>How do I sign out?</strong> Tap <strong>Disconnect</strong> in the iPhone app. This revokes the app's access in Slack and removes the sign-in from both your iPhone and your watch.</p>
+
+    <h2>Contact</h2>
+    <p>Email <a href="mailto:support@laurabeatris.com">support@laurabeatris.com</a>. You can also <a href="https://github.com/LauraBeatris/slack-status-watch/issues">open an issue on GitHub</a>.</p>
+    <p><a href="/privacy">Privacy policy</a></p>
+  </article>
+</main>
+
+<footer class="wrap">
+  <div class="site-footer">
+    <p>&copy; 2026 Laura Serafim. Status for Slack is an independent app and is not made by or affiliated with Slack Technologies.</p>
+    <ul>
+      <li><a href="/support" aria-current="page">Support</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- iPhone Safari only holds :active under a finger where something listens for touches. Without this the links never show their pressed state on a phone -->
+<script>document.addEventListener("touchstart", () => {}, { passive: true });</script>
+</body>
+</html>

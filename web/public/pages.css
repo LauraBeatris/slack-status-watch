@@ -1,0 +1,151 @@
+/*
+ The pages people read: support, privacy and the install confirmation.
+ The landing page keeps its CSS inline so it paints in one request, which makes the
+ tokens, header, footer and button below copies of the ones in index.html. Change both
+ */
+:root {
+  --bg: #1c061e;
+  --accent: #ffc94a;
+  --text: #fff;
+  --muted: rgba(255, 255, 255, .72);
+  --faint: rgba(255, 255, 255, .5);
+  --line: rgba(255, 255, 255, .14);
+  --glass: rgba(255, 255, 255, .09);
+  --rounded: ui-rounded, -apple-system, system-ui, "Segoe UI", sans-serif;
+  --gutter: clamp(20px, 5vw, 48px);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+/* The gutter keeps the header where it was when a short page has no scrollbar */
+html { -webkit-text-size-adjust: 100%; scrollbar-gutter: stable; }
+body {
+  display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh;
+  margin: 0;
+  font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background:
+    radial-gradient(900px 620px at 88% 0, rgba(255, 201, 74, .14), transparent 60%),
+    radial-gradient(900px 900px at 0 760px, rgba(150, 60, 160, .34), transparent 65%),
+    linear-gradient(172deg, #5b1a5d 0, #3a0f3c 560px, var(--bg) 1180px);
+  background-color: var(--bg);
+  background-repeat: no-repeat;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+h1, h2, p, ul, ol { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+/* Moving between pages is a dissolve, not a cut. They share a header and a background, so only the words change */
+@view-transition { navigation: auto; }
+::view-transition-group(root) { animation-duration: 200ms; }
+
+.wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: var(--gutter); }
+main { flex: 1; }
+
+/* Header */
+.site-header { display: flex; align-items: center; justify-content: space-between; padding-block: 22px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; text-decoration: none; }
+.brand img { border-radius: 22.5%; }
+.site-header nav a { color: var(--muted); text-decoration: none; font-weight: 500; padding: 8px 0; }
+.site-header nav a[aria-current] { color: var(--text); }
+
+/* Touch gets no hover and the tap highlight is off, so a pressed link dims at once and eases back */
+.brand, .site-header nav a, .site-footer a, .doc a:not(.button) { transition: opacity 200ms ease, color 150ms ease; }
+.brand:active, .site-header nav a:active, .site-footer a:active, .doc a:not(.button):active { opacity: .6; transition: opacity 0s, color 150ms ease; }
+
+/* The page itself. Error codes and workspace names can be one long word, so anything may break */
+.doc {
+  max-width: 40rem; padding-block: clamp(28px, 6vw, 72px) clamp(64px, 9vw, 112px);
+  color: var(--muted); font-size: 1.0625rem; line-height: 1.6; overflow-wrap: break-word;
+}
+.doc h1 {
+  font-family: var(--rounded);
+  font-size: clamp(2rem, 5.2vw, 3rem);
+  line-height: 1.08; font-weight: 800; letter-spacing: -.025em;
+  color: var(--text); text-wrap: balance;
+}
+.doc h1 + p { margin-top: 18px; font-size: clamp(1.125rem, 1.7vw, 1.25rem); line-height: 1.45; font-weight: 500; text-wrap: pretty; }
+.doc h2 { margin-top: 48px; font-family: var(--rounded); font-size: 1.375rem; line-height: 1.2; font-weight: 700; letter-spacing: -.01em; color: var(--text); }
+.doc p, .doc ul, .doc ol { margin-top: 14px; }
+.doc p { text-wrap: pretty; }
+.doc ul, .doc ol { padding-left: 1.3em; }
+.doc li + li { margin-top: 8px; }
+.doc strong { font-weight: 600; color: var(--text); }
+.doc code { padding: .15em .4em; border-radius: 6px; background: var(--glass); font: .875em ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text); }
+.doc a:not(.button) { text-underline-offset: 3px; }
+
+.button {
+  display: inline-flex; align-items: center; height: 52px; padding-inline: 28px;
+  border-radius: 999px; background: #fff; color: #1d1d1f;
+  font-size: 1.0625rem; font-weight: 600; text-decoration: none; white-space: nowrap;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .3);
+  transition: transform 160ms var(--ease-out), background-color 150ms ease;
+}
+.button:active { transform: scale(.97); background: #e9e1ea; }
+
+/* Install confirmation. The first script in the page marks a failed install on <html> before anything paints */
+[data-install="failed"] #success, :root:not([data-install="failed"]) #failure { display: none; }
+[data-install="failed"] #failure { display: block; }
+/* The workspace name takes the accent the landing headline gives "on your wrist", and stays in one piece when it fits */
+.doc h1 [data-workspace] { display: inline-block; max-width: 100%; color: var(--accent); }
+.doc .steps [data-workspace] { font-weight: 600; color: var(--text); }
+.doc .button { margin-top: 12px; }
+
+.badge { display: grid; place-items: center; width: 56px; height: 56px; margin-bottom: 26px; border-radius: 50%; background: #34c759; box-shadow: 0 14px 34px rgba(0, 0, 0, .35); }
+.badge svg { width: 30px; height: 30px; fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; clip-path: inset(0); }
+
+.doc .steps { display: grid; gap: 18px; margin-top: 30px; padding: 0; list-style: none; counter-reset: step; }
+.doc .steps li { position: relative; min-height: 32px; margin: 0; padding: 2px 0 0 48px; counter-increment: step; }
+.doc .steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 0;
+  display: grid; place-items: center; width: 32px; height: 32px;
+  border-radius: 50%; background: var(--glass); border: 1px solid var(--line);
+  font: 700 .9375rem/1 var(--rounded); color: var(--text);
+}
+.doc .steps ~ p { font-size: 1rem; }
+.doc .steps + p { margin-top: 34px; padding-top: 26px; border-top: 1px solid var(--line); }
+
+/*
+ Arriving after a finished install is the one moment here worth a beat. The tick draws
+ itself the way the one on the watch does, then what to do next arrives in reading order.
+ The headline is left alone, as on the landing page: it is the line people came to read
+ */
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+@keyframes badge-in { from { opacity: 0; transform: scale(.9); } }
+@keyframes draw { from { clip-path: inset(0 100% 0 0); } }
+@keyframes fade { from { opacity: 0; } }
+.badge { animation: badge-in 500ms var(--ease-out) backwards; }
+.badge svg { animation: draw 400ms var(--ease-out) 180ms backwards; }
+#success h1 + p, .steps li, .steps ~ p { animation: rise 600ms var(--ease-out) backwards; }
+#success h1 + p { animation-delay: 60ms; }
+.steps li:nth-child(1) { animation-delay: 120ms; }
+.steps li:nth-child(2) { animation-delay: 180ms; }
+.steps li:nth-child(3) { animation-delay: 240ms; }
+.steps + p { animation-delay: 300ms; }
+.steps + p + p { animation-delay: 360ms; }
+
+/* Footer. Brighter than the landing page's: a short page leaves it on the purple glow, where --faint is too dim to read */
+.site-footer {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px;
+  align-items: center; padding-block: 20px calc(20px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line); color: var(--muted); font-size: .875rem;
+}
+.site-footer ul { display: flex; gap: 24px; padding: 0; list-style: none; }
+.site-footer a { display: inline-block; padding-block: 8px; text-decoration: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .site-header nav a:hover, .site-footer a:hover, .doc a:not(.button):hover { color: #fff; }
+  .button:hover { background: #f3eef4; }
+  .button:active { background: #e9e1ea; }
+}
+
+/* Reduced motion keeps the fades that explain a change and drops the travel */
+@media (prefers-reduced-motion: reduce) {
+  .badge, #success h1 + p, .steps li, .steps ~ p { animation-name: fade; animation-duration: 300ms; }
+  .badge svg { animation: none; }
+  .button:active { transform: none; }
+}
