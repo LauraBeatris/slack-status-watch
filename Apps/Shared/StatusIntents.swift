@@ -16,7 +16,11 @@ struct PresetEntity: AppEntity {
   var displayRepresentation: DisplayRepresentation {
     DisplayRepresentation(
       title: "\(SlackEmoji.display(preset.emoji)) \(preset.text)",
-      subtitle: "\(preset.expiry.label)"
+      subtitle: "\(preset.expiry.label)",
+      /*
+       The title leads with an emoji, so give Siri the bare words to match
+       */
+      synonyms: ["\(preset.text)"]
     )
   }
 }
@@ -66,7 +70,13 @@ struct StatusShortcuts: AppShortcutsProvider {
       intent: SetSlackStatusIntent(),
       phrases: [
         "Set \(.applicationName) to \(\.$preset)",
+        "Set my \(.applicationName) to \(\.$preset)",
         "\(.applicationName) \(\.$preset)",
+        /*
+         Without a preset, Siri asks which one instead of giving up
+         */
+        "Set \(.applicationName)",
+        "Set my \(.applicationName)",
       ],
       shortTitle: "Set Slack status",
       systemImageName: "bubble.left.fill"
@@ -80,6 +90,14 @@ struct StatusShortcuts: AppShortcutsProvider {
       shortTitle: "Clear Slack status",
       systemImageName: "xmark.circle"
     )
+  }
+
+  /*
+   Siri only recognises preset names in spoken phrases after they're registered
+   here, so call this on launch and whenever the presets change
+   */
+  static func presetsChanged() {
+    updateAppShortcutParameters()
   }
 }
 

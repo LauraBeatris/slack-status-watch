@@ -47,6 +47,7 @@ final class PhoneModel {
     isConnected = token != nil
     isDemo = token == DemoWorkspace.token
     session.activate(presets: presets)
+    StatusShortcuts.presetsChanged()
   }
 
   func signIn(using signIn: SlackSignIn) async {
@@ -126,6 +127,7 @@ final class PhoneModel {
   private func savePresets() {
     try? presetFile.save(presets)
     session.sendPresets(presets)
+    StatusShortcuts.presetsChanged()
   }
 
   func refreshIdentity() async {
