@@ -85,6 +85,7 @@ struct StatusShortcuts: AppShortcutsProvider {
       intent: ClearSlackStatusIntent(),
       phrases: [
         "Clear \(.applicationName)",
+        "Clear my \(.applicationName)",
         "\(.applicationName) clear",
       ],
       shortTitle: "Clear Slack status",

@@ -35,7 +35,7 @@ CLEARS ITSELF
 Each preset can expire after a set time, from 15 minutes to 4 hours, or at a time of day like 6 pm. No more "In a meeting" at midnight.
 
 ASK SIRI
-Say "Set Status to Lunch" or "Clear Status" on your watch or iPhone, or use the actions in Shortcuts to change your status from any automation.
+Say "Set my Slack status to Lunch" or "Clear my Slack status" on your watch or iPhone, or use the actions in Shortcuts to change your status from any automation.
 
 STAYS IN SYNC
 If you set your status from Slack on your computer, the watch shows it when you open the app.
@@ -81,7 +81,7 @@ TO REVIEW WITH THE DEMONSTRATION MODE (RECOMMENDED)
 2. On the iPhone, tap a preset to edit its emoji, text or expiry, or add, reorder and delete presets. Changes sync to the watch.
 3. Open Status on the paired Apple Watch. It lists the presets. If it says "Not connected", tap "Try the demo" on the watch.
 4. Tap a preset such as Lunch. A haptic confirms it and a checkmark marks the active preset. Scroll down and tap "Clear status" to clear it.
-5. Siri: say "Set Status to Lunch" or "Clear Status".
+5. Siri: say "Set my Slack status to Lunch" or "Clear my Slack status". Open the app once after installing so Siri learns the preset names.
 6. "Exit demo" on either device returns to the sign-in screen.
 
 The demonstration mode runs the same screens and the same code as a real workspace. The only difference is that the status is kept on the device and is not sent to Slack.
