@@ -1,3 +1,5 @@
+import { issueTicket } from "../_ticket.js";
+
 const appScheme = "statusforslack";
 
 /*
@@ -84,7 +86,11 @@ async function completeWebInstall(
   if (!result.ok) {
     return installed({ error: result.error ?? "install_failed" });
   }
-  return installed({ workspace: (result.team?.name ?? "").slice(0, 80) });
+  /*
+   The ticket lets the confirmation page offer to email the App Store link, and only for
+   the next hour. See api/email-link.ts
+   */
+  return installed({ workspace: (result.team?.name ?? "").slice(0, 80), ticket: await issueTicket() });
 }
 
 async function exchange(url: URL, code: string): Promise<OAuthAccess | null> {

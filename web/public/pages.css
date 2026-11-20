@@ -104,6 +104,27 @@ main { flex: 1; }
   border-radius: 50%; background: var(--ink);
   font-size: .8125rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; color: #fff;
 }
+/* "Email me the link" sits inside the first step. Inputs stay at 16px so iPhone Safari never zooms in on focus */
+.email-link { margin-top: 14px; }
+.doc .email-link p { margin: 0; font-size: .9375rem; }
+.email-link-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.email-link input {
+  flex: 1 1 14rem; min-width: 0; height: 48px; padding-inline: 18px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+  font: inherit; font-size: 16px; color: var(--ink);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.email-link input::placeholder { color: var(--faint); }
+.email-link input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(109, 42, 113, .14); }
+.email-link input:disabled { color: var(--muted); }
+.doc .email-link .button { flex: none; margin-top: 0; border: 0; font-family: inherit; cursor: pointer; }
+.email-link .button:disabled { cursor: default; }
+.doc .email-link .email-link-note { margin-top: 10px; font-size: .8125rem; color: var(--faint); }
+.email-link[data-state="sent"] .email-link-note { color: #248a3d; }
+.email-link[data-state="error"] .email-link-note { color: #c4302b; }
+@media (max-width: 479px) { .doc .email-link .button { flex: 1 1 100%; } }
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
 .doc .steps ~ p { font-size: .9375rem; }
 .doc .steps + p { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
 

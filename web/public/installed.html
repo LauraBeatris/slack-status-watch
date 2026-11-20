@@ -33,7 +33,19 @@
       <h1>Status for Slack is added to <span data-workspace>your workspace</span></h1>
       <p>Now set it up on your iPhone and Apple Watch. It takes a minute.</p>
       <ol class="steps">
-        <li>Download <a href="https://apps.apple.com/app/id6826875571">Status for Slack from the App Store</a> on your iPhone.</li>
+        <li>
+          Download <a href="https://apps.apple.com/app/id6826875571">Status for Slack from the App Store</a> on your iPhone.
+          <!-- Shown by the script below only after a finished install, and not on an iPhone, where the link above already works -->
+          <form class="email-link" data-email-link hidden novalidate>
+            <p>Not on your iPhone? Email yourself the link.</p>
+            <div class="email-link-row">
+              <label class="visually-hidden" for="email-link-address">Your email address</label>
+              <input id="email-link-address" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@example.com" required maxlength="320">
+              <button class="button button-dark" type="submit">Email me the link</button>
+            </div>
+            <p class="email-link-note" data-email-status aria-live="polite">You'll get the link now and one reminder tomorrow. Nothing else.</p>
+          </form>
+        </li>
         <li>Open it, tap <strong>Sign in with Slack</strong>, and pick <span data-workspace>your workspace</span>.</li>
         <li>Open Status on your Apple Watch and tap a preset like Lunch. Your status changes in Slack right away, and clears itself when the time runs out.</li>
       </ol>
@@ -81,6 +93,65 @@
   } else if (workspace) {
     document.querySelectorAll("[data-workspace]").forEach((el) => { el.textContent = workspace; });
   }
+
+  /*
+   The install callback adds a ticket that lets this page ask for the App Store link by
+   email for the next hour. It comes out of the address bar at once, so a copied or
+   bookmarked link doesn't carry it
+   */
+  const ticket = params.get("ticket") || "";
+  if (ticket) {
+    params.delete("ticket");
+    const query = params.toString();
+    history.replaceState(null, "", location.pathname + (query ? `?${query}` : ""));
+  }
+  const form = document.querySelector("[data-email-link]");
+  if (!error && ticket && !/iPhone/.test(navigator.userAgent)) {
+    form.hidden = false;
+  }
+
+  const input = form.querySelector("input");
+  const button = form.querySelector("button");
+  const status = form.querySelector("[data-email-status]");
+  const failures = {
+    invalid_email: "That doesn't look like an email address. Check it and try again.",
+    expired_ticket: "This page is more than an hour old, so it can't send email any more. Search the App Store for Status for Slack on your iPhone instead.",
+  };
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const email = input.value.trim();
+    if (!input.checkValidity() || !email) {
+      status.textContent = failures.invalid_email;
+      form.dataset.state = "error";
+      input.focus();
+      return;
+    }
+    button.disabled = true;
+    button.textContent = "Sending…";
+    form.dataset.state = "sending";
+    try {
+      const response = await fetch("/api/email-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, ticket }),
+      });
+      if (response.ok) {
+        form.dataset.state = "sent";
+        input.disabled = true;
+        button.textContent = "Sent";
+        status.textContent = `Sent to ${email}. Open it on your iPhone.`;
+        return;
+      }
+      const { error: code } = await response.json().catch(() => ({}));
+      status.textContent = failures[code] || "It didn't send. Try again in a moment.";
+    } catch {
+      status.textContent = "It didn't send. Check your connection and try again.";
+    }
+    form.dataset.state = "error";
+    button.disabled = false;
+    button.textContent = "Email me the link";
+  });
 </script>
 </body>
 </html>
