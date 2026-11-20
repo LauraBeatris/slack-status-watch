@@ -233,7 +233,7 @@ private struct ConnectedView: View {
 
   var body: some View {
     TimelineView(.periodic(from: .now, by: 30)) { context in
-      list(now: context.date)
+      list(now: model.frozenNow ?? context.date)
     }
     .listStyle(.plain)
     .scrollContentBackground(.hidden)
