@@ -1,3 +1,5 @@
+import { Resend } from "resend";
+
 import { redis } from "./_redis.js";
 import { digest, verifyTicket } from "./_ticket.js";
 
@@ -77,16 +79,12 @@ export async function POST(request: Request): Promise<Response> {
 
 async function sendEvent(email: string): Promise<boolean> {
   try {
-    const response = await fetch("https://api.resend.com/events/send", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${required("RESEND_API_KEY")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ event: eventName, email }),
-      signal: AbortSignal.timeout(resendTimeout),
-    });
-    return response.ok;
+    const resend = new Resend(required("RESEND_API_KEY"));
+    const { error } = await resend.events.send(
+      { event: eventName, email },
+      { signal: AbortSignal.timeout(resendTimeout) },
+    );
+    return !error;
   } catch {
     return false;
   }
