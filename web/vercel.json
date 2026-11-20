@@ -3,6 +3,11 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/download",
+      "destination": "https://apps.apple.com/app/id6826875571",
+      "permanent": false
+    },
+    {
       "source": "/:path((?!api/).*)",
       "has": [{ "type": "host", "value": "status-for-slack.vercel.app" }],
       "destination": "https://www.wriststatus.com/:path",
