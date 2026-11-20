@@ -37,6 +37,9 @@ targets:
       path: Apps/Phone/Info.plist
       properties:
         CFBundleDisplayName: Status
+        INAlternativeAppNames:
+          - INAlternativeAppName: Slack Status
+          - INAlternativeAppName: Status for Slack
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ITSAppUsesNonExemptEncryption: false
@@ -63,6 +66,9 @@ targets:
       path: Apps/Watch/Info.plist
       properties:
         CFBundleDisplayName: Status
+        INAlternativeAppNames:
+          - INAlternativeAppName: Slack Status
+          - INAlternativeAppName: Status for Slack
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         ITSAppUsesNonExemptEncryption: false
