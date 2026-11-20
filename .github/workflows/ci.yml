@@ -1,0 +1,66 @@
+name: CI
+
+# The site under web/ deploys through Vercel's Git integration, so changes
+# that only touch the site, store art or docs don't need a macOS runner.
+on:
+  pull_request:
+    paths-ignore: ['web/**', 'AppStore/**', 'docs/**', '**/*.md']
+  push:
+    branches: [main]
+    paths-ignore: ['web/**', 'AppStore/**', 'docs/**', '**/*.md']
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Deployment targets are iOS 27 / watchOS 26, which need the Xcode 27 SDKs.
+  DEVELOPER_DIR: /Applications/Xcode_27.2.app/Contents/Developer
+  # Pinned to the version that generated the committed Status.xcodeproj, so
+  # the drift check below doesn't fail on formatting changes between releases.
+  XCODEGEN_VERSION: 2.46.0
+
+jobs:
+  package-tests:
+    name: SlackStatusKit tests
+    runs-on: xcode-27
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - name: Run tests
+        run: swift test --package-path Packages/SlackStatusKit
+
+  app-build:
+    name: Build iPhone and Watch apps
+    runs-on: xcode-27
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install XcodeGen
+        run: |
+          curl -sSfL -o "$RUNNER_TEMP/xcodegen.zip" \
+            "https://github.com/yonaskolb/XcodeGen/releases/download/$XCODEGEN_VERSION/xcodegen.zip"
+          unzip -q "$RUNNER_TEMP/xcodegen.zip" -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/xcodegen/bin" >> "$GITHUB_PATH"
+
+      - name: Check Status.xcodeproj matches project.yml
+        run: |
+          xcodegen generate --quiet
+          if ! git diff --exit-code --stat -- Status.xcodeproj; then
+            echo "::error::Status.xcodeproj is out of date. Run 'xcodegen generate' and commit the result."
+            exit 1
+          fi
+
+      # The Status target embeds StatusWatch, so this one build compiles both
+      # the iPhone app and the Watch app (for their simulators).
+      - name: Build iPhone and Watch apps
+        run: |
+          xcodebuild build -quiet \
+            -project Status.xcodeproj \
+            -scheme Status \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            CODE_SIGNING_ALLOWED=NO
+
