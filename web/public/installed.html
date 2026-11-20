@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Added to Slack · Status for Slack</title>
 <meta name="robots" content="noindex">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#521755">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fbfbfa">
 <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <!-- Runs before the stylesheet so a failed install can never paint, or animate, the success tick -->
@@ -17,10 +17,13 @@
 
 <header class="wrap site-header">
   <a class="brand" href="/">
-    <img src="/apple-touch-icon.png" width="30" height="30" alt="">
+    <img src="/apple-touch-icon.png" width="28" height="28" alt="">
     Status for Slack
   </a>
-  <nav aria-label="Site"><a href="/support">Support</a></nav>
+  <nav aria-label="Site">
+    <a href="/support">Support</a>
+    <a class="button button-dark button-small" href="https://apps.apple.com/app/id6826875571">Download</a>
+  </nav>
 </header>
 
 <main class="wrap">
@@ -41,7 +44,7 @@
     <section id="failure" hidden>
       <h1>The install didn't finish</h1>
       <p data-reason>Slack didn't complete the install.</p>
-      <p><a class="button" href="https://status-for-slack.vercel.app/api/slack/install">Try again</a></p>
+      <p><a class="button button-dark" href="https://status-for-slack.vercel.app/api/slack/install">Try again</a></p>
       <p>Still stuck? Email <a href="mailto:support@laurabeatris.com">support@laurabeatris.com</a> and include the error code above. <a href="/support">More help</a></p>
     </section>
   </div>
