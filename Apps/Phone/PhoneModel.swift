@@ -78,9 +78,40 @@ final class PhoneModel {
     await connect(token: DemoWorkspace.token)
   }
 
+  /*
+   Signs in again from the presets screen. Slack lets you pick a workspace in that sheet,
+   and the current one stays connected until the new sign-in succeeds. Cancelling is silent
+   */
+  func switchWorkspace(using signIn: SlackSignIn) async {
+    isConnecting = true
+    connectionError = nil
+    defer { isConnecting = false }
+    do {
+      try await store(token: try await signIn.run())
+      await refreshStatus()
+    } catch ASWebAuthenticationSessionError.canceledLogin {
+      return
+    } catch {
+      connectionError = Self.describe(error)
+    }
+  }
+
+  /*
+   Keeps one workspace at a time. A token this replaces is revoked, or for the demo, reset
+   */
   private func store(token: String) async throws {
-    identity = try await SlackClient(token: token).authTest()
+    let newIdentity = try await SlackClient(token: token).authTest()
+    let previous = keychain.read()
     try keychain.write(token)
+    if let previous, previous != token {
+      if previous == DemoWorkspace.token {
+        DemoWorkspace.reset()
+      } else {
+        Task { try? await SlackClient(token: previous).revoke() }
+      }
+    }
+    identity = newIdentity
+    currentStatus = nil
     isConnected = true
     isDemo = token == DemoWorkspace.token
     session.sendToken(token)
