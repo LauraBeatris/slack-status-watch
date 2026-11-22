@@ -230,19 +230,38 @@ struct PillButtonStyle: ButtonStyle {
 private struct ConnectedView: View {
   @Environment(PhoneModel.self) private var model
   @State private var isAdding = false
+  @State private var editMode: EditMode = .inactive
+  @ScaledMetric(relativeTo: .title3) private var glyphSlot = 28
 
   var body: some View {
     TimelineView(.periodic(from: .now, by: 30)) { context in
       list(now: model.frozenNow ?? context.date)
     }
+    .environment(\.editMode, $editMode)
     .listStyle(.plain)
     .scrollContentBackground(.hidden)
     .background(Color.brandPaper)
     .navigationTitle("Status")
     .toolbar {
-      ToolbarItem(placement: .topBarLeading) { WorkspaceChip().fixedSize() }
+      ToolbarItem(placement: .topBarLeading) { WorkspaceMenu().fixedSize() }
         .sharedBackgroundVisibility(.hidden)
-      ToolbarItem(placement: .topBarTrailing) { EditButton() }
+      // Drawn like the workspace chip instead of the system glass, so the two sit as a pair
+      ToolbarItem(placement: .topBarTrailing) {
+        Button(editMode.isEditing ? "Done" : "Edit") {
+          withAnimation { editMode = editMode.isEditing ? .inactive : .active }
+        }
+        .buttonStyle(ChipButtonStyle(isProminent: editMode.isEditing))
+        .fixedSize()
+      }
+      .sharedBackgroundVisibility(.hidden)
+    }
+    .alert(
+      "Couldn't switch workspace",
+      isPresented: Binding(get: { model.connectionError != nil }, set: { if !$0 { model.connectionError = nil } })
+    ) {
+      Button("OK", role: .cancel) {}
+    } message: {
+      Text(model.connectionError ?? "")
     }
     .navigationDestination(for: StatusPreset.self) { preset in
       PresetEditorView(preset: preset) { model.update($0) }
@@ -259,7 +278,8 @@ private struct ConnectedView: View {
     return List {
       if let live, let status = model.currentStatus {
         LiveCard(preset: live, status: status, now: now)
-          .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 0, trailing: 16))
+          .padding(.top, 4)
+          .listRowInsets(.vertical, 0)
           .listRowSeparator(.hidden)
           .listRowBackground(Color.clear)
       }
@@ -272,10 +292,10 @@ private struct ConnectedView: View {
           .listRowBackground(
             RoundedRectangle(cornerRadius: 14, style: .continuous)
               .fill(preset.id == live?.id ? Color.brandPlumTint : .clear)
-              .padding(.horizontal, 16)
+              .padding(.horizontal, 6)
               .padding(.vertical, 2)
           )
-          .listRowInsets(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+          .listRowInsets(.vertical, 0)
           .listRowSeparator(.hidden)
         }
         .onMove { model.movePresets(from: $0, to: $1) }
@@ -290,52 +310,108 @@ private struct ConnectedView: View {
               .foregroundStyle(Color.brandInk)
               .frame(width: 26, height: 26)
               .background(Color.brandCard, in: .circle)
-              .frame(width: 28)
+              .frame(width: glyphSlot, alignment: .leading)
             Text("Add preset")
               .font(.body.weight(.medium))
               .foregroundStyle(Color.brandMuted)
           }
           .frame(minHeight: 56)
         }
-        .listRowInsets(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+        .listRowInsets(.vertical, 0)
         .listRowSeparator(.hidden)
         .listRowBackground(Color.clear)
       } header: {
         SectionLabel("Presets")
-          .padding(.leading, 14)
           .padding(.bottom, 6)
       }
 
       AccountFooter()
-        .listRowInsets(EdgeInsets(top: 32, leading: 24, bottom: 24, trailing: 24))
+        .padding(.top, 32)
+        .padding(.bottom, 24)
+        .listRowInsets(.vertical, 0)
         .listRowSeparator(.hidden)
         .listRowBackground(Color.clear)
     }
   }
 }
 
-private struct WorkspaceChip: View {
+/*
+ The workspace in the top corner. Tapping it opens the account menu, where signing in
+ again swaps this workspace for another one
+ */
+private struct WorkspaceMenu: View {
   @Environment(PhoneModel.self) private var model
+  @Environment(\.webAuthenticationSession) private var webSession
 
   var body: some View {
     let team = model.isDemo ? "Demo workspace" : (model.identity?.team ?? "Connected")
-    HStack(spacing: 8) {
-      Text(String(team.prefix(1)).uppercased())
-        .font(.system(size: 12, weight: .bold))
-        .foregroundStyle(.white)
-        .frame(width: 22, height: 22)
-        .background(Color.brandPlum, in: .rect(cornerRadius: 6, style: .continuous))
-      Text(team)
-        .font(.subheadline.weight(.medium))
-        .foregroundStyle(Color.brandInk)
-        .lineLimit(1)
+    Menu {
+      Section(signedIn) {
+        Button(model.isDemo ? "Sign in with Slack" : "Switch workspace", systemImage: "arrow.left.arrow.right") {
+          Task { await model.switchWorkspace(using: SlackSignIn(session: webSession)) }
+        }
+        Button(model.isDemo ? "Exit demo" : "Disconnect", systemImage: "rectangle.portrait.and.arrow.right", role: .destructive) {
+          model.disconnect()
+        }
+      }
+    } label: {
+      HStack(spacing: 8) {
+        Text(String(team.prefix(1)).uppercased())
+          .font(.system(size: 12, weight: .bold))
+          .foregroundStyle(.white)
+          .frame(width: 22, height: 22)
+          .background(Color.brandPlum, in: .rect(cornerRadius: 6, style: .continuous))
+        Text(team)
+          .font(.subheadline.weight(.medium))
+          .foregroundStyle(Color.brandInk)
+          .lineLimit(1)
+        if model.isConnecting {
+          ProgressView().controlSize(.mini)
+        } else {
+          Image(systemName: "chevron.down")
+            .font(.system(size: 10, weight: .bold))
+            .foregroundStyle(Color.brandFaint)
+        }
+      }
+      .padding(.leading, 6)
+      .padding(.trailing, 12)
+      .frame(height: ChipButtonStyle.height)
+      .background(Color.brandCard, in: .capsule)
+      .contentShape(.capsule)
     }
-    .padding(.vertical, 6)
-    .padding(.leading, 6)
-    .padding(.trailing, 12)
-    .background(Color.brandCard, in: .capsule)
-    .accessibilityElement(children: .combine)
-    .accessibilityLabel("Connected to \(team)")
+    .menuStyle(.button)
+    .buttonStyle(.plain)
+    .disabled(model.isConnecting)
+    .accessibilityLabel("Workspace, \(team)")
+    .accessibilityHint("Switch workspace or disconnect")
+  }
+
+  private var signedIn: String {
+    guard let identity = model.identity, !identity.user.isEmpty else { return "Signed in" }
+    return "Signed in as \(identity.user)"
+  }
+}
+
+/*
+ The flat capsule the workspace chip uses, for the other toolbar button. Prominent fills it
+ with plum, which is how Done says the list is in edit mode
+ */
+private struct ChipButtonStyle: ButtonStyle {
+  static let height: CGFloat = 34
+  let isProminent: Bool
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .font(.subheadline.weight(.semibold))
+      .foregroundStyle(isProminent ? Color.white : Color.brandPlum)
+      .padding(.horizontal, 14)
+      .frame(height: Self.height)
+      .background(isProminent ? Color.brandPlum : Color.brandCard, in: .capsule)
+      .contentShape(.capsule)
+      .opacity(configuration.isPressed ? 0.7 : 1)
+      .scaleEffect(configuration.isPressed && !reduceMotion ? 0.96 : 1)
+      .animation(.easeOut(duration: 0.16), value: configuration.isPressed)
   }
 }
 
@@ -431,6 +507,10 @@ private struct PresetRow: View {
   let isLive: Bool
 
   @Environment(\.dynamicTypeSize) private var typeSize
+  /*
+   The emoji and the add button's plus share this width, so every name starts on one line
+   */
+  @ScaledMetric(relativeTo: .title3) private var glyphSlot = 28
 
   /*
    At accessibility text sizes the expiry moves under the name, so a name is never
@@ -441,6 +521,7 @@ private struct PresetRow: View {
       Text(SlackEmoji.display(preset.emoji))
         .font(.title3)
         .fixedSize()
+        .frame(minWidth: glyphSlot, alignment: .leading)
       if typeSize.isAccessibilitySize {
         VStack(alignment: .leading, spacing: 2) {
           name
