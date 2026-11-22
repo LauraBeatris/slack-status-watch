@@ -16,7 +16,7 @@ Paste these into App Store Connect. Character counts are checked against Apple's
 - **Price:** Free
 - **Availability:** all countries
 
-## Version 1.1.0
+## Version 1.1.1
 
 **Promotional text**
 
@@ -47,13 +47,8 @@ Status for Slack is an independent app and is not made by or affiliated with Sla
 
 **What's New in This Version**
 
-A fresh look, to match the new wriststatus.com.
-
-- See what's live in Slack at the top of the iPhone app, with how long it has left.
-- A simpler preset editor: tap the emoji to change it, pick a duration in one tap, and preview the row as your watch will show it.
-- On Apple Watch, the live status shows a countdown, and a quick tick confirms each change.
-- Siri now understands "Set my Slack status to Lunch" and "Clear my Slack status".
-- Better support for larger text sizes, VoiceOver and Reduce Motion.
+- Switch Slack workspaces: tap the workspace name at the top of the iPhone app.
+- A tidier presets screen, with everything lined up on one edge.
 
 **Keywords**
 
