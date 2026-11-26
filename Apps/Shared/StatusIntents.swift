@@ -14,13 +14,13 @@ struct PresetEntity: AppEntity {
   }
 
   var displayRepresentation: DisplayRepresentation {
+    /*
+     Siri matches the spoken preset against the title and ignored the plain
+     synonym when the title led with an emoji, so the emoji sits in the subtitle
+     */
     DisplayRepresentation(
-      title: "\(SlackEmoji.display(preset.emoji)) \(preset.text)",
-      subtitle: "\(preset.expiry.label)",
-      /*
-       The title leads with an emoji, so give Siri the bare words to match
-       */
-      synonyms: ["\(preset.text)"]
+      title: "\(preset.text)",
+      subtitle: "\(SlackEmoji.display(preset.emoji)) \(preset.expiry.label)"
     )
   }
 }
