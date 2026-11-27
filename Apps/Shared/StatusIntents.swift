@@ -77,14 +77,6 @@ struct StatusShortcuts: AppShortcutsProvider {
          */
         "Set \(.applicationName)",
         "Set my \(.applicationName)",
-        /*
-         The app is called "Status", so these spell out "Slack Status" without
-         relying on Siri to apply the INAlternativeAppNames synonym
-         */
-        "Set Slack \(.applicationName) to \(\.$preset)",
-        "Set my Slack \(.applicationName) to \(\.$preset)",
-        "Set Slack \(.applicationName)",
-        "Set my Slack \(.applicationName)",
       ],
       shortTitle: "Set Slack status",
       systemImageName: "bubble.left.fill"
@@ -95,8 +87,6 @@ struct StatusShortcuts: AppShortcutsProvider {
         "Clear \(.applicationName)",
         "Clear my \(.applicationName)",
         "\(.applicationName) clear",
-        "Clear Slack \(.applicationName)",
-        "Clear my Slack \(.applicationName)",
       ],
       shortTitle: "Clear Slack status",
       systemImageName: "xmark.circle"
